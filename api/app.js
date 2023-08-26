@@ -6,6 +6,7 @@ const   express         = require("express"),
         database        = require("./Database/database"),
         router          = require("./Routes/index"),
         path            = require("path"),
+        associations    = require("./Models/Associations")
         winston         = require("./logger/logger")
                           require("dotenv").config({path:"../.env"})
 
@@ -47,7 +48,7 @@ app.use(methodOverride())
 app.use(cors())
 app.use("/api",router)
 
-
+associations.synchronize();
 
 let port = process.env.API_PORT
 console.log(port)
