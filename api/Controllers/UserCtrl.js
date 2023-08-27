@@ -9,7 +9,7 @@ exports.createUser = async function(req,res){
 
     if(!username || !rawPass || !email){
         let msg = "missing arguments"
-        winston.log("info",msg)
+        winston.log("info","createUser: " + msg)
         res.status(400).json({message:msg})
         return -1
     }
@@ -17,18 +17,28 @@ exports.createUser = async function(req,res){
     let passwdHash = await UserService.generateHash(rawPass)
     let nUser = await UserService.createUserRow(username,passwdHash,email)
 
-    if(nUser){
-        res.status(201).json(nUser)
+    if(!nUser){
+        let msg = "Unable to create the new user"
+        winston.log("info","createUser: "+ msg)
+        res.status(400).json({"msg":msg})
+        return false
+    }
+
+    let token = UserService.createToken(username)
+
+    if(token){
+        res.status(201).json({user:nUser, jwt:token})
         return true
     }else{
-        let msg = "Unable to create the new user"
-        winston.log("info",msg)
-        res.status(400).json({"message":msg})
-        return false
+        let msg = "unable to generate jwt"
+        winston.log("info","createUser: " + msg)
+        res.status(400).json({"msg":msg})
     }
 }
 
-exports.test = async function(req,res){
-    res.status(200).send("success")
-    return true 
+exports.userLogin = async function(req,res){
+    let username = req.body.username
+    let passwd = req.body.password
+
+
 }
