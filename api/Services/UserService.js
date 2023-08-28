@@ -144,8 +144,8 @@ exports.validateUserFields = async function(fields){
     }
 }
 
-exports.filterUserFields = async function(user){
-    delete user.password_hash
+exports.filterUserFields = function(user){
+    delete user.dataValues.password_hash
     return user
 }
 
@@ -214,10 +214,37 @@ exports.sendVerificationMail = async function(destination, userId, username){
     }
 }
 
+exports.checkExistingData = async function(username, email){
+    let duplicateNames = await User.findAll({where:{username:username}})
+    if(duplicateNames.length != 0){
+        winston.log("info","checkExistingData: a user with the same username alredy exists")
+        return duplicateNames
+    }
+
+    let duplicateMails = await User.findAll({where:{email:email}})
+    if(duplicateMails.length != 0){
+        console.log(duplicateMails)
+        winston.log("info","checkExistingData: a user with the same email alredy exists")
+        return duplicateMails
+    }
+
+    return undefined
+}
+
+exports.comparePassword = async function(password, hash){
+    let result = await bcrypt.compare(password,hash)
+    return result
+}
 
 exports.updateUserPassword = async function(userId, passwdHash){
     return true
 }
+
+exports.checkEmailFormat = function(email){
+    let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email)
+}
+
 //check fields
 //create jwt
 //validate jwt

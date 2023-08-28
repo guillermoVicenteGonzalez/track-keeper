@@ -14,6 +14,9 @@ const router = Router();
 router.route("/users")
     .post(usersCtrl.createUser)
 
+router.route("/users/login")
+    .post(usersCtrl.userLogin)
+
 /*
 router.route("/users")
     .post(usersCtrl.createUser)
