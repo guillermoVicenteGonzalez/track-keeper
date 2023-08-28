@@ -100,10 +100,16 @@ exports.userLogin = async function(req,res){
     }
 
     //delete danger fields
+    user = await UserService.filterUserFields(user)
 
     let token = await UserService.createToken(username)
     if(token){
         res.status(200).json({user:user, token:token})
         return true
+    }else{
+        let msg = "unable to generate token"
+        winston.log("info","userLogin: " + msg)
+        res.status(400).json({msg:msg})
+        return false
     }
 }

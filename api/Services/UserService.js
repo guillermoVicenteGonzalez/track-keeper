@@ -146,6 +146,9 @@ exports.validateUserFields = async function(fields){
 
 exports.filterUserFields = function(user){
     delete user.dataValues.password_hash
+    delete user.dataValues.createdAt
+    delete user.dataValues.updatedAt
+    
     return user
 }
 
