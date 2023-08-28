@@ -148,7 +148,7 @@ exports.filterUserFields = function(user){
     delete user.dataValues.password_hash
     delete user.dataValues.createdAt
     delete user.dataValues.updatedAt
-    
+
     return user
 }
 
@@ -166,16 +166,15 @@ exports.createToken = async function(username){
     }
 }
 
-exports.verifyToken = async function(usernname, token){
+exports.verifyToken = async function(username, token){
     try{
         var decoded = jwt.verify(token,word)
-        console.log(decoded.data, username)
     }catch(err){
         winston.log("error","verifyToken: " + err)
         return undefined
     }
 
-    if(decoded.data == usernname){
+    if(decoded.data == username){
         return true
     }else{
         winston.log("info","verifyToken: token was incorrect")

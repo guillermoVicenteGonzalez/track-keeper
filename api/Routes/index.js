@@ -17,6 +17,14 @@ router.route("/users")
 router.route("/users/login")
     .post(usersCtrl.userLogin)
 
+router.route("/users/id/:user_id")
+    .get(usersCtrl.getUserData)
+    .delete(usersCtrl.deleteUser)
+
+router.route("/users/verify/:user_id")
+    .get(usersCtrl.verifyUser)
+    //.put()
+
 /*
 router.route("/users")
     .post(usersCtrl.createUser)
