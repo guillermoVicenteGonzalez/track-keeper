@@ -117,17 +117,40 @@ exports.updateUserRow = async function(userId,fields){
     }
 }
 
+//devuelve 0 si no hay problemas, devuelve los campos incorrectos si los hay
 exports.validateUserFields = async function(fields){
     let invalidFields = []
     
     if(fields.password_hash){
-        winston.log("info","validateUserFields: tried to overwrite password hash")
+        let msg = "tried to overwrite password"
+        winston.log("info","validateUserFields: " + msg)
         invalidFields.push(fields.password_hash)
+        return msg
     }
 
     if(fields.id){
-        winston.log("info","validateUserFields: tried to overwrite user id")
+        let msg = "tried to overwrite user id"
+        winston.log("info","validateUserFields: "+msg)
         invalidFields.push(fields.id)
+        return msg
+    }
+
+    if(fields.username){
+        let existing = await User.findOne({where:{username:fields.username}})
+        if(existing){
+            let msg ="user with that name alredy exists" 
+            winston.log("info","validateUserFields: " + msg)
+            return msg
+        }
+    }
+
+    if(fields.email){
+        let existing = await User.findOne({where:{email:fields.email}})
+        if(existing){
+            let msg = "user with that email alredy exist"
+            winston.log("info","validateUserFields: " + msg)
+            return msg
+        }
     }
 
     for(let i in fields){
@@ -225,7 +248,6 @@ exports.checkExistingData = async function(username, email){
 
     let duplicateMails = await User.findAll({where:{email:email}})
     if(duplicateMails.length != 0){
-        console.log(duplicateMails)
         winston.log("info","checkExistingData: a user with the same email alredy exists")
         return duplicateMails
     }

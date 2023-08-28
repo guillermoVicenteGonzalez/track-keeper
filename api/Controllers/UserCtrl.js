@@ -233,3 +233,56 @@ exports.deleteUser = async function(req,res){
     return false
 }
 
+exports.updateUser = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let fields = req.body
+
+    if(!userId || !auth || !fields){
+        let msg = "missing parameters"
+        winston.log("info","updateUser: " + msg)
+        res.status(400).json({msg:msg})
+        return false
+    }
+
+    let user = await UserService.getUserRow(userId)
+    if(!user){
+        let msg = "User does not exist"
+        winston.log("info","updateUser: " + msg)
+        res.status(404).json({msg:msg})
+        return false
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let tokenRes = await UserService.verifyToken(user.username,token)
+    if(!tokenRes){
+        let msg = "Authorization failed. The token is either invalid or expired"
+        winston.log("info","updateUser: " +msg)
+        res.status(401).json({msg:msg})
+        return false
+    }
+
+    console.log(fields)
+    let invalidFields = await UserService.validateUserFields(fields)
+    if(invalidFields){
+        let msg = "invalid fields where passed: " + invalidFields
+        winston.log("info","updateUser: " + msg)
+        res.status(400).json({msg:msg})
+        return false
+    }
+
+    console.log(req.body)
+    let updatedUser = await UserService.updateUserRow(userId,fields)
+    if(!updatedUser){
+        let msg = "Unable to update user"
+        winston.log("info","updateUser: " + msg)
+        res.status(400).json({msg:msg})
+        return false
+    }
+
+    updatedUser = UserService.filterUserFields(updatedUser)
+    res.status(200).json({user:updatedUser})
+    return true
+}
+

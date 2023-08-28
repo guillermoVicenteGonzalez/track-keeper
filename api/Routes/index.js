@@ -20,6 +20,7 @@ router.route("/users/login")
 router.route("/users/id/:user_id")
     .get(usersCtrl.getUserData)
     .delete(usersCtrl.deleteUser)
+    .put(usersCtrl.updateUser)
 
 router.route("/users/verify/:user_id")
     .get(usersCtrl.verifyUser)
