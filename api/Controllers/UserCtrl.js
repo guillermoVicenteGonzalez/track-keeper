@@ -3,6 +3,7 @@ const UserService     = require("../Services/UserService")
 const User            = require("../Models/UserModel")
 const multer          = require("multer");
 const fs              = require("fs");
+const path            = require("path")
 
 
 var storage = multer.diskStorage({
@@ -412,6 +413,38 @@ exports.uploadPhoto = async function(req,res){
             });
         }
     })
+}
+
+exports.getPhoto = async function(req,res){
+    //console.log(req.params.userId);
+    let userId = req.params.user_id;
+
+    if(userId == "undefined" || userId == undefined){
+        res.status(400).json({success:false});
+        return undefined;
+    }
+
+
+    let user = await UserService.getUserRow(userId);
+    if(user){
+        //console.log(user.dataValues);
+        if(user.image != undefined){
+            winston.log("info",user.image.filename);
+            let fullPath = path.resolve('.') + "/storage/profile/" + user.image.filename;
+            if(fullPath){res.status(200).sendFile(fullPath);}
+            return false;
+        }else{
+            let msg = "user image has not ben set";
+            console.log(msg);
+            res.status(204).send(undefined);
+        }
+        //path del root del proyecto + storage + nombre imagen.
+        //user.image contiene el path relativo. a sendFile hay que darle el absoluto
+    }else{
+        let msg = "User with id: " + userId + " could not be found";
+        res.status(400).json({success:false,message:msg});
+        return undefined;
+    }
 }
 //reset password
 
