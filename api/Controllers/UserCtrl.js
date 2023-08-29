@@ -286,3 +286,57 @@ exports.updateUser = async function(req,res){
     return true
 }
 
+//update password
+exports.updatePassword = async function(req,res){
+    let pPass = req.body.previous_password
+    let nPass = req.body.new_password
+    let userId = req.params.user_id
+
+    if(!pPass || !nPass || !userId){
+        let msg = "Missing parameters"
+        winston.log("info","updatePassword: " + msg)
+        res.status(400).json({msg:msg})
+        return false
+    }
+
+    let user  = await UserService.getUserRow(userId)
+    if(!user){
+        let msg = "User does not exist"
+        winston.log("info","updatePassword: " + msg)
+        res.status(404).json({msg:msg})
+        return false
+    }
+
+    let passRes = await UserService.comparePassword(pPass,user.password_hash)
+    if(!passRes){
+        let msg = "Incorrect password"
+        winston.log("info","updatePassword: " + msg)
+        res.status(400).json({msg:msg})
+        return false
+    }
+
+    if(pPass == nPass){
+        let msg = "Previous and new passwords are the same"
+        winston.log("info","updatePassword: " + msg)
+        res.status(400).json({msg:msg})
+        return false
+    }
+    
+    let updateRes = await UserService.updateUserPassword(userId, nPass)
+    if(!updateRes){
+        let msg = "Unable to update user password"
+        winston.log("info","updatePassword: " + msg)
+        res.status(500).json({msg:msg})
+        return false
+    }
+
+    res.status(200).json({msg:"password updated succesfully"})
+    return true
+}
+//reset password
+
+//upload photo
+
+//update photo
+
+

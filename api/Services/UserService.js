@@ -269,6 +269,22 @@ exports.checkEmailFormat = function(email){
     return re.test(email)
 }
 
+exports.updateUserPassword = async function(userId, nPass){
+    let nPassHash = await exports.generateHash(nPass)
+    console.log(nPassHash)
+    if(nPassHash){
+        let updatedUser = await User.update({password_hash:nPassHash},{where:{id:userId}})
+        .catch((err)=>{
+            winston.log("error","updateUserPassword: " + err)
+            return undefined
+        })
+
+        if(updatedUser){
+            return true
+        }
+    }
+}
+
 //check fields
 //create jwt
 //validate jwt

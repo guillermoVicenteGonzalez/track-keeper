@@ -22,6 +22,9 @@ router.route("/users/id/:user_id")
     .delete(usersCtrl.deleteUser)
     .put(usersCtrl.updateUser)
 
+router.route("/users/password/:user_id")
+    .put(usersCtrl.updatePassword)
+
 router.route("/users/verify/:user_id")
     .get(usersCtrl.verifyUser)
     //.put()
