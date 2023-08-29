@@ -1,6 +1,30 @@
 const winston         = require("../logger/logger")
 const UserService     = require("../Services/UserService")
 const User            = require("../Models/UserModel")
+const multer          = require("multer");
+const fs              = require("fs");
+
+
+var storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,"./storage/profile")
+    },
+    filename:function (req,file,cb){
+        cb(null, file.originalname)
+    }
+})
+/*
+var logoStorage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,"./storage/logo")
+    },
+    filename:function (req,file,cb){
+        cb(null, file.originalname)
+    }
+})*/
+//var upload = multer({dest:'./storage'}).single("file");
+const upload = multer({storage:storage}).single("file");
+//const uploadLogo = multer({storage:logoStorage}).single("file")
 
 exports.createUser = async function(req,res){
     let username = req.body.username
@@ -332,6 +356,62 @@ exports.updatePassword = async function(req,res){
 
     res.status(200).json({msg:"password updated succesfully"})
     return true
+}
+
+exports.uploadPhoto = async function(req,res){
+    //parseo parametros
+    let userId = req.params.userId;
+    if(userId == undefined || userId == "undefined"){
+        let msg = "userId undefined";
+        console.log(msg);
+        res.status(400).json({success:false, message:msg});
+        return undefined;
+    }
+
+    //verifico que existe el usuario.
+    let user = await UserService.getUserRow(userId);
+    if(!user){
+        let msg = "user with id: " + userId + " does not exist";
+        console.log(msg);
+        res.status(400).json({success:false, message:msg});
+        return undefined;
+    }
+
+
+    //modifico la tabla
+    upload(req, res, async (err)=>{
+        if(err){
+            console.log(err);
+            let msg = "Multer error"
+            res.status(400).json({success:false,message:msg});
+            return undefined;
+        }else{
+            var newImg = req.file;
+            if(!newImg){
+                let msg = "file cannot be empty";
+                console.log(msg); 
+                res.status(400).json({success:false, message:msg});
+                return undefined;
+            }
+
+            //antes hay que verificar que exista el fichero.
+            //borro el fichero anterior
+            //solo borro si tiene nombre distinto
+            //si tiene el mismo nombre sobreescribe
+            if(user.image && user.image.filename != newImg.filename){
+                let result = UserService.deletePhoto(user.image.path);
+            }
+
+            //ahora actualizo con el nuevo fichero
+            let nUser = await UserService.updateUserRow(userId,{image:newImg})
+            .then(function(response){
+                res.status(200).json({success:true, user:response[0]});
+            })
+            .catch((err)=>{
+                res.status(400).json({success:false});
+            });
+        }
+    })
 }
 //reset password
 

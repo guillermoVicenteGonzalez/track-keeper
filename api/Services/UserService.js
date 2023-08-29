@@ -5,6 +5,7 @@ const jwt           = require("jsonwebtoken")
 const word          = 'secret'
 const nodemailer    = require("nodemailer")
 const emailConf     = require("../emailConf.json")
+const fs            = require("fs")
                       require("dotenv").config({path:"../.env"})
 
 exports.generateHash = async function(passwd){
@@ -284,6 +285,22 @@ exports.updateUserPassword = async function(userId, nPass){
         }
     }
 }
+
+
+exports.deletePhoto = async function(location){
+    let result = fs.unlink(location,(err =>{
+        if(err){
+            winston.log("error","deletePhoto: " + err);
+            return undefined
+        }else{
+            winston.log("info","deletePhoto: Success deleting photo" )
+            return true;
+        }
+    }))
+
+    return result;
+}
+
 
 //check fields
 //create jwt
