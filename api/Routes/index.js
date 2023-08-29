@@ -29,6 +29,10 @@ router.route("/users/verify/:user_id")
     .get(usersCtrl.verifyUser)
     //.put()
 
+router.route("/users/photo/:user_id")
+    .get(usersCtrl.getPhoto)
+    .post(usersCtrl.uploadPhoto)
+
 /*
 router.route("/users")
     .post(usersCtrl.createUser)

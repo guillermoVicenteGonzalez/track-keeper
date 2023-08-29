@@ -1,12 +1,67 @@
 const sequelize = require("../Database/database");
 const User = require("../Models/UserModel")
+const Media = require("../Models/Media")
+const Entry = require("../Models/MediaEntry")
+const Collection = require("../Models/Collection")
+const CollectionEntry = require("../Models/CollectionEntry")
 const { DataTypes } = require('sequelize');
+
 
 
 exports.synchronize = async function(){
     await User;
+    await Media;
+    await Entry;
 
     console.log("starting sync");
+
+    
+    User.hasMany(Entry,{
+        foreignKey:{
+            name:'user_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    Media.hasMany(Entry,{
+        foreignKey:{
+            name:'media_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    Collection.hasMany(CollectionEntry,{
+        foreignKey:{
+            name:'collection_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    Entry.hasMany(CollectionEntry,{
+        foreignKey:{
+            name:'entry_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    
+    User.hasMany(Collection,{
+        foreignKey:{
+            name:'user_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
 
 
     //si lo pongo aparece RoleId en Organizations y no hace falta.
@@ -20,6 +75,7 @@ exports.synchronize = async function(){
         onDelete:'CASCADE',
         onUpdate:'CASCADE'
     });
+
 
     
     //esto crea roleId en User y realmente no hace falta.
@@ -68,6 +124,6 @@ exports.synchronize = async function(){
         onUpdate:'CASCADE'
     });
 */
-    console.log("Synchronizing");
     sequelize.sync({alter:true});
+    console.log("Synchronizing finished");
 }

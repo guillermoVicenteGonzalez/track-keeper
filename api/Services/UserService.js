@@ -55,7 +55,7 @@ exports.getUserRowByName = async function(username){
 }
 
 exports.getUserRow = async function(userId){
-    let user = await User.findOne({where:{id:userId}})
+    let user = await User.findOne({where:{user_id:userId}})
     .catch(err=>{
         winston.log("error", "getUserRow: " + err)
         return -1
@@ -70,7 +70,7 @@ exports.getUserRow = async function(userId){
 }
 
 exports.deleteUserRow = async function(userId){
-    let deleted = await User.destroy({where:{id:userId}})
+    let deleted = await User.destroy({where:{user_id:userId}})
     .catch((err)=>{
         winston.log("error","deleteUserRow: " + err)
         return false
@@ -100,7 +100,7 @@ exports.deleteUserByName = async function(username){
 }
 
 exports.updateUserRow = async function(userId,fields){
-    let nUser = await User.update(fields,{where:{id:userId},
+    let nUser = await User.update(fields,{where:{user_id:userId},
         returning:true,
         plain:true
     })
@@ -274,7 +274,7 @@ exports.updateUserPassword = async function(userId, nPass){
     let nPassHash = await exports.generateHash(nPass)
     console.log(nPassHash)
     if(nPassHash){
-        let updatedUser = await User.update({password_hash:nPassHash},{where:{id:userId}})
+        let updatedUser = await User.update({password_hash:nPassHash},{where:{user_id:userId}})
         .catch((err)=>{
             winston.log("error","updateUserPassword: " + err)
             return undefined

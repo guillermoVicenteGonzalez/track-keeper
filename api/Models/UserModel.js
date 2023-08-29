@@ -11,7 +11,7 @@ const sequelize = require("../Database/database");
  * @property {boolean} verified - states wheter the user has verified his account or not.
  */
 const User = sequelize.define('User',{
-    id:{
+    user_id:{
         type:DataTypes.INTEGER,
         primaryKey:true,
         unique:true,
