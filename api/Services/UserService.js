@@ -309,6 +309,26 @@ exports.deletePhoto = async function(location){
 }
 
 
+exports.authenticateUser = async function(userId, token, res){
+    let user = await getUserRow(userId)
+    if(!user){
+        let msg = "User does not exist"
+        res.status(400).json({msg:msg})
+        return msg
+    }
+
+    let tokenRes = await verifyToken(user.username, token)
+    if(!tokenRes){
+        let msg = "Authentiation failed"
+        res.status(401).json({msg:msg})
+        return msg
+    }
+
+    return true
+}
+
+
+
 //check fields
 //create jwt
 //validate jwt

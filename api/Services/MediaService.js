@@ -1,9 +1,6 @@
 const Media         = require("../Models/Media")
 const Entry         = require("../Models/MediaEntry")
 const winston       = require("../logger/logger")
-const multer        = require("multer")
-const fs            = require("fs")
-const path          = require("path") 
 
 
 exports.checkMediaType = function(type){
@@ -106,6 +103,16 @@ exports.getMediaByType = async function(type){
     })
 
     return media 
+}
+
+exports.getAllMediaRows = async function(){
+    let media = Media.findAll()
+    .catch((err)=>{
+        winston.log("error","getAllMedia: " + err)
+        return undefined
+    })
+
+    return media
 }
 
 
