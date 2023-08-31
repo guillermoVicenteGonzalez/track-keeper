@@ -154,8 +154,15 @@ exports.validateUserFields = async function(fields){
         }
     }
 
+    /*
     for(let i in fields){
         if( !(i in User.getAttributes())){
+            invalidFields.push(i)
+        }
+    }*/
+
+    for(let i in fields){
+        if(! (User.getAttributes().includes(i))){
             invalidFields.push(i)
         }
     }
