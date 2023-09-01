@@ -15,7 +15,7 @@ const Media = sequelize.define('Media',{
         //unique:true
     },
     type:{
-        type:DataTypes.ENUM('Film','TVShow','Videogame','Book','Comic','Other'),
+        type:DataTypes.ENUM('Film','TVShow','Anime','Videogame','Book','Comic','Other'),
         allowNull:false
     },
     genre:{

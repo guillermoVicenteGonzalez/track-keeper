@@ -85,7 +85,7 @@ exports.createUser = async function(req,res){
         return false
     }
 
-    let token = UserService.createToken(username)
+    let token = await UserService.createToken(username)
 
     if(token){
         nUser = UserService.filterUserFields(nUser)
@@ -115,6 +115,13 @@ exports.userLogin = async function(req,res){
         winston.log("info","userLogin: " + msg)
         res.status(400).json({msg:msg})
         return false
+    }
+
+    if(!user.verified){
+        let msg = "This user is not verified. Please check your email"
+        winston.log("info","userLogin: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
     }
 
     let passRes = await UserService.comparePassword(passwd,user.password_hash)

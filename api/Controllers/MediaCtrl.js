@@ -62,3 +62,78 @@ exports.getAllMedia = async function(req,res){
     res.status(200).json({value:list})
     return true
 }
+
+
+exports.createMedia = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let name = req.body.name
+    let type = req.body.type
+    let genre = req.body.genre
+    let description = req.body.description
+    let duration = req.body.duration
+
+    if(!name || !type || !auth || !userId){
+        let msg = "Missing parameters"
+        winston.log("info","createMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token,res)
+    if(authRes != true){
+        winston.log("info","createMedia: " + authRes)
+        return undefined
+    }
+
+    let pMedia = await MediaService.getMediaByName(name)
+    if(pMedia.length > 0){
+        let msg = "Media alredy exists with the same name"
+        winston.log("info","createMedia: " + msg)
+        res.status(409).json({msg:msg})
+        return undefined
+    }
+
+    let nMedia = await MediaService.createMediaRow(name,type,genre,description,duration)
+    if(!nMedia){
+        let msg = "Unable to create new Media"
+        winston.log("info","createMedia: " +  msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(201).json({value:nMedia})
+    return undefined
+}
+
+/*
+exports.deleteAllMedia = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+
+    if(!userId || !auth){
+        let msg = "Missing parameters"
+        winston.log("info","deleteAllMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(authRes != true){
+        winston.log("info","deleteAllMedia: " + authRes)
+        return undefined
+    }
+
+    let deleted = await MediaService.dele
+}
+
+exports.deleteMedia = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let mediaId = req.params.media_id
+}
+*/

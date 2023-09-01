@@ -1,6 +1,7 @@
 const{ Router } = require("express");
 
 const usersCtrl = require("../Controllers/UserCtrl")
+const MediaCtrl = require("../Controllers/MediaCtrl")
 /*
 const usersCtrl = require("../controllers/UsersCtrl");
 const examsCtrl = require("../controllers/ExamsCtrl");
@@ -8,7 +9,7 @@ const resultsCtrl = require("../controllers/ResultsCtrl")*/
 
 const router = Router();
 /***********************
- * TEST
+ * USERS
  **********************/
 
 router.route("/users")
@@ -32,6 +33,15 @@ router.route("/users/verify/:user_id")
 router.route("/users/photo/:user_id")
     .get(usersCtrl.getPhoto)
     .post(usersCtrl.uploadPhoto)
+
+
+/********************************************************
+ * MEDIA
+ *******************************************************/
+
+router.route("/media/:user_id")
+    .get(MediaCtrl.getAllMedia)
+    .post(MediaCtrl.createMedia)
 
 /*
 router.route("/users")

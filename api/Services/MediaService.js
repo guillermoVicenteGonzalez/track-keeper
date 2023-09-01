@@ -13,7 +13,7 @@ exports.createMediaRow = async function(name, type, genre, desc,dur){
         type:type,
         genre:genre,
         description:desc,
-        duration:duration
+        duration:dur
     })
     .catch((err)=>{
         winston.log("error","createMediaRow: " + err)
@@ -35,7 +35,7 @@ exports.deleteMediaRow = async function(mediaId){
 }
 
 //returns invalid fields => if(true) means there are invalid fields
-exports.validateMediaFields = async function(){
+exports.validateMediaFields = async function(fields){
     let invalidFields = []
 
     for(let i in fields){
