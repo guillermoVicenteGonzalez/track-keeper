@@ -176,7 +176,10 @@ exports.createMediaEntryRow = async function(userId, mediaId, review,state, star
 }
 
 exports.getEntryById = async function(entryId){
-    let entry = await Entry.findOne({where:{entry_id:entryId}})
+    let entry = await Entry.findOne({
+        where:{entry_id:entryId},
+        include:{model:Media, as: 'Media'}
+    })
     .catch((err)=>{
         winston.log("error","getEntryById: " + err)
         return undefined
@@ -187,9 +190,7 @@ exports.getEntryById = async function(entryId){
 
 exports.getUserEntries = async function(userId){
     let userEntries = await Entry.findAll({
-        where:{user_id:userId},
-        include:{model:Media, as:'Media'}
-    })
+        where:{user_id:userId},})
     .catch((err)=>{
         winston.log("error","getUserEntries: " + err)
         return undefined
@@ -199,7 +200,8 @@ exports.getUserEntries = async function(userId){
 }
 
 exports.getEntriesByState = async function(state){
-    let entries = await Entry.findAll({where:{state:state}})
+    let entries = await Entry.findAll({
+        where:{state:state}})
     .catch((err)=>{
         winston.log("error","getEntriesByState: " + err)
         return undefined
@@ -220,12 +222,29 @@ exports.deleteEntryRow = async function(entryId){
 
 exports.validateEntryFields = function(fields){
     let invalidFields = []
+    var attributes = Entry.getAttributes()
 
     for(let i in fields){
         console.log(i)
-        if(! (Entry.getAttributes().includes(i))){
+        if(! (i in attributes)){
             invalidFields.push(i)
         }
+    }
+
+    if(fields.media_id){
+        invalidFields.push(fields.media_id)
+    }
+
+    if(fields.entry_id){
+        invalidFields.push(fields.entry_id)
+    }
+
+    if(fields.user_id){
+        invalidFields.push(fields.user_id)
+    }
+
+    if(invalidFields.length == 0){
+        return 0
     }
 }
 

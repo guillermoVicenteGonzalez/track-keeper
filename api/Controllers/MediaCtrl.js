@@ -362,7 +362,7 @@ exports.createEntry = async function(req,res){
 exports.deleteEntry = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
-    let entryId = req.body.entry_id
+    let entryId = req.params.entry_id
 
     if(!userId || !auth || !entryId){
         let msg = "Missing parameters"
@@ -399,3 +399,80 @@ exports.deleteEntry = async function(req,res){
     return undefined
 }
 
+exports.updateEntry = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let entryId = req.params.entry_id
+    let fields = req.body.fields
+
+    if(!userId || !auth || !entryId){
+        let msg = "Missing parameters"
+        winston.log("info","updateEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","updateEntry: " + authRes)
+        return undefined
+    }
+
+    let entry = await MediaService.getEntryById(entryId)
+    if(!entry){
+        let msg = "The requested entry does not exist"
+        winston.log("info","updateEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let vFields = MediaService.validateEntryFields(fields)
+    if(vFields){
+        let msg = "One or more fields to update where invalid"
+        winston.log("info","updateEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let updated = await MediaService.updateEntry(fields,entryId)
+    if(!updated){
+        let msg = "Unable to update entry"
+        winston.log("info","updateENtry: " + msg)
+        res.status(500).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:updated})
+    return undefined
+}
+
+exports.getEntry = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let entryId = req.params.entry_id
+
+    if(!userId || !auth || !entryId){
+        let msg = "Missing parameters"
+        winston.log("info","getEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getEntry: " + authRes)
+        return undefined
+    }
+
+    let entry = await MediaService.getEntryById(entryId)
+    if(!entry){
+        let msg = "The requested entry does not exist"
+        winston.log("info","getEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+}
