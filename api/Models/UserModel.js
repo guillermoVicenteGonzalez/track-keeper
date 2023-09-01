@@ -31,6 +31,9 @@ const User = sequelize.define('User',{
     email:{
         type:DataTypes.STRING,
     },
+    admin:{
+        type:DataTypes.BOOLEAN
+    },
     image:{
         type:DataTypes.JSON, 
     },
