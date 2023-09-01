@@ -49,6 +49,10 @@ router.route("/media/:user_id/:media_id")
     .delete(MediaCtrl.deleteMedia)
     .put(MediaCtrl.updateMedia)
 
+router.route("/entry/:user_id")
+    .get(MediaCtrl.getEntries)
+    .post(MediaCtrl.createEntry)
+
 /*
 router.route("/users")
     .post(usersCtrl.createUser)

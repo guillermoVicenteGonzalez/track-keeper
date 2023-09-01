@@ -283,7 +283,7 @@ exports.getEntries = async function(req,res){
     token = token[1]
     let authRes = await UserService.authenticateUser(userId,token,res)
     if(! (authRes instanceof User)){
-        winston.log("getUserEntries: " + authRes)
+        winston.log("info","getUserEntries: " + authRes)
         return undefined
     }
 
@@ -328,6 +328,14 @@ exports.createEntry = async function(req,res){
         let msg = "Requested media does not exist"
         winston.log("info","createEntry: " + msg)
         res.status(404).json({msg:msg})
+        return undefined
+    }
+
+    let duplicate = await MediaService.checkDuplicateMediaEntry(userId, mediaId)
+    if(duplicate){
+        let msg = "You alredy have a entry for that media"
+        winston.log("info","createEntry: " + msg)
+        res.status(400).json({msg:msg})
         return undefined
     }
 

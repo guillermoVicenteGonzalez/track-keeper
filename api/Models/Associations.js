@@ -25,7 +25,27 @@ exports.synchronize = async function(){
         onUpdate:'CASCADE'
     })
 
+    Entry.belongsTo(User,{
+        foreignKey:{
+            name:'user_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
     Media.hasMany(Entry,{
+        as:'Entry',
+        foreignKey:{
+            name:'media_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    Entry.belongsTo(Media,{
+        as:'Media',
         foreignKey:{
             name:'media_id',
             allowNull:false

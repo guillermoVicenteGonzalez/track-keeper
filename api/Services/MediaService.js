@@ -136,8 +136,26 @@ exports.deleteAllMediaRows = async function(){
  * MEDIA ENTRIES
  ********************************************************/
 
-exports.checkValidState = async function(state){
-    return Entry.getAttributes().state.includes(state)
+exports.checkValidState = function(state){
+    //return Entry.getAttributes().state.includes(state)
+    let validStates = Entry.getAttributes().state.values
+
+    return validStates.includes(state)
+}
+
+exports.checkDuplicateMediaEntry = async function(userId,mediaId){
+    let duplicate = await Entry.findAll({where:{
+        media_id:mediaId,
+        user_id:userId
+    }})
+    .catch((err)=>{
+        winston.log("error","checkDuplicateMediaEntry: " + err)
+    })
+
+    if(duplicate.length == 0){
+        return undefined
+    }
+    return duplicate
 }
 
 exports.createMediaEntryRow = async function(userId, mediaId, review,state, startD, finishD){
@@ -168,7 +186,10 @@ exports.getEntryById = async function(entryId){
 }
 
 exports.getUserEntries = async function(userId){
-    let userEntries = await Entry.findAll({where:{user_id:userId}})
+    let userEntries = await Entry.findAll({
+        where:{user_id:userId},
+        include:{model:Media, as:'Media'}
+    })
     .catch((err)=>{
         winston.log("error","getUserEntries: " + err)
         return undefined
