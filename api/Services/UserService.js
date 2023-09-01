@@ -199,7 +199,7 @@ exports.createToken = async function(username){
 
 exports.verifyToken = async function(username, token){
     try{
-        var decoded = jwt.verify(token,word)
+        var decoded = await jwt.verify(token,word)
     }catch(err){
         winston.log("error","verifyToken: " + err)
         return undefined

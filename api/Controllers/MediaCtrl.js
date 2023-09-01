@@ -1,6 +1,7 @@
 const UserService       = require("../Services/UserService")    
 const winston           = require("../logger/logger")
 const MediaService      = require("../Services/MediaService")
+const User              = require("../Models/UserModel")
 const multer            = require("multer")
 const fs                = require("fs")
 const path              = require("path")
@@ -46,7 +47,7 @@ exports.getAllMedia = async function(req,res){
     let token = auth.split(' ')
     token = token[1]
     let authRes = await UserService.authenticateUser(userId,token,res)
-    if(authRes != true){
+    if(! (authRes instanceof User)){
         winston.log("info","getAllMedia: " + authRes)
         return undefined
     }
@@ -83,7 +84,7 @@ exports.createMedia = async function(req,res){
     let token = auth.split(' ')
     token = token[1]
     let authRes = await UserService.authenticateUser(userId, token,res)
-    if(authRes != true){
+    if(! (authRes instanceof User)){
         winston.log("info","createMedia: " + authRes)
         return undefined
     }
@@ -123,7 +124,7 @@ exports.deleteAllMedia = async function(req,res){
     let token = auth.split(' ')
     token = token[1]
     let authRes = await UserService.authenticateUser(userId, token, res)
-    if(authRes != true){
+    if(! (authRes instanceof User)){
         winston.log("info","deleteAllMedia: " + authRes)
         return undefined
     }
@@ -163,12 +164,14 @@ exports.getMediaById = async function(req,res){
     let token = auth.split(' ')
     token = token[1]
     let authRes = await UserService.authenticateUser(userId,token,res)
-    if(authRes != true){
-        winston.log("info","getMediaById: " + authRes)
+    if(! (authRes instanceof User)){
+        winston.log("info","getMediaById: auth " + authRes)
         return undefined
     }
 
-    let media = await MediaService.getMediaById(mediaId)
+    console.log("user authenticated")
+
+    let media = await MediaService.getMediaRowById(mediaId)
     if(!media){
         let msg = "Unable to fetch media"
         winston.log("info","getMediaById: " + msg)

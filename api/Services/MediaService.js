@@ -65,8 +65,8 @@ exports.updateMediaRow = async function(mediaId, fields){
     return updatedMedia
 }
 
-exports.getMediaById = async function(mediaId){
-    let media = Media.findOne({where:{media_id:mediaId}})
+exports.getMediaRowById = async function(mediaId){
+    let media = await Media.findOne({where:{media_id:mediaId}})
     .catch((err) =>{
         winston.log("error","getMediaById: " + err)
         return undefined
