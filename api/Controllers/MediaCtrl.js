@@ -244,7 +244,7 @@ exports.updateMedia = async function(req,res){
     }
 
     let validate = MediaService.validateMediaFields(fields)
-    if(!validate){
+    if(validate){
         let msg = "invalid fields"
         winston.log("info","updateMedia: " + msg)
         res.status(400).json({msg:msg})

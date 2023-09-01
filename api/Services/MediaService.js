@@ -35,17 +35,23 @@ exports.deleteMediaRow = async function(mediaId){
 }
 
 //returns invalid fields => if(true) means there are invalid fields
-exports.validateMediaFields = async function(fields){
+exports.validateMediaFields = function(fields){
     let invalidFields = []
+    var attributes = Media.getAttributes()
+    //winston.log("info","validateMediaFields: " + attributes)
 
     for(let i in fields){
-        if(! (Media.getAttributes().includes(i))){
+        if(! (i in attributes)){
             invalidFields.push(i)
         }
     }
 
     if(fields.media_id){
         invalidFields.push(fields.media_id)
+    }
+
+    if(invalidFields.length == 0){
+        return undefined
     }
 
     return invalidFields
