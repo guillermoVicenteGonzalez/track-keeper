@@ -187,4 +187,83 @@ exports.deleteMedia = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
     let mediaId = req.params.media_id
+
+    if(!userId || !auth || !mediaId){
+        let msg = "Missing parameters"
+        winston.log("info","deleteMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","deleteMedia:" + authRes)
+        return undefined
+    }
+
+    if(!authRes.admin){
+        let msg = "Permission denied"
+        winston.log("info","deleteMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let media = await MediaService.getMediaRowById(mediaId)
+    if(!media){
+        let msg = "Requested media does not exist"
+        winston.log("info","deleteMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:media})
+    return true
 }
+
+exports.updateMedia = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let mediaId = req.params.media_id
+    let fields = req.body
+
+    if(!userId || !auth || !mediaId){
+        let msg = "Missing parameters"
+        winston.log("info","updateMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","updateMedia:" + authRes)
+        return undefined
+    }
+
+    let validate = MediaService.validateMediaFields(fields)
+    if(!validate){
+        let msg = "invalid fields"
+        winston.log("info","updateMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let updated = await MediaService.updateMediaRow(mediaId,fields)
+    if(!updated){
+        let msg = "Unable to update media"
+        winston.log("info","updateMedia: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:updated})
+    return true
+}
+
+
+/*******************************************************
+ *  
+ **********************************************+********/

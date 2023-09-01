@@ -46,6 +46,7 @@ router.route("/media/:user_id")
 
 router.route("/media/:user_id/:media_id")
     .get(MediaCtrl.getMediaById)
+    .delete(MediaCtrl.deleteMedia)
 
 /*
 router.route("/users")
