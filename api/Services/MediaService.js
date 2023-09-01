@@ -136,7 +136,7 @@ exports.deleteAllMediaRows = async function(){
  * MEDIA ENTRIES
  ********************************************************/
 
-exports.checkEntryState = async function(state){
+exports.checkValidState = async function(state){
     return Entry.getAttributes().state.includes(state)
 }
 

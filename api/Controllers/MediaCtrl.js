@@ -298,3 +298,55 @@ exports.getEntries = async function(req,res){
     res.status(200).json({value:entries})
     return undefined
 }
+
+exports.createEntry = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let mediaId = req.body.media_id
+    let state = req.body.state
+    let startD = req.body.start_d //optional
+    let finishD = req.body.finish_d //optional
+    let review = req.body.review //optional
+
+    if(!userId || !auth || !mediaId || !state ){
+        let msg = "Missing parameters"
+        winston.log("info","createEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","createEntry: " + authRes)
+        return undefined
+    }
+
+    let media = await MediaService.getMediaRowById(mediaId)
+    if(!media){
+        let msg = "Requested media does not exist"
+        winston.log("info","createEntry: " + msg)
+        res.status(404).json({msg:msg})
+        return undefined
+    }
+
+    let checkState = MediaService.checkValidState(state)
+    if(!checkState){
+        let msg = "Entry state has invalid format"
+        winston.log("info","createEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let nEntry = await MediaService.createMediaEntryRow(userId,mediaId,review,state,startD,finishD)
+    if(!nEntry){
+        let msg = "Unable to create entry"
+        winston.log("info","createEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:nEntry})
+    return true
+}
