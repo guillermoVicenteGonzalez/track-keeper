@@ -445,7 +445,7 @@ exports.updateEntry = async function(req,res){
     }
 
     res.status(200).json({value:updated})
-    return undefined
+    return true
 }
 
 exports.getEntry = async function(req,res){
@@ -475,4 +475,7 @@ exports.getEntry = async function(req,res){
         res.status(400).json({msg:msg})
         return undefined
     }
+
+    res.status(200).json({value:entry})
+    return true
 }
