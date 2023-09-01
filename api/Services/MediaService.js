@@ -115,6 +115,16 @@ exports.getAllMediaRows = async function(){
     return media
 }
 
+exports.deleteAllMediaRows = async function(){
+    let deleted = await Media.destroy()
+    .catch((err)=>{
+        winston.log("error","deleteAllMedia: " + err)
+        return undefined
+    })
+
+    return deleted
+}
+
 
 /********************************************************
  * MEDIA ENTRIES
