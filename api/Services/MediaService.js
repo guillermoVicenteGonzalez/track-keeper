@@ -208,7 +208,7 @@ exports.getEntriesByState = async function(state){
     return entries
 }
 
-exports.deleteEntry = async function(entryId){
+exports.deleteEntryRow = async function(entryId){
     let deleted = await Entry.destroy({where:{entry_id:entryId}})
     .catch((err)=>{
         winston.log("error","deleteEntry: " + err)

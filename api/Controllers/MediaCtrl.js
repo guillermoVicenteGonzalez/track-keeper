@@ -358,3 +358,44 @@ exports.createEntry = async function(req,res){
     res.status(200).json({value:nEntry})
     return true
 }
+
+exports.deleteEntry = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let entryId = req.body.entry_id
+
+    if(!userId || !auth || !entryId){
+        let msg = "Missing parameters"
+        winston.log("info","deleteEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","deleteEntry: " + authRes)
+        return undefined
+    }
+
+    let entry = await MediaService.getEntryById(entryId)
+    if(!entry){
+        let msg = "The requested entry does not exist"
+        winston.log("info","deleteEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let deleted = await MediaService.deleteEntryRow(entryId)
+    if(!deleted){
+        let msg = "Unable to delete entry"
+        winston.log("info","deleteEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:deleted})
+    return undefined
+}
+
