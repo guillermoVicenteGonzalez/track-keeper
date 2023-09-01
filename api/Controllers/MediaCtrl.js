@@ -403,9 +403,9 @@ exports.updateEntry = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
     let entryId = req.params.entry_id
-    let fields = req.body.fields
+    let fields = req.body
 
-    if(!userId || !auth || !entryId){
+    if(!userId || !auth || !entryId || !fields){
         let msg = "Missing parameters"
         winston.log("info","updateEntry: " + msg)
         res.status(400).json({msg:msg})
@@ -429,6 +429,7 @@ exports.updateEntry = async function(req,res){
     }
 
     let vFields = MediaService.validateEntryFields(fields)
+    console.log(vFields)
     if(vFields){
         let msg = "One or more fields to update where invalid"
         winston.log("info","updateEntry: " + msg)
@@ -479,3 +480,5 @@ exports.getEntry = async function(req,res){
     res.status(200).json({value:entry})
     return true
 }
+
+//get filtered entries (state etc)

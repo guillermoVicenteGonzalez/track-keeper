@@ -68,7 +68,7 @@ exports.updateMediaRow = async function(mediaId, fields){
         return undefined
     })
 
-    return updatedMedia
+    return updatedMedia[1]
 }
 
 exports.getMediaRowById = async function(mediaId){
@@ -190,7 +190,9 @@ exports.getEntryById = async function(entryId){
 
 exports.getUserEntries = async function(userId){
     let userEntries = await Entry.findAll({
-        where:{user_id:userId},})
+        where:{user_id:userId},
+        include:{model:Media, as:'Media'}
+    })
     .catch((err)=>{
         winston.log("error","getUserEntries: " + err)
         return undefined
@@ -246,6 +248,8 @@ exports.validateEntryFields = function(fields){
     if(invalidFields.length == 0){
         return 0
     }
+
+    return invalidFields
 }
 
 exports.updateEntry = async function(fields, entryId){
@@ -258,5 +262,5 @@ exports.updateEntry = async function(fields, entryId){
         return undefined
     })
 
-    return updated
+    return updated[1]
 }
