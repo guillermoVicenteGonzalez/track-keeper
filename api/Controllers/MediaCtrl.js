@@ -265,5 +265,36 @@ exports.updateMedia = async function(req,res){
 
 
 /*******************************************************
- *  
+ *  ENTRIES
  **********************************************+********/
+
+exports.getEntries = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+
+    if(!userId || !auth){
+        let msg = "Missing parameters"
+        winston.log("info","getUserEntries: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("getUserEntries: " + authRes)
+        return undefined
+    }
+
+    let entries = await MediaService.getUserEntries(userId)
+    if(!entries){
+        let msg = "Unable to fetch entries"
+        winston.log("info","getEntries: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:entries})
+    return undefined
+}
