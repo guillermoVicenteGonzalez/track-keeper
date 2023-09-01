@@ -108,7 +108,7 @@ exports.createMedia = async function(req,res){
     return undefined
 }
 
-/*
+
 exports.deleteAllMedia = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
@@ -128,7 +128,56 @@ exports.deleteAllMedia = async function(req,res){
         return undefined
     }
 
-    let deleted = await MediaService.dele
+    //authenticate returns user if correct
+    if(!authRes.admin){
+        let msg = "Permission denied"
+        winston.log("info","deleteAllMedia: " + msg)
+        res.status(403).json({msg:msg})
+        return undefined
+    }
+
+    let deleted = await MediaService.deleteAllMediaRows()
+    if(!deleted){
+        let msg = "Unable to delete all media rows"
+        winston.log("info","deleteAllMedia: " + msg)
+        res.status(500).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:deleted})
+    return true
+}
+
+exports.getMediaById = async function(req,res){
+    let userId = req.params.user_id
+    let mediaId = req.params.media_id
+    let auth = req.headers.authorization
+
+    if(!userId || !mediaId  || !auth){
+        let msg = "Missing parameters"
+        winston.log("info","getMediaById: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(authRes != true){
+        winston.log("info","getMediaById: " + authRes)
+        return undefined
+    }
+
+    let media = await MediaService.getMediaById(mediaId)
+    if(!media){
+        let msg = "Unable to fetch media"
+        winston.log("info","getMediaById: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:media})
+    return true
 }
 
 exports.deleteMedia = async function(req,res){
@@ -136,4 +185,3 @@ exports.deleteMedia = async function(req,res){
     let auth = req.headers.authorization
     let mediaId = req.params.media_id
 }
-*/

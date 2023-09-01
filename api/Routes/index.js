@@ -42,6 +42,10 @@ router.route("/users/photo/:user_id")
 router.route("/media/:user_id")
     .get(MediaCtrl.getAllMedia)
     .post(MediaCtrl.createMedia)
+    .delete(MediaCtrl.deleteAllMedia)
+
+router.route("/media/:user_id/:media_id")
+    .get(MediaCtrl.getMediaById)
 
 /*
 router.route("/users")

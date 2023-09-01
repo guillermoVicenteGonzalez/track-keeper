@@ -324,7 +324,7 @@ exports.authenticateUser = async function(userId, token, res){
         return msg
     }
 
-    return true
+    return user
 }
 
 
