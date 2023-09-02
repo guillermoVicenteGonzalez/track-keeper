@@ -146,6 +146,39 @@ exports.updateCollection = async function(req,res){
 
     res.status(200).json({value:updated})
     return true
+}
 
+exports.getCollectionEntries = async function(req,res){
 
+}
+
+exports.getUserCollections = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+
+    if(!userId || !auth || !colId){
+        let msg = "Missing parameters"
+        winston.log("info","getUserCollections: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getUserCollections: " + authRes)
+        return undefined
+    }
+
+    let collections = await CollectionService.getUserCollectionRows(userId)
+    if(!collections){
+        let msg = "Unable to obtain user collections"
+        winston.log("info","getUserCollections: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:collections})
+    return true
 }

@@ -84,7 +84,7 @@ exports.getCollectionRowByName = async function(name){
     return collection
 }
 
-exports.getUserCollections = async function(userId){
+exports.getUserCollectionRows = async function(userId){
     let list = await Collection.findAll({
         where:{user_id:userId}
     })
