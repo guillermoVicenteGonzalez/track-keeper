@@ -64,6 +64,9 @@ router.route("/entry/:user_id/state/:state")
 router.route("/entry/:user_id/genre/:genre")
     .get(MediaCtrl.getEntriesByGenre)
 
+router.route("/entry/:user_id/type/:type")
+    .get(MediaCtrl.getEntriesByType)
+
 /*
 router.route("/users")
     .post(usersCtrl.createUser)

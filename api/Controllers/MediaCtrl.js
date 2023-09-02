@@ -561,7 +561,7 @@ exports.getEntriesByType = async function(req,res){
     let auth = req.headers.authorization
     let type = req.params.type
 
-    if(!userId || !auth || !genre){
+    if(!userId || !auth || !type){
         let msg = "Missing parameters"
         winston.log("info","getEntriesByType: " + msg)
         res.status(400).json({msg:msg})
@@ -576,6 +576,13 @@ exports.getEntriesByType = async function(req,res){
         return undefined
     }
 
+    let validType = MediaService.checkMediaType(type)
+    if(!validType){
+        let msg = "Type format is invalid"
+        winston.log("info","getEntriesByType: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
 
     let list = await MediaService.getEntriesByType(type,userId)
     if(!list){

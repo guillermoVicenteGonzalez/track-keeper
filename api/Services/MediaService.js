@@ -4,7 +4,8 @@ const winston       = require("../logger/logger")
 
 
 exports.checkMediaType = function(type){
-    return Media.getAttributes().type.includes(type)
+    let types = Media.getAttributes().type.values
+    return types.includes(type)
 }
 
 exports.createMediaRow = async function(name, type, genre, desc,dur){
