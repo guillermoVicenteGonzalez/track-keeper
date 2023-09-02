@@ -140,6 +140,8 @@ exports.checkValidState = function(state){
     //return Entry.getAttributes().state.includes(state)
     let validStates = Entry.getAttributes().state.values
 
+    console.log(validStates.includes(state))
+    console.log(state)
     return validStates.includes(state)
 }
 

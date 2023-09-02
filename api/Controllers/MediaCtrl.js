@@ -503,15 +503,15 @@ exports.getEntriesByState = async function(req,res){
         return undefined
     }
 
-    let invalidState = MediaService.checkValidState(state)
-    if(invalidState){
+    let validState = MediaService.checkValidState(state)
+    if(!validState){
         let msg = "State format is invalid"
         winston.log("info","getEntriesByState: " + msg)
         res.status(400).json({msg:msg})
         return undefined
     }
 
-    let list = await MediaService.getEntriesByState(state)
+    let list = await MediaService.getEntriesByState(state,userId)
     if(!list){
         let msg = "Unable to get list of entries"
         winston.log("info","getEntriesByState: " + msg)
