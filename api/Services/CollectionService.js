@@ -128,7 +128,7 @@ exports.deleteCollectionEntryRow = async function(entryId){
 
 exports.getCollectionEntryRows = async function(colId){
     let list = await CollectionEntry.findAll({
-        where:{col_id:colId},
+        where:{collection_id:colId},
         include:{
             model:Entry,
             as:'Entry',
