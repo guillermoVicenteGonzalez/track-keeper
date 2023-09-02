@@ -56,7 +56,7 @@ exports.updateCollectionRow = async function(colId, fields){
         return undefined
     })
 
-    return updated
+    return updated[1]
 }
 
 exports.getCollectionRow = async function(colId){
