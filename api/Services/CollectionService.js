@@ -28,8 +28,29 @@ exports.deleteCollectionRow = async function(colId){
     return deleted
 }
 
+exports.checkCollectionFields = function(fields){
+    let invalidFields = []
+    let attributes = Collection.getAttributes()
+
+    for(let i in fields){
+        if(! (i in attributes)){
+            invalidFields.push(i)
+        }
+    }
+
+    if(invalidFields.length == 0){
+        return undefined
+    }
+
+    return invalidFields
+}
+
 exports.updateCollectionRow = async function(colId, fields){
-    let updated = await Collection.update(fields,{where:{collection_id:colId}})
+    let updated = await Collection.update(fields,{
+        where:{collection_id:colId},
+        returning:true,
+        plain:true
+    })
     .catch((err)=>{
         winston.log("error","updateCollection: " +  err)
         return undefined

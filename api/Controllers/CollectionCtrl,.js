@@ -86,5 +86,66 @@ exports.deleteCollection = async function(req,res){
     }
 
     res.status(200).json({value:deleted})
-    return undefined
+    return true
+}
+
+exports.updateCollection = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let colId = req.params.collection_id
+    let fields = req.body
+
+    if(!userId || !auth || !colId){
+        let msg = "Missing parameters"
+        winston.log("info","updateCollection: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","updateCollection: " + authRes)
+        return undefined
+    }
+    
+    let exists = await CollectionService.getCollectionRow(colId)
+    if(!exists){
+        let msg = "The requested collection does not exist"
+        winston.log("info","updateCollection: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }  
+
+    let invalid = await CollectionService.checkCollectionFields(fields)
+    if(invalid){
+        let msg = "Invalid parameter format"
+        winston.log("info","updateCollection: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    if(fields.name){
+        let rep = await CollectionService.getCollectionRowByName(fields.name)
+        if(rep){
+            let msg = "There alredy exists a collection with that name"
+            winston.log("info","updateCollection: " + msg)
+            res.status(400).json({msg:msg})
+            return undefined
+        }
+    }
+
+    let updated = await CollectionService.updateCollectionRow(colId,fields)
+    if(!updated){
+        let msg = "Unable to update Collection"
+        winston.log("info","updateCollection: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:updated})
+    return true
+
+
 }
