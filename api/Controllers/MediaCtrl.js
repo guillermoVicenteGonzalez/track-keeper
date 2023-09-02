@@ -523,3 +523,72 @@ exports.getEntriesByState = async function(req,res){
     return undefined
 }
 
+exports.getEntriesByGenre = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let genre = req.params.genre
+
+    if(!userId || !auth || !genre){
+        let msg = "Missing parameters"
+        winston.log("info","getEntriesByGenre: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getEntriesByGenre: " + authRes)
+        return undefined
+    }
+
+
+    let list = await MediaService.getEntriesByGenre(genre,userId)
+    if(!list){
+        let msg = "Unable to get list of entries"
+        winston.log("info","getEntriesByGenre: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:list})
+    return undefined
+}
+
+exports.getEntriesByType = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let type = req.params.type
+
+    if(!userId || !auth || !genre){
+        let msg = "Missing parameters"
+        winston.log("info","getEntriesByType: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getEntriesByType: " + authRes)
+        return undefined
+    }
+
+
+    let list = await MediaService.getEntriesByType(type,userId)
+    if(!list){
+        let msg = "Unable to get list of entries"
+        winston.log("info","getEntriesByType: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:list})
+    return undefined    
+}
+
+
+//upload media photo
+//get media photo

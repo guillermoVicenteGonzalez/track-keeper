@@ -234,6 +234,24 @@ exports.getEntriesByGenre = async function(genre, userId){
     return entries
 }
 
+exports.getEntriesByType = async function(type, userId){
+    let entries = await Entry.findAll({
+        where:{user_id:userId},
+        include:{
+            model:Media,
+            as:'Media',
+            where:{type:type}
+        }
+    })
+
+    .catch((err)=>{
+        winston.log("error","getEntriesByType: " + err)
+        return undefined
+    })
+
+    return entries
+}
+
 exports.deleteEntryRow = async function(entryId){
     let deleted = await Entry.destroy({where:{entry_id:entryId}})
     .catch((err)=>{
