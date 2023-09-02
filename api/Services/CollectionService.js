@@ -4,8 +4,9 @@ const CollectionEntry   = require("../Models/CollectionEntry")
 const Entry             = require("../Models/MediaEntry")
 
 
-exports.createCollectionRow = async function(name, description){
+exports.createCollectionRow = async function(name, description, userId){
     let col = await Collection.create({
+        user_id:userId,
         name:name,
         description:description
     })

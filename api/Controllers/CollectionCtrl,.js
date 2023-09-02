@@ -1,7 +1,8 @@
 const winston           = require("../logger/logger")
 const UserService       = require("../Services/UserService")    
 const MediaService      = require("../Services/MediaService")
-const CollectionService =  require("../Services/CollectionService")
+const CollectionService = require("../Services/CollectionService")
+const User              = require("../Models/UserModel")
 
 
 
@@ -27,14 +28,15 @@ exports.createCollection = async function(req,res){
     }    
 
     let rep = await CollectionService.getCollectionRowByName(name)
-    if(!rep){
+    console.log(rep)
+    if(rep){
         let msg = "A collection with that name alredy exists"
         winston.log("info","createCollection: " + msg)
         res.status(400).json({msg:msg})
         return undefined
     }
 
-    let nCol = await CollectionService.createCollectionRow(name,desc)
+    let nCol = await CollectionService.createCollectionRow(name,desc,userId)
     if(!nCol){
         let msg = "Unable to create Collection"
         winston.log("info","createCollection: " + msg)
