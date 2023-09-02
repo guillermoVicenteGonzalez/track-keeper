@@ -148,15 +148,11 @@ exports.updateCollection = async function(req,res){
     return true
 }
 
-exports.getCollectionEntries = async function(req,res){
-
-}
-
 exports.getUserCollections = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
 
-    if(!userId || !auth || !colId){
+    if(!userId || !auth ){
         let msg = "Missing parameters"
         winston.log("info","getUserCollections: " + msg)
         res.status(400).json({msg:msg})
@@ -180,5 +176,49 @@ exports.getUserCollections = async function(req,res){
     }
 
     res.status(200).json({value:collections})
+    return true
+}
+
+/********************************************************
+ * COLLECTION ENTRIES
+ *******************************************************/
+
+exports.getCollectionEntries = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let colId = req.params.collection_id
+
+    if(!userId || !auth || !colId){
+        let msg = "Missing parameters"
+        winston.log("info","getCollectionEntries: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getCollectionEntries: " + authRes)
+        return undefined
+    } 
+    
+    let exists = await CollectionService.getCollectionRow(colId)
+    if(!exists){
+        let msg = "Requested collection does not exist"
+        winston.log("info","getCollectionEntries: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let list = await CollectionService.getCollectionEntryRows(colId)
+    if(!list){
+        let msg = "Unable to get collection contents"
+        winston.log("info","getCollectionEntries: " + msg)
+        res.status(500).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:list})
     return true
 }

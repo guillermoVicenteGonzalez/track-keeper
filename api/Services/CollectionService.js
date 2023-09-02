@@ -2,6 +2,7 @@ const winston           = require("../logger/logger")
 const Collection        = require("../Models/Collection")
 const CollectionEntry   = require("../Models/CollectionEntry")
 const Entry             = require("../Models/MediaEntry")
+const Media             = require("../Models/Media")
 
 
 exports.createCollectionRow = async function(name, description, userId){

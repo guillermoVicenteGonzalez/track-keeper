@@ -75,5 +75,6 @@ router.route("/collection/:user_id")
 router.route("/collection/:user_id/:collection_id")
     .delete(CollectionCtrl.deleteCollection)
     .put(CollectionCtrl.updateCollection)
+    .get(CollectionCtrl.getCollectionEntries)
 
 module.exports = router
