@@ -50,6 +50,18 @@ exports.getCollectionRow = async function(colId){
     return collection
 }
 
+exports.getCollectionRowByName = async function(name){
+    let collection = await Collection.findOne({
+        where:{name:name}
+    })
+    .catch((err)=>{
+        winston.log("error","getCollectionRowByName: " + err)
+        return undefined
+    })
+
+    return collection
+}
+
 exports.getUserCollections = async function(userId){
     let list = await Collection.findAll({
         where:{user_id:userId}

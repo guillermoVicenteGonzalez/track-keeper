@@ -64,6 +64,16 @@ exports.synchronize = async function(){
         onUpdate:'CASCADE'
     })
 
+    CollectionEntry.belongsTo(Collection,{
+        as:'Collection',
+        foreignKey:{
+            name:'collection_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
     Entry.hasMany(CollectionEntry,{
         as:'ColEntry',
         foreignKey:{
@@ -74,8 +84,29 @@ exports.synchronize = async function(){
         onUpdate:'CASCADE'
     })
 
+    CollectionEntry.belongsTo(Entry,{
+        as:'Entry',
+        foreignKey:{
+            name:'entry_id',
+            allowNull:false
+        },
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE'
+    })
+
     
     User.hasMany(Collection,{
+        as:'Collection',
+        foreignKey:{
+            name:'user_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    Collection.belongsTo(User,{
+        as:'User',
         foreignKey:{
             name:'user_id',
             allowNull:false

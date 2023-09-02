@@ -1,16 +1,13 @@
-const{ Router } = require("express");
-
-const usersCtrl = require("../Controllers/UserCtrl")
-const MediaCtrl = require("../Controllers/MediaCtrl")
-/*
-const usersCtrl = require("../controllers/UsersCtrl");
-const examsCtrl = require("../controllers/ExamsCtrl");
-const resultsCtrl = require("../controllers/ResultsCtrl")*/
+const{ Router }         = require("express");
+const usersCtrl         = require("../Controllers/UserCtrl")
+const MediaCtrl         = require("../Controllers/MediaCtrl")
+const CollectionCtrl    = require("../Controllers/CollectionCtrl,")
 
 const router = Router();
-/***********************
+
+/********************************************************
  * USERS
- **********************/
+ *******************************************************/
 
 router.route("/users")
     .post(usersCtrl.createUser)
@@ -67,13 +64,11 @@ router.route("/entry/:user_id/genre/:genre")
 router.route("/entry/:user_id/type/:type")
     .get(MediaCtrl.getEntriesByType)
 
-/*
-router.route("/users")
-    .post(usersCtrl.createUser)
-    .delete(usersCtrl.deleteUser)
-    .get(usersCtrl.getAllUsers)
-    //get tiene que devolver todos los usuarios
-    //pero sin todos sus datos.
-    //es necesario para añadir miembros a una organizacion.*/
+/********************************************************
+ * COLLECTIONS
+ *******************************************************/
+
+router.route("/collection/:user_id")
+    .post(CollectionCtrl.createCollection)
 
 module.exports = router
