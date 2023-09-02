@@ -48,7 +48,7 @@ exports.createCollection = async function(req,res){
     return undefined
 }
 
-/*
+
 exports.deleteCollection = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
@@ -67,6 +67,24 @@ exports.deleteCollection = async function(req,res){
     if(! (authRes instanceof User)){
         winston.log("info","deleteCollection: " + authRes)
         return undefined
-    }      
+    }
+    
+    let exists = await CollectionService.getCollectionRow(colId)
+    if(!exists){
+        let msg = "The requested collection does not exist"
+        winston.log("info","deleteCollection: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let deleted = await CollectionService.deleteCollectionRow(colId)
+    if(!deleted){
+        let msg = "Unable to delete collection"
+        winston.log("info","deleteCollection: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:deleted})
+    return undefined
 }
-*/

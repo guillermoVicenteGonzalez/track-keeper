@@ -71,4 +71,7 @@ router.route("/entry/:user_id/type/:type")
 router.route("/collection/:user_id")
     .post(CollectionCtrl.createCollection)
 
+router.route("/collection/:user_id/:collection_id")
+    .delete(CollectionCtrl.deleteCollection)
+
 module.exports = router
