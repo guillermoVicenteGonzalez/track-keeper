@@ -2,7 +2,6 @@ const winston           = require("../logger/logger")
 const UserService       = require("../Services/UserService")    
 const MediaService      = require("../Services/MediaService")
 const CollectionService = require("../Services/CollectionService")
-const MediaService      = require("../Services/MediaService")
 const User              = require("../Models/UserModel")
 
 
@@ -262,7 +261,7 @@ exports.createCollectionEntry = async function(req,res){
     }
 
     let nCEntry = await CollectionService.createCollectionEntryRow(colId, entryId)
-    if(!nCentry){
+    if(!nCEntry){
         let msg = "Unable to add the entry to the collection"
         winston.log("info","createCollectionEntry: " + msg)
         res.status(500).json({msg:msg})
@@ -270,5 +269,45 @@ exports.createCollectionEntry = async function(req,res){
     }
 
     res.status(201).json({value:nCEntry})
+    return true
+}
+
+exports.removeEntryFromCol = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let colEntryId = req.params.col_entry_id
+
+    if(!userId || !auth || !colEntryId){
+        let msg = "Missing parameters"
+        winston.log("info","removeEntryFromCol: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","removeEntryFromCol: " + authRes)
+        return undefined
+    } 
+
+    let colEntry = await CollectionService.getCollectionEntryRow(colEntryId)
+    if(!colEntry){
+        let msg = "The item does not exist"
+        winston.log("info","removeEntryFromCol: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }    
+
+    let deleted = await CollectionService.deleteCollectionEntryRow(colEntryId)
+    if(!deleted){
+        let msg = "Unable to remove item from collection"
+        winston.log("info","removeEntryFromCol")
+        res.status(500).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:deleted})
     return true
 }

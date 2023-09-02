@@ -103,7 +103,7 @@ exports.getUserCollectionRows = async function(userId){
 
 exports.createCollectionEntryRow = async function(colId, entryId){
     let entry = await CollectionEntry.create({
-        col_id:colId,
+        collection_id:colId,
         entry_id:entryId
     })
     .catch((err)=>{
@@ -114,9 +114,9 @@ exports.createCollectionEntryRow = async function(colId, entryId){
     return entry
 }
 
-exports.deleteCollectionEntryRow = async function(entryId){
+exports.deleteCollectionEntryRow = async function(ColEntryId){
     let deleted = await CollectionEntry.destroy({
-        where:{col_entry_id:entryId}
+        where:{col_entry_id:ColEntryId}
     })
     .catch((err)=>{
         winston.log("error","deleteCollectionEntryRow: " + err)
@@ -144,4 +144,16 @@ exports.getCollectionEntryRows = async function(colId){
     })
 
     return list
+}
+
+exports.getCollectionEntryRow = async function(colEntryId){
+    let entry = await CollectionEntry.findOne({
+        where:{col_entry_id:colEntryId}
+    })
+    .catch((err)=>{
+        winston.log("error","getCollectionEntryRow: " + err)
+        return undefined
+    })
+
+    return entry
 }
