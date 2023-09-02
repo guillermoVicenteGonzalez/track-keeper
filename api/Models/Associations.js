@@ -55,6 +55,7 @@ exports.synchronize = async function(){
     })
 
     Collection.hasMany(CollectionEntry,{
+        as:'ColEntry',
         foreignKey:{
             name:'collection_id',
             allowNull:false
@@ -64,6 +65,7 @@ exports.synchronize = async function(){
     })
 
     Entry.hasMany(CollectionEntry,{
+        as:'ColEntry',
         foreignKey:{
             name:'entry_id',
             allowNull:false

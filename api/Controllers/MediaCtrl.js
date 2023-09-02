@@ -597,5 +597,10 @@ exports.getEntriesByType = async function(req,res){
 }
 
 
+/**
+ * Rewatch show:
+ *  no se puede hacer dos entries con el mismo media id
+ *  hay que hacer un metodo especifico "rewatch" que haga eso.
+ */
 //upload media photo
 //get media photo
