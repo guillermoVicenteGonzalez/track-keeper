@@ -482,3 +482,44 @@ exports.getEntry = async function(req,res){
 }
 
 //get filtered entries (state etc)
+
+exports.getEntriesByState = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let state = req.params.state
+
+    if(!userId || !auth || !state){
+        let msg = "Missing parameters"
+        winston.log("info","getEntriesByState: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getEntriesByState: " + authRes)
+        return undefined
+    }
+
+    let invalidState = MediaService.checkValidState(state)
+    if(invalidState){
+        let msg = "State format is invalid"
+        winston.log("info","getEntriesByState: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let list = await MediaService.getEntriesByState(state)
+    if(!list){
+        let msg = "Unable to get list of entries"
+        winston.log("info","getEntriesByState: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({value:list})
+    return undefined
+}
+

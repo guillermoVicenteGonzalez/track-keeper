@@ -201,11 +201,31 @@ exports.getUserEntries = async function(userId){
     return userEntries
 }
 
-exports.getEntriesByState = async function(state){
+exports.getEntriesByState = async function(state, userId){
     let entries = await Entry.findAll({
-        where:{state:state}})
+        where:{state:state, user_id:userId},
+        include:{model:Media, as: 'Media'}
+    })
     .catch((err)=>{
         winston.log("error","getEntriesByState: " + err)
+        return undefined
+    })
+
+    return entries
+}
+
+exports.getEntriesByGenre = async function(genre, userId){
+    let entries = await Entry.findAll({
+        where:{user_id:userId},
+        include:{
+            model:Media,
+            as:'Media',
+            where:{genre:genre}
+        }
+    })
+
+    .catch((err)=>{
+        winston.log("error","getEntriesByGenre: " + err)
         return undefined
     })
 

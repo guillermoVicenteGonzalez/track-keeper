@@ -58,6 +58,9 @@ router.route("/entry/:user_id/:entry_id")
     .delete(MediaCtrl.deleteEntry)
     .get(MediaCtrl.getEntry)
 
+router.route("/entry/:user_id/state/:state")
+    .get(MediaCtrl.getEntriesByState)
+
 /*
 router.route("/users")
     .post(usersCtrl.createUser)
