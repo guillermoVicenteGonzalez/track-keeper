@@ -2,6 +2,7 @@ const winston           = require("../logger/logger")
 const UserService       = require("../Services/UserService")    
 const MediaService      = require("../Services/MediaService")
 const CollectionService = require("../Services/CollectionService")
+const MediaService      = require("../Services/MediaService")
 const User              = require("../Models/UserModel")
 
 
@@ -220,5 +221,54 @@ exports.getCollectionEntries = async function(req,res){
     }
 
     res.status(200).json({value:list})
+    return true
+}
+
+exports.createCollectionEntry = async function(req,res){
+    let userId = req.params.user_id
+    let auth = req.headers.authorization
+    let colId = req.params.collection_id
+    let entryId = req.body.entry_id
+
+    if(!userId || !auth || !colId){
+        let msg = "Missing parameters"
+        winston.log("info","createCollectionEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId,token,res)
+    if(! (authRes instanceof User)){
+        winston.log("info","createCollectionEntry: " + authRes)
+        return undefined
+    } 
+
+    let exists = await CollectionService.getCollectionRow(colId)
+    if(!exists){
+        let msg = "The collection does not exist"
+        winston.log("info","createCollectionEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let entry = await MediaService.getEntryById(entryId)
+    if(!entry){
+        let msg = "The entry does not exist"
+        winston.log("info","createCollectionEntry: " + msg)
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+
+    let nCEntry = await CollectionService.createCollectionEntryRow(colId, entryId)
+    if(!nCentry){
+        let msg = "Unable to add the entry to the collection"
+        winston.log("info","createCollectionEntry: " + msg)
+        res.status(500).json({msg:msg})
+        return undefined
+    }
+
+    res.status(201).json({value:nCEntry})
     return true
 }

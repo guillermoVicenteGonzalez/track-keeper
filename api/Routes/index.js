@@ -73,6 +73,7 @@ router.route("/collection/:user_id")
     .get(CollectionCtrl.getUserCollections)
 
 router.route("/collection/:user_id/:collection_id")
+    .post(CollectionCtrl.createCollectionEntry)
     .delete(CollectionCtrl.deleteCollection)
     .put(CollectionCtrl.updateCollection)
     .get(CollectionCtrl.getCollectionEntries)
