@@ -7,7 +7,8 @@
           <h1>Hola</h1>
         </v-col>
         <v-col class="align-center justify-">
-          <v-btn>Sign up</v-btn>
+          <v-btn
+          @click="router.push('/signup')">Sign up</v-btn>
           <v-btn>Sign in</v-btn>
         </v-col>
       </v-row>
@@ -17,6 +18,10 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+
+var router = useRouter()
+
   
 </script>
 
