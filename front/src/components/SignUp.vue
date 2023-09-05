@@ -2,48 +2,49 @@
   <v-container class="d-flex justify-center text-center align-center">
     <v-card class="text-center pa-5" min-width="500px">
       <v-card-title>Sign up</v-card-title>
-        <v-form>
-          <v-text-field 
-          variant="outlined"
-          class="ma-2"
-          label="username"
-          v-model="username"
-          :rules="formRules"></v-text-field>
 
-          <v-text-field 
-          variant="outlined"
-          class="ma-2"
-          label="password"
-          type="password"
-          :rules="passwordRules"
-          v-model="passwd"></v-text-field>
+      <v-form>
+        <v-text-field 
+        variant="outlined"
+        class="ma-2"
+        label="username"
+        v-model="username"
+        :rules="formRules"></v-text-field>
 
-          <v-text-field 
-          variant="outlined"
-          type="password"
-          class="ma-2"
-          label="confirm password"
-          :rules="confirmPassRules"
-          v-model="confirmPasswd"></v-text-field>
+        <v-text-field 
+        variant="outlined"
+        class="ma-2"
+        label="password"
+        type="password"
+        :rules="passwordRules"
+        v-model="passwd"></v-text-field>
 
-          <v-text-field 
-          variant="outlined"
-          type="email"
-          class="ma-2"
-          label="email"
-          :rules="emailRules"
-          v-model="email"></v-text-field>
+        <v-text-field 
+        variant="outlined"
+        type="password"
+        class="ma-2"
+        label="confirm password"
+        :rules="confirmPassRules"
+        v-model="confirmPasswd"></v-text-field>
 
-          <v-card-text class="text-error">{{ errorMessage }}</v-card-text>
+        <v-text-field 
+        variant="outlined"
+        type="email"
+        class="ma-2"
+        label="email"
+        :rules="emailRules"
+        v-model="email"></v-text-field>
 
-          <v-divider></v-divider>
-          <v-card-actions class="text-center justify-center">
-            <v-btn color="error"
-            @click="router.push('/')">Cancel</v-btn>        
-            <v-btn color="success"
-            :disabled="buttonFlag"
-            @click="signup">Accept</v-btn>
-          </v-card-actions>
+        <v-card-text class="text-error">{{ errorMessage }}</v-card-text>
+
+        <v-divider></v-divider>
+        <v-card-actions class="text-center justify-center">
+          <v-btn color="error"
+          @click="router.push('/')">Cancel</v-btn>        
+          <v-btn color="success"
+          :disabled="buttonFlag"
+          @click="signup">Accept</v-btn>
+        </v-card-actions>
       </v-form>
     </v-card>
   </v-container>
@@ -105,6 +106,11 @@
 
   const passwordRules = ref([
     value=>{
+      if(value == undefined){
+        buttonBooleans.value.password = false;
+        return "password is empty"
+      }
+      
       if(Object.keys(value).length < 4){
         buttonBooleans.value.password = false;
         return "password must be longer"

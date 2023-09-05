@@ -128,7 +128,7 @@ exports.userLogin = async function(req,res){
     if(!passRes){
         let msg = "Incorrect password"
         winston.log("info","userLogin: " + msg)
-        res.status(401),json({msg:msg})
+        res.status(401).json({msg:msg})
         return false
     }
 

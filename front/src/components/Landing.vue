@@ -1,6 +1,4 @@
 <template>
-<!--
-  <v-container class="fill-height">
     <v-responsive class="align-center text-center fill-height">
       <v-row class="d-block align-center justify-center">
         <v-col>
@@ -9,29 +7,15 @@
         <v-col class="align-center justify-">
           <v-btn
           @click="router.push('/signup')">Sign up</v-btn>
-          <v-btn>Sign in</v-btn>
+          <v-btn
+          @click="router.push('/login')">Sign in</v-btn>
         </v-col>
       </v-row>
     </v-responsive>
-  </v-container>
--->
-
-
-  <v-container class="fill-height">
-    <v-responsive class="align-center text-center fill-height">
-      <router-view></router-view>
-    </v-responsive>
-  </v-container>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+    import { useRouter } from 'vue-router';
 
-var router = useRouter()
-
-  
+    var router = useRouter()
 </script>
-
-<style>
-
-</style>
