@@ -38,7 +38,8 @@
 
           <v-divider></v-divider>
           <v-card-actions class="text-center justify-center">
-            <v-btn color="error">Cancel</v-btn>        
+            <v-btn color="error"
+            @click="router.push('/')">Cancel</v-btn>        
             <v-btn color="success"
             :disabled="buttonFlag"
             @click="signup">Accept</v-btn>
