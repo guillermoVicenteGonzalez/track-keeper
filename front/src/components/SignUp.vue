@@ -3,7 +3,7 @@
     <v-card class="text-center pa-5" min-width="500px">
       <v-card-title>Sign up</v-card-title>
 
-      <v-form>
+      <v-form validate-on="input" @submit.prevent="signup">
         <v-text-field 
         variant="outlined"
         class="ma-2"
@@ -15,17 +15,21 @@
         variant="outlined"
         class="ma-2"
         label="password"
-        type="password"
+        :type="showPasswd ? 'text':'password'"
         :rules="passwordRules"
-        v-model="passwd"></v-text-field>
+        v-model="passwd"
+        :append-inner-icon="showPasswd ? 'mdi-eye-off':'mdi-eye'"
+        @click:append-inner="showPasswd = !showPasswd"></v-text-field>
 
         <v-text-field 
         variant="outlined"
-        type="password"
+        :type="showConfirmPasswd ? 'text':'password'"
         class="ma-2"
         label="confirm password"
         :rules="confirmPassRules"
-        v-model="confirmPasswd"></v-text-field>
+        :append-inner-icon="showConfirmPasswd ? 'mdi-eye-off':'mdi-eye'"
+        v-model="confirmPasswd"
+        @click:append-inner="showConfirmPasswd = !showConfirmPasswd"></v-text-field>
 
         <v-text-field 
         variant="outlined"
@@ -40,16 +44,24 @@
         <v-divider></v-divider>
         <v-card-actions class="text-center justify-center">
           <v-btn color="error"
-          @click="router.push('/')">Cancel</v-btn>        
+            variant="outlined"
+            @click="router.push('/')"
+            text="Cancel">
+          </v-btn>   
+
           <v-btn color="success"
-          :disabled="buttonFlag"
-          @click="signup">Accept</v-btn>
+            :disabled="buttonFlag"
+            type="submit"
+            variant="outlined"
+            text="Accept">
+          </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
   </v-container>
   
   <Modal ref = modal></Modal>
+  <LoadingModal v-model="loadingTrigger"></LoadingModal>
 </template>
 
 <script setup>
@@ -60,7 +72,11 @@
   import Modal from "@/components/Modal.vue"
   import apiConf from "../apiConf.json"
   import {watch} from "vue"
+  import LoadingModal from "./LoadingModal.vue"
 
+  var loadingTrigger = ref();
+  var showPasswd = ref();
+  var showConfirmPasswd = ref();
   var username = ref();
   var passwd = ref();
   var confirmPasswd = ref();
@@ -155,20 +171,21 @@
     ])
 
   async function signup(){
-    console.log(apiConf.users.signup)
+    loadingTrigger.value = true;
     let result = await axios.post(apiConf.host +apiConf.port + apiConf.users.signup,{
       username:username.value,
       password:passwd.value,
       email:email.value
     })
     .catch((err)=>{
-      console.log(err);
+      loadingTrigger.value = false;
       if(err.response)
         modal.value.createModal("Error","signup error",err.response.data.message,true)
     });
 
+    loadingTrigger.value = false;
     if(result){
-      router.push("/")
+      router.push("/home")
     }
   }
 </script>

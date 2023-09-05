@@ -14,9 +14,3 @@
             </v-card>
     </v-dialog>
 </template>
-
-<script setup>
-import {ref } from "vue"
-
-
-</script>

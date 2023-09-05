@@ -40,6 +40,7 @@
         </v-card>
     </v-container>
 
+    <LoadingModal v-model="triggerLoading"></LoadingModal>
     <Modal ref="modal"></Modal>
 </template>
 
@@ -50,9 +51,11 @@
     import {watch} from "vue"
     import apiConf from "../apiConf.json"
     import Modal from "./Modal.vue";
+    import LoadingModal from "./LoadingModal.vue";
 
     const router = useRouter()
     var modal = ref();
+    var triggerLoading = ref();
     var showPasswd = ref()
     var username = ref();
     var password = ref();
@@ -106,16 +109,19 @@
   ])
 
   async function login(){
-    console.log("login")
+    triggerLoading.value = true;
     let user = await axios.post(apiConf.host + apiConf.port + apiConf.users.login,{
         username:username.value,
         password:password.value
     })
     .catch((err)=>{
+      triggerLoading.value = false;
         console.log(err);
         if(err.response)
             modal.value.createModal("Error","login error",err.response.data.msg,true)
     })
+
+    triggerLoading.value = false;
 
   }
 
