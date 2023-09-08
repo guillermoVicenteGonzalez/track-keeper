@@ -52,7 +52,9 @@
     import apiConf from "../apiConf.json"
     import Modal from "./Modal.vue";
     import LoadingModal from "./LoadingModal.vue";
-
+    import {useStore} from "vuex"
+    
+    const store = useStore();
     const router = useRouter()
     var modal = ref();
     var triggerLoading = ref();
@@ -110,7 +112,7 @@
 
   async function login(){
     triggerLoading.value = true;
-    let user = await axios.post(apiConf.host + apiConf.port + apiConf.users.login,{
+    let result = await axios.post(apiConf.host + apiConf.port + apiConf.users.login,{
         username:username.value,
         password:password.value
     })
@@ -121,12 +123,16 @@
             modal.value.createModal("Error","login error",err.response.data.msg,true)
     })
 
+    let user = result.data.user;
     triggerLoading.value = false;
-
+    //vuex store user y token
+    store.commit("setUser",{
+      id:user.user_id,
+      name:user.username,
+      token:result.data.token
+    });
+    router.push('/home/'+user.user_id)
   }
 
 
-  function test(){
-    console.clear();
-  }
 </script>

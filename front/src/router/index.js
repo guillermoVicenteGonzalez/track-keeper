@@ -5,6 +5,7 @@ import LandingPage from "@/views/LandingPage.vue"
 import Landing from "@/components/Landing.vue"
 import SignUpV from "@/components/SignUp.vue"
 import SignIn from "@/components/SignIn.vue"
+import Home from "@/views/Home.vue"
 
 const routes = [
   {
@@ -22,6 +23,12 @@ const routes = [
         path:'login',
         component:SignIn
       }
+    ]
+  },{
+    path:'/home/:id',
+    component:Home,
+    children:[
+      
     ]
   }
 ]
