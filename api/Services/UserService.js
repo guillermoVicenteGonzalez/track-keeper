@@ -251,13 +251,15 @@ exports.checkExistingData = async function(username, email){
     let duplicateNames = await User.findAll({where:{username:username}})
     if(duplicateNames.length != 0){
         winston.log("info","checkExistingData: a user with the same username alredy exists")
-        return duplicateNames
+        //return duplicateNames
+        return "name"
     }
 
     let duplicateMails = await User.findAll({where:{email:email}})
     if(duplicateMails.length != 0){
         winston.log("info","checkExistingData: a user with the same email alredy exists")
-        return duplicateMails
+        //return duplicateMails
+        return "mail"
     }
 
     return undefined

@@ -3,6 +3,7 @@
     "port":":2776",
     "users":{
         "signup":"/api/users",
-        "login":"/api/users/login"
+        "login":"/api/users/login",
+        "sendMail":"/api/users/email/"
     }
 }

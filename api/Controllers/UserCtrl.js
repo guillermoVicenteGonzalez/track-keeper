@@ -36,14 +36,14 @@ exports.createUser = async function(req,res){
     if(!username || !rawPass || !email){
         let msg = "missing arguments"
         winston.log("info","createUser: " + msg)
-        res.status(400).json({message:msg})
+        res.status(400).json({msg:msg})
         return -1
     }
 
     //verificar existente
     let userExists = await UserService.checkExistingData(username, email)
     if(userExists){
-        let msg = "Either your username or your mail alredy belong to a user"
+        let msg = "A user with the same " + userExists + " alredy exists" 
         winston.log("info","createUser: " + msg)
         res.status(400).json({msg:msg})
         return false
@@ -372,7 +372,7 @@ exports.uploadPhoto = async function(req,res){
     if(userId == undefined || userId == "undefined"){
         let msg = "userId undefined";
         console.log(msg);
-        res.status(400).json({success:false, message:msg});
+        res.status(400).json({success:false, msg:msg});
         return undefined;
     }
 
@@ -381,7 +381,7 @@ exports.uploadPhoto = async function(req,res){
     if(!user){
         let msg = "user with id: " + userId + " does not exist";
         console.log(msg);
-        res.status(400).json({success:false, message:msg});
+        res.status(400).json({success:false, msg:msg});
         return undefined;
     }
 
@@ -391,14 +391,14 @@ exports.uploadPhoto = async function(req,res){
         if(err){
             console.log(err);
             let msg = "Multer error"
-            res.status(400).json({success:false,message:msg});
+            res.status(400).json({success:false,msg:msg});
             return undefined;
         }else{
             var newImg = req.file;
             if(!newImg){
                 let msg = "file cannot be empty";
                 console.log(msg); 
-                res.status(400).json({success:false, message:msg});
+                res.status(400).json({success:false, msg:msg});
                 return undefined;
             }
 
@@ -449,9 +449,39 @@ exports.getPhoto = async function(req,res){
         //user.image contiene el path relativo. a sendFile hay que darle el absoluto
     }else{
         let msg = "User with id: " + userId + " could not be found";
-        res.status(400).json({success:false,message:msg});
+        res.status(400).json({success:false,msg:msg});
         return undefined;
     }
+}
+
+exports.resendEmail = async function(req,res){
+    let userId = req.params.user_id
+
+    if(!userId){
+        let msg = "Missing parameters";
+        winston.log("info","resendEmail: " + msg)
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    let user = await UserService.getUserRow(userId)
+    if(!user){
+        let msg = "The user does not exist"
+        winston.log("info","resendEmail: " + msg);
+        res.status(400).json({msg:msg})
+        return undefined
+    }
+    
+    let email = await UserService.sendVerificationMail(user.email,userId, user.username)
+    if(!email){
+        let msg = "Unable to send email"
+        winston.log("info","resendEmail: " + msg)
+        res.status(500).json({msg:msg})
+        return undefined
+    }
+
+    res.status(200).json({msg:"email sent"})
+    return true
 }
 //reset password
 

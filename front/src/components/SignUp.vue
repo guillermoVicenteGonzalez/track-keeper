@@ -60,7 +60,7 @@
     </v-card>
   </v-container>
   
-  <Modal ref = modal></Modal>
+  <Modal ref = "modal"></Modal>
   <LoadingModal v-model="loadingTrigger"></LoadingModal>
 </template>
 
@@ -73,7 +73,9 @@
   import apiConf from "../apiConf.json"
   import {watch} from "vue"
   import LoadingModal from "./LoadingModal.vue"
+  import {useStore} from "vuex"
 
+  const store = useStore();
   var loadingTrigger = ref();
   var showPasswd = ref();
   var showConfirmPasswd = ref();
@@ -172,20 +174,32 @@
 
   async function signup(){
     loadingTrigger.value = true;
-    let result = await axios.post(apiConf.host +apiConf.port + apiConf.users.signup,{
+    let res = await axios.post(apiConf.host +apiConf.port + apiConf.users.signup,{
       username:username.value,
       password:passwd.value,
       email:email.value
     })
     .catch((err)=>{
+      console.log(err)
       loadingTrigger.value = false;
-      if(err.response)
-        modal.value.createModal("Error","signup error",err.response.data.message,true)
+      if(err.response){
+        modal.value.createModal("Error","signup error",err.response.data.msg,true)
+      }else{
+        modal.value.createModal("Error","signup error","An unknown error ocurred",true)
+      }
+      return undefined;
     });
 
     loadingTrigger.value = false;
-    if(result){
-      router.push("/home")
+    if(res){
+      let user = res.data.user;
+      store.commit("setUnverifiedUser",{
+        id:user.user_id,
+        name:user.username,
+        token:res.data.token
+      });
+      modal.value.createModal("Success","Account created",
+      "a verification link has been sent to the provided email. Check it in order to proceed",false,"verify")
     }
   }
 </script>

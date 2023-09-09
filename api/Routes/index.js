@@ -31,6 +31,8 @@ router.route("/users/photo/:user_id")
     .get(usersCtrl.getPhoto)
     .post(usersCtrl.uploadPhoto)
 
+router.route("/users/email/:user_id")
+
 
 /********************************************************
  * MEDIA
