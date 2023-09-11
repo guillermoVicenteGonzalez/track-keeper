@@ -1,6 +1,7 @@
 <template>
     <v-card 
-    max-width="450px">
+    min-width="400px"
+    max-width="650px">
         <v-container 
         fluid
         class="align-center">
@@ -31,21 +32,20 @@
                     src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.l4JhbHxAw0BEWguUUmKTXgHaLH%26pid%3DApi&f=1&ipt=cc2272e3bbca0f9b9ba68e0e1f0d158c51f807eb2edd3a3390bedcdd79d47ea4&ipo=images"></v-img>
                 </v-col>
                 <v-col cols="9">
-                    <v-card-title class="text-h5">El viaje de chihiro</v-card-title>
-                    <v-card-subtitle class="text-subtitle-1">Pelicula</v-card-subtitle>
-                    <v-card-subtitle class="text-subtitle-1">Anime</v-card-subtitle>
+                    <v-card-title class="text-h5">{{ name }}</v-card-title>
+                    <v-card-subtitle class="text-subtitle-1">{{ type }}</v-card-subtitle>
+                    <v-card-subtitle class="text-subtitle-1">{{ genre }}</v-card-subtitle>
                 </v-col>
             </v-row>
+
             <v-divider class="mt-2"></v-divider>
-            <v-card-actions density="compact">
+            <div
+            class="justify-center text-center">
+
                 <v-btn
-                class="align-center"
-                size="medium"
+                class=""
                 icon="mdi-plus"></v-btn>
-            </v-card-actions>
-
-
-
+            </div>
         </v-container>
     </v-card>
 </template>
@@ -53,7 +53,8 @@
 <script setup>
     import {ref} from "vue"
 
-    const props = defineProps(['name','media_id','type','genre','description','cover'])
+    const props = defineProps(['name','media_id','type','genre','description','cover']);
+
 </script>
 
 <style>

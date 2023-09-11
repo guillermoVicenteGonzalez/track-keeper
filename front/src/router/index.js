@@ -7,6 +7,7 @@ import SignUpV from "@/components/SignUp.vue"
 import SignIn from "@/components/SignIn.vue"
 import Home from "@/views/Home.vue"
 import Verify from "@/components/Verify.vue"
+import Catalogue from "@/views/Catalogue.vue"
 
 const routes = [
   {
@@ -29,10 +30,15 @@ const routes = [
       }
     ]
   },{
-    path:'/home/:id',
+    path:'/home/:id/',
     component:Home,
     children:[
-      
+      {
+      path:'catalogue',
+      name:'catalogue',
+      component:Catalogue
+      }
+
     ]
   }
 ]

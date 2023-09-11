@@ -2,25 +2,53 @@
     <NavBar
     v-bind="user"></NavBar>
     <v-container>
-        <h1>Home</h1>
-        <RouterView></RouterView>
-        <MediaCard></MediaCard>
+        <RouterView
+        :user="user"></RouterView>
     </v-container>
+
+    <Modal ref="modal"></Modal>
 </template>
 
 <script setup>
-    import MediaCard from "@/components/MediaCard.vue";
 import NavBar from "@/components/NavBar.vue";
     import {onMounted, ref} from "vue"
     import {useStore} from "vuex"
+    import axios from "axios"
+    import apiConf from "../apiConf.json"
+import Modal from "@/components/Modal.vue";
 
     const store = useStore();
     var user = ref();
-    user.value = store.getters.getUser
+    var modal = ref();
+    //user.value = store.getters.getUser
 
+    async function getUserData(){
+        let {id,token} = store.getters.getUser;
+        console.log(id, token)
+        let result = await axios.get(apiConf.host + apiConf.port + apiConf.users.getData + id,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
+        })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","Authentication error",err.response.data.msg,true,'/')
+            }else{
+                modal.value.createModal("Error","Authentication error","An unexpected error ocurred","/")
+            }
+            console.log(err);
+            return undefined
+        });
+
+        if(result){
+            let u = result.data.user;
+            console.log(u)
+            user.value = u;
+        }
+    }
     
     onMounted(()=>{
-
+        getUserData()
     })
 
 </script>

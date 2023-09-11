@@ -4,6 +4,10 @@
     "users":{
         "signup":"/api/users",
         "login":"/api/users/login",
+        "getData":"/api/users/id/",
         "sendMail":"/api/users/email/"
+    },
+    "media":{
+        "getAll":"/api/media/"
     }
 }

@@ -190,7 +190,9 @@ exports.getUserData = async function(req,res){
         return false
     }
 
-    res.status(200).json({user:user})
+    let u = UserService.filterUserFields(user)
+
+    res.status(200).json({user:u})
     return true
 }
 
