@@ -1,13 +1,14 @@
 <template>
-    <v-container class="justify-center d-block">
-        <v-row class="">
-            <v-col cols="8">
-                <v-text-field
+  <v-toolbar
+    sticky
+    class="d-block pa-5 bg-background sticky">
+        <v-col cols="8">
+            <v-text-field
                 v-model="search"
                 clearable
                 variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
             </v-col>
-            <v-col>
+            <v-col cols="4">
                 <v-select
                 item-title="name"
                 item-value="value"
@@ -16,15 +17,70 @@
                 :items="filterOptions"
                 variant="outlined"></v-select>
             </v-col>
+    </v-toolbar>
+
+    <v-container 
+    class="justify-center overflow-hidden ">
+    
+        <v-row>
+            <v-col 
+            cols="12" class="overflow-auto justify-center d-flex flex-wrap">
+                    <MediaCard
+                    class="ma-3"
+                    v-for="i in filterMedia()"
+                    v-bind="i"
+                    :key="i.media_id"></MediaCard>
+            </v-col>
         </v-row>
 
-        <v-row class="justify-space-evenly">
+
+<!--
+        <div class="test">
+
+
             <MediaCard 
             class="ma-2"
-            v-for="i in filterMedia()" v-bind="i"></MediaCard>
-        </v-row>
+            v-for="i in filterMedia()"
+            v-bind="i"
+            :key="i.media_id"></MediaCard>
+        </div>
+-->
 
-        <v-row class="justify-center">
+<!--    
+        <v-virtual-scroll
+        style="background-color: green;"
+        height="700px"
+        :items="filterMedia()">
+
+            <template v-slot:default="{item}">
+                <MediaCard 
+                class="ma-2"
+                v-bind="item"></MediaCard>
+            </template>
+        </v-virtual-scroll>-->
+
+<!--
+        <v-virtual-scroll
+        class="d-flex justify-space-evently"
+        height="700px"
+        :items="filterMedia()">
+            <template v-slot:default="{item}">
+                <MediaCard 
+                class="ma-2"
+                v-bind="item"></MediaCard>
+            </template>
+        </v-virtual-scroll>
+-->
+
+    <!--
+        <v-row 
+        class="justify-space-evenly">
+            <MediaCard 
+            class="ma-2 fill-height "
+            v-for="i in filterMedia()" v-bind="i"></MediaCard>-
+        </v-row>-->
+
+        <v-row class="justify-center bg-white pa-3 align-center" id="addMediaBtn">
             <v-btn
             icon="mdi-plus"
             @click="triggerCreate = true"></v-btn>
@@ -123,3 +179,63 @@
 
     loadMedia();
 </script>
+
+<style>
+
+    .sticky{
+        position: sticky;
+        top:60px;
+        z-index: 1;
+    }
+
+    #addMediaBtn{
+        margin:0;
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
+        left: 0px;
+        z-index: 1;
+    }
+
+
+    #addMediaBtn2{
+        position:sticky;
+        width:100%;
+        bottom:0px;
+        z-index:1;
+    }
+
+    #searchBar{
+        margin:0;
+        background-color: red;
+        position: fixed;
+        width: 100%;
+        top: 70px;
+        left:0px;
+        z-index: 1;
+    }
+
+    .fixedRow{
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        z-index: 1;
+        background-color: blue;
+    }
+
+    .catalogueContainer{
+        background-color: green;
+        height: 100px;
+    }
+
+    .test{
+        justify-content: center;
+        display: flex;
+        flex-wrap: wrap !important;
+        background-color: green;
+        height: 80%;
+        overflow:scroll;
+    }
+
+</style>

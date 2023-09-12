@@ -5,7 +5,7 @@
         @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-app-bar-title>{{ username}}</v-app-bar-title>
 
-        <v-app-bar-title>{{ selection }}</v-app-bar-title>
+        <v-app-bar-title class="text-center">{{selection}}</v-app-bar-title>
         <v-menu>
             <template v-slot:activator="{props}">
                 <v-avatar
@@ -41,9 +41,9 @@
     location="left"
     temporary>
         <v-list nav v-model="selection">
-            <v-list-item prepend-icon="mdi-home" title="Home" value="home" @click="router.push('/home/' + props.id)"></v-list-item>
+            <v-list-item prepend-icon="mdi-home" title="Home" value="home" @click="navigate('Home','home')"></v-list-item>
             <v-divider></v-divider>
-            <v-list-item prepend-icon="mdi-book-open-page-variant" title="Catalogue" value="catalogue" @click="router.push({name:'catalogue'})"></v-list-item>
+            <v-list-item prepend-icon="mdi-book-open-page-variant" title="Catalogue" value="catalogue" @click="navigate('catalogue','catalogue')"></v-list-item>
             <v-divider></v-divider>
             <v-list-item title="All media" value="inbox"></v-list-item>
             <v-list-item title="Games"></v-list-item>
@@ -51,6 +51,7 @@
             <v-list-item title="TV shows"></v-list-item>
             <v-list-item title="Books"></v-list-item>
             <v-list-item title="Comics"></v-list-item>
+            <v-btn @click="console.log(selection)"></v-btn>
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -67,5 +68,10 @@
     var drawer = ref();
     var profileMenuItems = ref(['Profile','stats','settings','SignOut']);
 
-    
+
+    function navigate(value,route){
+        selection.value = value;
+        router.push({name:route});
+    }
+
 </script>

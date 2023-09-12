@@ -32,6 +32,7 @@ const routes = [
   },{
     path:'/home/:id/',
     component:Home,
+    name:'home',
     children:[
       {
       path:'catalogue',

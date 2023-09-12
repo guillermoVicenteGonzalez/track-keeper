@@ -1,5 +1,7 @@
 <template>
     <v-card 
+    height="170px"
+    
     width="400px">
         <v-container 
         fluid

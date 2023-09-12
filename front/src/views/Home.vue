@@ -1,7 +1,10 @@
 <template>
     <NavBar
     v-bind="user"></NavBar>
-    <v-container>
+    <v-container 
+    fluid
+    class="d-block fill-height  pt-0">
+
         <RouterView></RouterView>
     </v-container>
 
@@ -34,6 +37,7 @@ import NavBar from "@/components/NavBar.vue";
             }else{
                 modal.value.createModal("Error","Authentication error","An unexpected error ocurred","/")
             }
+            store.commit('deleteUser')
             console.log(err);
             return undefined
         });
