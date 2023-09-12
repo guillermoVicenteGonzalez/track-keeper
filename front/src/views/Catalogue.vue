@@ -18,8 +18,10 @@
             </v-col>
         </v-row>
 
-        <v-row justify-center>
-            <MediaCard v-for="i in filterMedia()" v-bind="i"></MediaCard>
+        <v-row class="justify-space-evenly">
+            <MediaCard 
+            class="ma-2"
+            v-for="i in filterMedia()" v-bind="i"></MediaCard>
         </v-row>
 
         <v-row class="justify-center">
@@ -30,7 +32,7 @@
     </v-container>
 
     <CreateMedia v-model="triggerCreate"></CreateMedia>
-    
+
     <Modal ref="modal"></Modal>
 </template>
 

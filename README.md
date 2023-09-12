@@ -58,4 +58,8 @@ small web app that allows users to keep track of the books, movies, game, etc th
 
     - [ ] Stats
 
-
+## Quick notes
+- delete vuex user at error
+- check if there is cover
+- check if cover is image
+- grid distribution fixed for catalogue (+ scroll)
