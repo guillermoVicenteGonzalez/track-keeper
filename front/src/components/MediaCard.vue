@@ -26,10 +26,19 @@
             </v-card-actions>-->
             <v-row no-gutters class="justify-space-between">
                 <v-col 
-                class="justify-start" cols="2">
-                    <v-img 
+                cols="2"
+                class="d-flex justify-center align-center">
+                    <v-img
+                    style="width: 100%; height: 100%;"
                     cover
-                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.l4JhbHxAw0BEWguUUmKTXgHaLH%26pid%3DApi&f=1&ipt=cc2272e3bbca0f9b9ba68e0e1f0d158c51f807eb2edd3a3390bedcdd79d47ea4&ipo=images"></v-img>
+                    :src="url">
+                        <template v-slot:error>
+                            <v-icon 
+                            style="
+                            width: 100%;
+                            height:100%;">mdi-image</v-icon>
+                        </template>
+                    </v-img>
                 </v-col>
                 <v-col cols="9">
                     <v-card-title class="text-h5">{{ name }}</v-card-title>
@@ -40,10 +49,11 @@
 
             <v-divider class="mt-2"></v-divider>
             <div
-            class="justify-center text-center">
+            class="justify-center text-center align-center mt-2 mb-0">
 
                 <v-btn
-                class=""
+                size="small"
+                class="ma-0 pa-0"
                 icon="mdi-plus"></v-btn>
             </div>
         </v-container>
@@ -52,8 +62,15 @@
 
 <script setup>
     import {ref} from "vue"
+    import apiConf from "../apiConf.json"
+    import {useStore} from "vuex"
 
     const props = defineProps(['name','media_id','type','genre','description','cover']);
+    var url = ref();
+    const store = useStore();
+    let {id} = store.getters.getUser; 
+    url.value = apiConf.host + apiConf.port + apiConf.media.getCover + id + "/" + props.media_id;
+    console.log(url.value);
 
 </script>
 

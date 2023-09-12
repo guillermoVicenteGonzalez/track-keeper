@@ -1,5 +1,5 @@
 <template>
-    <v-container class="justify-center d-block" style="background-color: red;">
+    <v-container class="justify-center d-block">
         <v-row class="">
             <v-col cols="8">
                 <v-text-field

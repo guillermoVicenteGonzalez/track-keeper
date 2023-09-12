@@ -260,6 +260,13 @@ exports.uploadMediaCover = async function(req,res){
     let mediaId = req.params.media_id;
     let auth = req.headers.authorization;
 
+    if(!userId || !mediaId || !auth){
+        let msg = "Missing parameters";
+        winston.log("info","uploadMediaCover: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
     let token = auth.split(' ');
     token = token[1];
     let user = await UserService.authenticateUser(userId,token,res)
@@ -315,6 +322,43 @@ exports.uploadMediaCover = async function(req,res){
             })
         }
     })
+}
+
+exports.getCover = async function(req,res){
+    let mediaId = req.params.media_id
+
+    if(!mediaId){
+        let msg ="Missing parameters";
+        winston.log("info","getCover: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    let media = await MediaService.getMediaRowById(mediaId);
+    if(!media){
+        let msg = "Unable to find requested media";
+        winston.log("info","getCover: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    if(media.cover != undefined){
+        let fullPath = path.resolve('.') + "/storage/covers/" + media.cover.filename;
+        if(fullPath){
+            res.status(200).sendFile(fullPath)
+            return true;
+        }else{
+            let msg ="Unable to resolve path to file"
+            winston.log("info","getCover: " + msg);
+            res.status(404).send();
+            return false
+        }
+    }else{
+        let msg = "Media cover has not been uploaded";
+        winston.log("info","getCover: " + msg);
+        res.status(204).send();
+        return undefined;
+    }
 }
 
 /*******************************************************

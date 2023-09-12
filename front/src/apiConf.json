@@ -10,6 +10,7 @@
     "media":{
         "getAll":"/api/media/",
         "create":"/api/media/",
-        "uploadCover":"/api/media/cover/"
+        "uploadCover":"/api/media/cover/",
+        "getCover":"/api/media/cover/"
     }
 }

@@ -50,6 +50,7 @@ router.route("/media/:user_id/:media_id")
 
 router.route("/media/cover/:user_id/:media_id")
     .post(MediaCtrl.uploadMediaCover)
+    .get(MediaCtrl.getCover)
 
 router.route("/entry/:user_id")
     .get(MediaCtrl.getEntries)
