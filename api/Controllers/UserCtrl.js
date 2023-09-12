@@ -415,10 +415,10 @@ exports.uploadPhoto = async function(req,res){
             //ahora actualizo con el nuevo fichero
             let nUser = await UserService.updateUserRow(userId,{image:newImg})
             .then(function(response){
-                res.status(200).json({success:true, user:response[0]});
+                res.status(200).json({value:response[0]});
             })
             .catch((err)=>{
-                res.status(400).json({success:false});
+                res.status(400).json({msg:err});
             });
         }
     })

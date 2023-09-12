@@ -8,6 +8,8 @@
         "sendMail":"/api/users/email/"
     },
     "media":{
-        "getAll":"/api/media/"
+        "getAll":"/api/media/",
+        "create":"/api/media/",
+        "uploadCover":"/api/media/cover/"
     }
 }

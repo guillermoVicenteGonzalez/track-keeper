@@ -2,8 +2,7 @@
     <NavBar
     v-bind="user"></NavBar>
     <v-container>
-        <RouterView
-        :user="user"></RouterView>
+        <RouterView></RouterView>
     </v-container>
 
     <Modal ref="modal"></Modal>
@@ -15,7 +14,7 @@ import NavBar from "@/components/NavBar.vue";
     import {useStore} from "vuex"
     import axios from "axios"
     import apiConf from "../apiConf.json"
-import Modal from "@/components/Modal.vue";
+    import Modal from "@/components/Modal.vue";
 
     const store = useStore();
     var user = ref();
@@ -24,7 +23,6 @@ import Modal from "@/components/Modal.vue";
 
     async function getUserData(){
         let {id,token} = store.getters.getUser;
-        console.log(id, token)
         let result = await axios.get(apiConf.host + apiConf.port + apiConf.users.getData + id,{
             headers:{
                 'Authorization':'Bearer ' + token
@@ -42,7 +40,6 @@ import Modal from "@/components/Modal.vue";
 
         if(result){
             let u = result.data.user;
-            console.log(u)
             user.value = u;
         }
     }

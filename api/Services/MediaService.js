@@ -1,6 +1,7 @@
 const Media         = require("../Models/Media")
 const Entry         = require("../Models/MediaEntry")
 const winston       = require("../logger/logger")
+const fs            = require("fs")
 
 
 exports.checkMediaType = function(type){
@@ -132,6 +133,19 @@ exports.deleteAllMediaRows = async function(){
     return deleted
 }
 
+exports.deleteMediaCover = async function(location){
+    let result = fs.unlink(location,(err=>{
+        if(err){
+            winston.log("error","deleteMediaCover: " + err);
+            return undefined
+        }else{
+            winston.log("info","success deleting cover")
+            return true
+        }
+    }))
+
+    return result;
+}
 
 /********************************************************
  * MEDIA ENTRIES

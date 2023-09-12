@@ -6,6 +6,16 @@ const multer            = require("multer")
 const fs                = require("fs")
 const path              = require("path")
 
+var storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,"./storage/covers")
+    },
+    filename:function(req,file,cb){
+        cb(null,file.originalname)
+    }
+})
+
+const upload = multer({storage:storage}).single("file")
 /**
  * - crear media
  * - borrar media (admin)
@@ -24,25 +34,6 @@ exports.getAllMedia = async function(req,res){
         res.status(400).json({msg:msg})
         return undefined
     }
-
-    /*
-    let user = await UserService.getUserRow(userId)
-    if(!user){
-        let msg = "User does not exist"
-        winston.log("info","getAllMedia: " + msg)
-        res.status(400).json({msg:msg})
-        return undefined
-    }
-
-    let token = auth.split(' ')
-    token = token[1]
-    let tokenRes = await UserService.verifyToken(user.username, token)
-    if(!tokenRes){
-        let msg = "The token was either incorrect or expired"
-        winston.log("info","getUserData: " +msg)
-        res.status(401).json({msg:msg})
-        return false
-    }*/
 
     let token = auth.split(' ')
     token = token[1]
@@ -110,6 +101,7 @@ exports.createMedia = async function(req,res){
 }
 
 
+//falta borrar la foto
 exports.deleteAllMedia = async function(req,res){
     let userId = req.params.user_id
     let auth = req.headers.authorization
@@ -263,6 +255,67 @@ exports.updateMedia = async function(req,res){
     return true
 }
 
+exports.uploadMediaCover = async function(req,res){
+    let userId = req.params.user_id;
+    let mediaId = req.params.media_id;
+    let auth = req.headers.authorization;
+
+    let token = auth.split(' ');
+    token = token[1];
+    let user = await UserService.authenticateUser(userId,token,res)
+    if(!user){
+        let msg = "Authentication failed";
+        winston.log("info","uploadMediaCover: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    let media = await MediaService.getMediaRowById(mediaId)
+    if(!media){
+        let msg = "Media does not exist";
+        winston.log("info","uploadMediaCover: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    upload(req,res,async (err)=>{
+        if(err){
+            winston.log("error","uploadMediaCover: Multer errror-> " + err);
+            let msg = "Unable to upload cover";
+            winston.log("info","uploadMediaCover: " + msg);
+            res.status(500).json({msg:msg})
+            return undefined
+        }else{
+            var newImg = req.file;
+            if(!newImg){
+                let msg = "File cannot be empty";
+                winston.log("info","uploadMediaCover: " + msg);
+                res.status(400).json({msg:msg});
+                return undefined;
+            }
+
+            /**
+             * Antes hay que verificar que exista el fichero
+             * Si existe, borro el anterior
+             * Solo lo borro si tienen distinto nombre
+             * ya que si tienen el mismo se sobreescribe
+             */
+            if(media.cover && media.cover.filename != newImg.filename){
+                let result = MediaService.deleteMediaCover(media.cover.path)
+            }
+
+            let nMedia = await MediaService.updateMediaRow(mediaId,{cover:newImg})
+            .then(function(response){
+                res.status(200).json({msg:"succesfully uploaded cover"})
+            })
+            .catch((err)=>{
+                winston.log("info","uploadMediaCover: " + err);
+                res.status(400).json({msg:err})
+                return undefined
+            })
+        }
+    })
+}
 
 /*******************************************************
  *  ENTRIES

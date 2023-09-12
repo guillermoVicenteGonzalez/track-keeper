@@ -30,7 +30,7 @@
     </v-container>
 
     <CreateMedia v-model="triggerCreate"></CreateMedia>
-
+    
     <Modal ref="modal"></Modal>
 </template>
 
@@ -43,7 +43,7 @@
     import MediaCard from "@/components/MediaCard.vue";
     import CreateMedia from "@/components/CreateMedia.vue";
 
-    var triggerCreate = ref(false)
+    var triggerCreate = ref()
     const store = useStore();
     var media = ref();
     var modal = ref();
@@ -76,9 +76,7 @@
         });
 
         if(list){
-            console.log(list.data.value)
             media.value = list.data.value;
-            console.log(media.value);
         }
     }
 

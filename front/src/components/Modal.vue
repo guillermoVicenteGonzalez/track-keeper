@@ -38,12 +38,15 @@ var cardText = ref();
 var dialog = ref(false);
 var dialogClass = ref();
 var destination
+var submit
+const emit = defineEmits(['submit'])
 
-function createModal(title, subtitle, text, error,route){
+function createModal(title, subtitle, text, error,route,emit){
     dialog.value = true
     cardTitle.value = title;
     cardSubtitle.value = subtitle;
     cardText.value = text;
+    submit = emit;
 
     if(error){
         dialogClass.value = "text-error"
@@ -63,10 +66,13 @@ function createModal(title, subtitle, text, error,route){
 function acceptBtn(){
     if(destination != undefined){
         router.push(destination);
-    }else{
-        dialog.value = false;
+    }else if(submit){
+        emit('submit');
     }
+    dialog.value = false;
 }
+
+
 
 defineExpose({
     createModal
