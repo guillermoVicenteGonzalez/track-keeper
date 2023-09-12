@@ -43,7 +43,7 @@
         <v-list nav v-model="selection">
             <v-list-item prepend-icon="mdi-home" title="Home" value="home" @click="router.push('/home/' + props.id)"></v-list-item>
             <v-divider></v-divider>
-            <v-list-item title="Catalogue" value="catalogue" @click="router.push({name:'catalogue'})"></v-list-item>
+            <v-list-item prepend-icon="mdi-book-open-page-variant" title="Catalogue" value="catalogue" @click="router.push({name:'catalogue'})"></v-list-item>
             <v-divider></v-divider>
             <v-list-item title="All media" value="inbox"></v-list-item>
             <v-list-item title="Games"></v-list-item>
@@ -67,5 +67,5 @@
     var drawer = ref();
     var profileMenuItems = ref(['Profile','stats','settings','SignOut']);
 
-
+    
 </script>

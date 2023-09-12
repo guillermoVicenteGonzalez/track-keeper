@@ -44,6 +44,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
             - [ ] emit event to reload
             - [ ] Select instead of text field
         - [ ] Media card
+            - [ ] truncate text if it does not fit
             - [ ] Media data
             - [ ] Media cover
             - [ ] edit/delete media
@@ -63,3 +64,4 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - check if there is cover
 - check if cover is image
 - grid distribution fixed for catalogue (+ scroll)
+- pueden tener mismo nombre pero distinto tipo (batman arkham asylum)

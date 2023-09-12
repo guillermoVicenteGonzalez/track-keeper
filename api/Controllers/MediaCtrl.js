@@ -350,13 +350,13 @@ exports.getCover = async function(req,res){
         }else{
             let msg ="Unable to resolve path to file"
             winston.log("info","getCover: " + msg);
-            res.status(404).send();
+            res.status(404).json({msg:msg});
             return false
         }
     }else{
         let msg = "Media cover has not been uploaded";
         winston.log("info","getCover: " + msg);
-        res.status(204).send();
+        res.status(204).json({msg:msg})
         return undefined;
     }
 }

@@ -31,7 +31,10 @@
         </v-row>
     </v-container>
 
-    <CreateMedia v-model="triggerCreate"></CreateMedia>
+    <CreateMedia 
+    @hide="triggerCreate = false"
+    @created="loadMedia()"
+    v-model="triggerCreate"></CreateMedia>
 
     <Modal ref="modal"></Modal>
 </template>

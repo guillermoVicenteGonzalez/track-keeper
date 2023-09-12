@@ -42,7 +42,7 @@
                     <v-divider></v-divider>
                     <v-card-actions class="justify-center">
                         <v-btn color="error" variant="outlined">Cancel</v-btn>
-                        <v-btn type="submit" color="success" variant="outlined">Accept</v-btn>
+                        <v-btn @click="emit('hide')" type="submit" color="success" variant="outlined">Accept</v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card>
@@ -62,7 +62,7 @@
     import apiConf from "../apiConf.json"
     import {useStore} from "vuex"
     import Modal from "./Modal.vue";
-import LoadingModal from "./LoadingModal.vue";
+    import LoadingModal from "./LoadingModal.vue";
 
     var modal = ref();
     var name = ref();
@@ -73,7 +73,7 @@ import LoadingModal from "./LoadingModal.vue";
     var photo = ref();
     var loading = ref();
     const store = useStore();
-    const emit = defineEmits(['hide'])
+    const emit = defineEmits(['hide','created'])
 
     
     async function createFullMedia(){
@@ -89,6 +89,7 @@ import LoadingModal from "./LoadingModal.vue";
             }
         }
         loading.value = false;
+        emit('created')
     }
 
     async function createMedia(){
