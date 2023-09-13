@@ -4,9 +4,9 @@
         transition="fade-transition"
         class="d-flex justify-center align center text-center">
             <v-card 
-            min-width="800px"
+            width="800px"
             max-width="1000px"
-            class="pa-5">
+            class="pa-5 overflow-auto">
                 <v-card-title>Create media</v-card-title>
                 <v-form @submit.prevent="createFullMedia">
                     <v-text-field
@@ -14,10 +14,14 @@
                     label="name"
                     v-model="name"></v-text-field>
 
-                    <v-text-field
+                    <v-select
                     label="type"
+                    variant="outlined"
+                    item-title="value"
+                    item-value="value"
+                    clearable
                     v-model="type"
-                    variant="outlined"></v-text-field>
+                    :items="props.types"></v-select>
 
                     <v-text-field
                     label="genre"
@@ -30,6 +34,10 @@
                     variant="outlined"></v-text-field>
 
                     <v-textarea
+                    density="compact"
+                    clearable
+                    auto-grow=""
+                    max-height="100px"
                     v-model="description"
                     label="description"
                     variant="outlined"></v-textarea>
@@ -39,7 +47,7 @@
                     clearable
                     v-model="photo"
                     prepend-icon="mdi-camera"
-                    variant="outlined"></v-file-input>
+                    variant="solo-filled"></v-file-input>
 
                     <v-divider></v-divider>
                     <v-card-actions class="justify-center">
@@ -75,6 +83,7 @@
     var photo = ref();
     var loading = ref();
     const store = useStore();
+    const props =defineProps(['types'])
     const emit = defineEmits(['hide','created'])
 
     

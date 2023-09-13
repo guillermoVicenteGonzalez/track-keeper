@@ -54,6 +54,7 @@
 
 
     <CreateMedia 
+    :types="filterOptions"
     @hide="triggerCreate = false"
     @created="loadMedia()"
     v-model="triggerCreate"></CreateMedia>

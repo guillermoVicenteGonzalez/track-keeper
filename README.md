@@ -39,7 +39,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [ ] loading modal
 
     - [ ] media
-        - [ ] media list
+        - [x] media list
         - [ ] create media
             - [ ] emit event to reload
             - [ ] Select instead of text field
