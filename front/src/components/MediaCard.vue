@@ -39,6 +39,10 @@
                 icon="mdi-plus"
                 @click="mediaCardBtn"></v-btn>
             </div>
+
+            <add-entry 
+            v-bind="props"
+            v-model="addEntryTrigger"></add-entry>
         </v-container>
     </v-card>
 </template>
@@ -47,16 +51,17 @@
     import {ref} from "vue"
     import apiConf from "../apiConf.json"
     import {useStore} from "vuex"
+    import AddEntry from "./AddEntry.vue";
 
     const props = defineProps(['name','media_id','type','genre','description','cover']);
     var url = ref();
     const store = useStore();
     let {id} = store.getters.getUser; 
     url.value = apiConf.host + apiConf.port + apiConf.media.getCover + id + "/";
+    var addEntryTrigger = ref();
 
     function mediaCardBtn(){
-        console.log(url.value);
-        console.log(props)
+        addEntryTrigger.value = true
     }
 
 </script>

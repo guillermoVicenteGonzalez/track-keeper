@@ -14,7 +14,7 @@ const Entry = sequelize.define('Entry',{
         type:DataTypes.TEXT
     },
     state:{
-        type:DataTypes.ENUM('finished','on hold','to date','bookmarked','rewatched','rewatching')
+        type:DataTypes.ENUM('finished','on hold','to date','bookmarked','repeating','repeated')
     },
     start_date:{
         type:DataTypes.DATE,
