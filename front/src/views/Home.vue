@@ -5,7 +5,8 @@
     fluid
     class="d-block fill-height  pt-0">
 
-        <RouterView></RouterView>
+        <RouterView
+        @reloadUser="getUserData"></RouterView>
     </v-container>
 
     <Modal ref="modal"></Modal>
@@ -39,6 +40,7 @@ import NavBar from "@/components/NavBar.vue";
             }
             store.commit('deleteUser')
             console.log(err);
+            console.log("pushing?")
             return undefined
         });
 

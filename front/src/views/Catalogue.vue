@@ -24,7 +24,7 @@
     </v-app-bar>
 
     <v-container 
-    class="justify-center mt-5">
+    class="justify-center mt-5 w-80">
     
         <v-row
         class="overflow-auto scroll-x-transition-move">
@@ -85,6 +85,7 @@
         {name:'Other',value:'Other'}]
     var typeFilter = ref();
     var search = ref();
+    const emit = defineEmits(['reloadUser'])
 
     async function loadMedia(){
         let {id,token} = store.getters.getUser;
@@ -99,6 +100,7 @@
             }else{
                 modal.value.createModal("Error","media error","An unknown error ocurred",true);
             }
+            emit('reloadUser')
             console.log(err);
             return undefined;
         });

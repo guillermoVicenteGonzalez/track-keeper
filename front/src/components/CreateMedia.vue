@@ -8,13 +8,18 @@
             max-width="1000px"
             class="pa-5 overflow-auto">
                 <v-card-title>Create media</v-card-title>
-                <v-form @submit.prevent="createFullMedia">
+                <v-form 
+                validate-on="input"
+                @submit.prevent="createFullMedia">
                     <v-text-field
+                    clearable
+                    :rules="rules"
                     variant="outlined"
                     label="name"
                     v-model="name"></v-text-field>
 
                     <v-select
+                    :rules="rules"
                     label="type"
                     variant="outlined"
                     item-title="value"
@@ -24,12 +29,14 @@
                     :items="props.types"></v-select>
 
                     <v-text-field
+                    clearable=""
+                    :rules="rules"
                     label="genre"
                     v-model="genre"
                     variant="outlined"></v-text-field>
 
                     <v-text-field
-                    v-model="duration"
+                    clearable=""
                     label="duration"
                     variant="outlined"></v-text-field>
 
@@ -52,7 +59,9 @@
                     <v-divider></v-divider>
                     <v-card-actions class="justify-center">
                         <v-btn @click="emit('hide')" color="error" variant="outlined">Cancel</v-btn>
-                        <v-btn type="submit" color="success" variant="outlined">Accept</v-btn>
+                        <v-btn 
+                        :disabled="triggerBtn"
+                        type="submit" color="success" variant="outlined">Accept</v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card>
@@ -73,6 +82,7 @@
     import {useStore} from "vuex"
     import Modal from "./Modal.vue";
     import LoadingModal from "./LoadingModal.vue";
+    import {watch} from "vue"
 
     var modal = ref();
     var name = ref();
@@ -85,7 +95,20 @@
     const store = useStore();
     const props =defineProps(['types'])
     const emit = defineEmits(['hide','created'])
+    const rules = ref([
+        value=>{
+            if(!value){
+                triggerBtn.value = true;
+                return "This field cannot be empty"
+            }else if(type.value && name.value && genre.value){
+                triggerBtn.value = false;
+            }else{
+                triggerBtn.value = true;
+            }
+        }
+    ])
 
+    var triggerBtn = ref(true);
     
     async function createFullMedia(){
         loading.value = true;
