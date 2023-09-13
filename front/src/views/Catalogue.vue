@@ -1,13 +1,16 @@
 <template>
-  <v-toolbar
-    sticky
-    class="d-block pa-5 bg-background sticky">
-        <v-col cols="8">
-            <v-text-field
-                v-model="search"
-                clearable
-                variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
+    <v-app-bar
+    class="mt-1 pt-4 px-4 align-center"
+    elevation="3"
+    location="top">
+        <v-row class="d-flex align-center justify-center">
+            <v-col cols="8">
+                <v-text-field
+                    v-model="search"
+                    clearable
+                    variant="solo-filled" append-inner-icon="mdi-magnify"></v-text-field>
             </v-col>
+
             <v-col cols="4">
                 <v-select
                 item-title="name"
@@ -15,15 +18,18 @@
                 clearable
                 v-model="typeFilter"
                 :items="filterOptions"
-                variant="outlined"></v-select>
+                variant="solo-filled"></v-select>
             </v-col>
-    </v-toolbar>
+        </v-row>
+    </v-app-bar>
 
     <v-container 
-    class="justify-center overflow-hidden ">
+    class="justify-center mt-5">
     
-        <v-row>
+        <v-row
+        class="overflow-auto scroll-x-transition-move">
             <v-col 
+            xs6
             cols="12" class="overflow-auto justify-center d-flex flex-wrap">
                     <MediaCard
                     class="ma-3"
@@ -34,58 +40,18 @@
         </v-row>
 
 
-<!--
-        <div class="test">
 
+        <v-bottom-navigation>
+            <v-btn 
+            @click="triggerCreate = true">
+                <v-icon>mdi-plus</v-icon>
 
-            <MediaCard 
-            class="ma-2"
-            v-for="i in filterMedia()"
-            v-bind="i"
-            :key="i.media_id"></MediaCard>
-        </div>
--->
+                <span>New media</span>
+            </v-btn>
+        </v-bottom-navigation>
 
-<!--    
-        <v-virtual-scroll
-        style="background-color: green;"
-        height="700px"
-        :items="filterMedia()">
-
-            <template v-slot:default="{item}">
-                <MediaCard 
-                class="ma-2"
-                v-bind="item"></MediaCard>
-            </template>
-        </v-virtual-scroll>-->
-
-<!--
-        <v-virtual-scroll
-        class="d-flex justify-space-evently"
-        height="700px"
-        :items="filterMedia()">
-            <template v-slot:default="{item}">
-                <MediaCard 
-                class="ma-2"
-                v-bind="item"></MediaCard>
-            </template>
-        </v-virtual-scroll>
--->
-
-    <!--
-        <v-row 
-        class="justify-space-evenly">
-            <MediaCard 
-            class="ma-2 fill-height "
-            v-for="i in filterMedia()" v-bind="i"></MediaCard>-
-        </v-row>-->
-
-        <v-row class="justify-center bg-white pa-3 align-center" id="addMediaBtn">
-            <v-btn
-            icon="mdi-plus"
-            @click="triggerCreate = true"></v-btn>
-        </v-row>
     </v-container>
+
 
     <CreateMedia 
     @hide="triggerCreate = false"

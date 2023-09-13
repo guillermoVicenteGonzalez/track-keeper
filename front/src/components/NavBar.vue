@@ -1,5 +1,7 @@
 <template>
-    <v-app-bar color="primary">
+    <v-app-bar 
+    elevation="3"
+    color="primary">
         <v-app-bar-nav-icon
         color="white"
         @click="drawer = !drawer"></v-app-bar-nav-icon>

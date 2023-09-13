@@ -1,6 +1,8 @@
 <template>
     <v-dialog>
-        <v-container class="d-flex justify-center align center text-center">
+        <v-container 
+        transition="fade-transition"
+        class="d-flex justify-center align center text-center">
             <v-card 
             min-width="800px"
             max-width="1000px"
@@ -41,8 +43,8 @@
 
                     <v-divider></v-divider>
                     <v-card-actions class="justify-center">
-                        <v-btn color="error" variant="outlined">Cancel</v-btn>
-                        <v-btn @click="emit('hide')" type="submit" color="success" variant="outlined">Accept</v-btn>
+                        <v-btn @click="emit('hide')" color="error" variant="outlined">Cancel</v-btn>
+                        <v-btn type="submit" color="success" variant="outlined">Accept</v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card>
