@@ -1,6 +1,6 @@
 <template>
     <v-card 
-    :height="isEntry ? '200px':'170px' "
+    height="170px"
     
     width="400px">
         <v-container 
@@ -8,13 +8,11 @@
         class="align-center">
             <v-row no-gutters class="justify-space-between">
                 <v-col 
-                style="height: 90px;"
                 cols="2"
                 class="d-flex justify-center align-center">
                     <v-img
-                    class="bg-grey-darken-2 rounded"
                     style="width: 100%; height: 100%;"
-                    :cover="false"
+                    cover
                     :src="url + media_id">
                         <template v-slot:error>
                             <v-icon 
@@ -26,18 +24,13 @@
                 </v-col>
                 <v-col cols="9">
                     <v-card-title class="text-h5">{{ name }}</v-card-title>
-                    <v-card-subtitle class="text-subtitle-1">{{ type}} ({{ genre }})</v-card-subtitle>
-                    <div v-if="isEntry">
-                        <v-card-subtitle>{{ state }}</v-card-subtitle>
-                        <v-card-subtitle>{{ start_date }}</v-card-subtitle>
-                        <v-card-subtitle>{{ finish_date }}</v-card-subtitle>
-                    </div>
+                    <v-card-subtitle class="text-subtitle-1">{{ type }}</v-card-subtitle>
+                    <v-card-subtitle class="text-subtitle-1">{{ genre }}</v-card-subtitle>
                 </v-col>
             </v-row>
 
             <v-divider class="mt-2"></v-divider>
             <div
-            v-if="!isEntry"
             class="justify-center text-center align-center mt-2 mb-0">
                 <v-btn
                 class="mx-1"
@@ -70,8 +63,7 @@
     import {useStore} from "vuex"
     import AddEntry from "./AddEntry.vue";
 
-    const props = defineProps(['name','media_id','type','genre','description','cover',
-    'entry_id','review','state','start_date','finish_date','isEntry']);
+    const props = defineProps(['name','media_id','type','genre','description','cover']);
     var url = ref();
     const store = useStore();
     let {id} = store.getters.getUser; 

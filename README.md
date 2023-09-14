@@ -45,11 +45,12 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
             - [ ] Select instead of text field
         - [ ] Media card
             - [ ] truncate text if it does not fit
-            - [ ] Media data
-            - [ ] Media cover
+            - [x] Media data
+            - [x] Media cover
+            - [ ] edit media cover
             - [ ] edit/delete media
-            - [ ] add to user (entry)
-        - [ ] add entries
+            - [x] add to user (entry)
+        - [x] add entries
         - [ ] user entry list
         - [ ] user main page
     

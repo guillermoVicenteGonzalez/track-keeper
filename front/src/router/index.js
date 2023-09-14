@@ -8,6 +8,7 @@ import SignIn from "@/components/SignIn.vue"
 import Home from "@/views/Home.vue"
 import Verify from "@/components/Verify.vue"
 import Catalogue from "@/views/Catalogue.vue"
+import UserEntries from "@/views/UserEntries.vue"
 
 const routes = [
   {
@@ -38,8 +39,12 @@ const routes = [
       path:'catalogue',
       name:'catalogue',
       component:Catalogue
+      },
+      {
+      path:'entries',
+      name:'userEntries',
+      component:UserEntries
       }
-
     ]
   },
 

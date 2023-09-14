@@ -1,6 +1,6 @@
 <template>
     <v-container class="d-flex justify-center text-center align-center">
-        <v-card class="text-center pa-5" min-width="500">
+        <v-card class="text-center pa-5" min-width="300px" width="500px" max-width="600px">
             <v-card-title>Log in</v-card-title>
             <v-form validate-on="input" @submit.prevent="login">
                 <v-text-field 

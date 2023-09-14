@@ -1,13 +1,10 @@
 <template>
     <NavBar
     v-bind="user"></NavBar>
-    <v-container 
-    fluid
-    class="d-block fill-height  pt-0">
+
 
         <RouterView
         @reloadUser="getUserData"></RouterView>
-    </v-container>
 
     <Modal ref="modal"></Modal>
 </template>
