@@ -26,7 +26,7 @@
 
 
 
-            <v-main class="ma-5 " style="min-height: 300px;">
+            <v-main class=" " style="min-height: 300px;">
                 <v-container class="d-flex flex-wrap justify-center">
                  
                     <media-card
