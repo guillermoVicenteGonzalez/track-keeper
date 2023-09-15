@@ -1,6 +1,6 @@
 <template>
     <v-app-bar
-    class="mt-1 pt-4 px-4 align-center"
+    class=" pt-4 px-4 align-center"
     elevation="3"
     location="top">
         <v-row class="d-flex align-center justify-center">

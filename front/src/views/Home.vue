@@ -2,7 +2,6 @@
     <NavBar
     v-bind="user"></NavBar>
 
-
         <RouterView
         @reloadUser="getUserData"></RouterView>
 
