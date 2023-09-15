@@ -64,5 +64,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - delete vuex user at error
 - check if there is cover
 - check if cover is image
-- grid distribution fixed for catalogue (+ scroll)
-- pueden tener mismo nombre pero distinto tipo (batman arkham asylum)
+- automatic date
+- image modal (show image when clicking on it)
+- update image.
+- admin permission (think thoroughly)
