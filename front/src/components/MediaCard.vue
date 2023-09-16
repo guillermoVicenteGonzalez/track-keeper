@@ -205,10 +205,17 @@
                         <v-card-actions class="justify-center">
                             <v-btn
                             @click="cancelBtn">Cancel</v-btn>
-                            <v-btn>Update</v-btn>
+                            <v-btn
+                            @click="updateMedia">Update</v-btn>
                         </v-card-actions>
                     </div>
                 </v-card>
+
+                <modal 
+                @submit="cancelBtn"
+                ref="modal"></modal>
+
+                <loading-modal v-model="loading"></loading-modal>
             </v-container>
         </v-dialog>
     </v-card>
@@ -220,7 +227,10 @@
     import {useStore} from "vuex"
     import AddEntry from "./AddEntry.vue";
     import axios from "axios"
+    import Modal from "./Modal.vue";
+    import LoadingModal from "./LoadingModal.vue";
 
+    const emit = defineEmits('updated')
     const props = defineProps(['name','media_id','type','genre','description','cover',
     'entry_id','review','state','start_date','finish_date','isEntry']);
     var url = ref();
@@ -239,6 +249,8 @@
         'Anime',
         'Other'
     ]);
+    var loading = ref();
+    var modal = ref();
 
 
     /**
@@ -257,11 +269,55 @@
         addEntryTrigger.value = true
     }
 
+
+
     async function updateMedia(){
+        let fields ={};
         let {id, token} = store.getters.getUser;
-        let res = await axios.put(apiConf.host + apiConf.port + apiConf.media.update + id +"/" + props.media_id,{
-            
+
+        loading.value = true
+        if(! ([" ",undefined].includes(nName.value)) || nName.value != props.name){
+            fields.name = nName.value;
+        }
+
+        if(! ([" ",undefined].includes(nType.value)) || nType.value != props.type){
+            fields.type = nType.value;
+        }
+
+        if(! ([" ",undefined].includes(nGenre.value)) || nGenre.value != props.genre){
+            fields.genre = nGenre.value;
+        }
+
+        if(! ([" ",undefined].includes(nDescription.value)) || nDescription.value != props.description){
+            fields.description = nDescription.value;
+        }
+
+        if(Object.keys(fields).length == 0){
+            modal.value.createModal("Error","update media","changes where either empty or equal to the previous values",true);
+            loading.value = false;
+            return undefined;
+        }
+
+        let res = await axios.put(apiConf.host + apiConf.port + apiConf.media.update + id +"/" + props.media_id,fields,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
         })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","update media",err.response.data.msg,true)
+            }else{
+                modal.value.createModal("Error","update media","an unknown error ocurred",true)
+            }
+            console.log(err);
+            return undefined
+        });
+
+        if(res){
+            emit("updated")
+            modal.value.createModal("Success","update media","update was successfull",false,undefined,true)
+            return true
+        }
     }
 
     async function updateEntry(){

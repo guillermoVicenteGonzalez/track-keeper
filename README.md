@@ -68,3 +68,4 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - image modal (show image when clicking on it)
 - update image.
 - admin permission (think thoroughly    )
+- alphabeticall order

@@ -32,6 +32,7 @@
             xs6
             cols="12" class="overflow-auto justify-center d-flex flex-wrap">
                     <MediaCard
+                    @updated="loadMedia()"
                     class="ma-3"
                     v-for="i in filterMedia()"
                     v-bind="i"
