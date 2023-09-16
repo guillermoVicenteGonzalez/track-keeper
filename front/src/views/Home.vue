@@ -46,8 +46,11 @@ import NavBar from "@/components/NavBar.vue";
         }
     }
     
+    getUserData();
+
+    /*
     onMounted(()=>{
         getUserData()
-    })
+    })*/
 
 </script>

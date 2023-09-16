@@ -79,7 +79,7 @@
                 width="700px"
                 
                 max-height="650px">
-
+        
                 <v-container>
                     <v-row
                     class="d-flex ">
@@ -137,80 +137,89 @@
 
                     </v-row>
                 </v-container>
-                
-                    <v-divider></v-divider>
-                    <div v-if="isEntry">
-                        <v-card-text
-                        style="max-height: 100px;"
-                        class="border rounded ma-3 overflow-auto"> description: {{ description }}</v-card-text>
-                
-                        <v-divider class="mb-3"></v-divider>
-                        <v-select
-                        class="ma-3"
-                        v-model="nState"
-                        :items="states"
-                        variant="solo-filled"></v-select>
-
-                        <v-text-field
-                        class="ma-3"
-                        label="start date"
-                        :placeholder="start_date"
-                        v-model="nStartD"
-                        variant="solo-filled"
-                        type="date"></v-text-field>
-
-                        <v-text-field
-                        class="ma-3"
-                        label="finish date"
-                        :placeholder="finish_date"
-                        v-model="nFinishD"
-                        variant="solo-filled"
-                        type="date"></v-text-field>
-
+                    <v-form validate-on="input">
                         <v-divider></v-divider>
-                        <v-card-actions class="justify-center">
-                            <v-btn
-                            @click="triggerDetails = false">Cancel</v-btn>
+                        <div v-if="isEntry">
+                            <v-card-text
+                            style="max-height: 100px;"
+                            class="border rounded ma-3 overflow-auto"> description: {{ description }}</v-card-text>
+                    
+                            <v-divider class="mb-3"></v-divider>
+                            <v-select
+                            clearable
+                            :rules="rules"
+                            class="ma-3"
+                            v-model="nState"
+                            :items="states"
+                            variant="solo-filled"></v-select>
 
-                            <v-btn
-                            @click="updateEntry">Update</v-btn>
-                        </v-card-actions>
-                    </div>
+                            <v-text-field
+                            clearable
+                            :disabled="disableSDate"
+                            class="ma-3"
+                            label="start date"
+                            :placeholder="start_date"
+                            v-model="nStartD"
+                            variant="solo-filled"
+                            type="date"></v-text-field>
 
-                    <div v-else>
-                        <v-text-field
-                        variant="outlined"
-                        label="name"
-                        :placeholder="name"
-                        v-model="nName"></v-text-field>
+                            <v-text-field
+                            clearable
+                            :rules="dateRules"
+                            :disabled="disableFDate"
+                            class="ma-3"
+                            label="finish date"
+                            :placeholder="finish_date"
+                            v-model="nFinishD"
+                            variant="solo-filled"
+                            type="date"></v-text-field>
 
-                        <v-select
-                        label="type"
-                        variant="outlined"
-                        :items="types"
-                        :placeholder="type"
-                        v-model="nType"></v-select>
+                            <v-divider></v-divider>
+                            <v-card-actions class="justify-center">
+                                <v-btn
+                                @click="triggerDetails = false">Cancel</v-btn>
 
-                        <v-text-field
-                        variant="outlined"
-                        label="genre"
-                        :placeholder="genre"
-                        v-model="nGenre"></v-text-field>
+                                <v-btn
+                                :disabled="btnTrigger"
+                                @click="updateEntry">Update</v-btn>
+                            </v-card-actions>
+                        </div>
 
-                        <v-textarea
-                        variant="outlined"
-                        label="description"
-                        :placeholder="description"
-                        v-model="nDescription"></v-textarea>
+                        <div v-else>
+                            <v-text-field
+                            variant="outlined"
+                            label="name"
+                            :placeholder="name"
+                            v-model="nName"></v-text-field>
 
-                        <v-divider></v-divider>
-                        <v-card-actions class="justify-center">
-                            <v-btn
-                            @click="cancelBtn">Cancel</v-btn>
-                            <v-btn
-                            @click="updateMedia">Update</v-btn>
-                        </v-card-actions>
-                    </div>
+                            <v-select
+                            label="type"
+                            variant="outlined"
+                            :items="types"
+                            :placeholder="type"
+                            v-model="nType"></v-select>
+
+                            <v-text-field
+                            variant="outlined"
+                            label="genre"
+                            :placeholder="genre"
+                            v-model="nGenre"></v-text-field>
+
+                            <v-textarea
+                            variant="outlined"
+                            label="description"
+                            :placeholder="description"
+                            v-model="nDescription"></v-textarea>
+
+                            <v-divider></v-divider>
+                            <v-card-actions class="justify-center">
+                                <v-btn
+                                @click="cancelBtn">Cancel</v-btn>
+                                <v-btn
+                                @click="updateMedia">Update</v-btn>
+                            </v-card-actions>
+                        </div>
+                    </v-form>
                 </v-card>
 
                 <modal 
@@ -231,7 +240,7 @@
     import axios from "axios"
     import Modal from "./Modal.vue";
     import LoadingModal from "./LoadingModal.vue";
-import { load } from "webfontloader";
+    import {watch} from "vue"
 
     const emit = defineEmits('updated')
     const props = defineProps(['name','media_id','type','genre','description','cover',
@@ -266,6 +275,54 @@ import { load } from "webfontloader";
     var nStartD = ref();
     var nFinishD = ref();
     var nDescription = ref();
+
+    /**
+     * Entry form rules (primarily dates and stuff)
+     */
+    var btnTrigger = ref();
+    var disableFDate = ref();
+    var disableSDate = ref();
+    watch(nState,()=>{
+        if( !(['finished','repeated'].includes(nState.value))){
+            disableFDate.value = true;
+            disableSDate.value = false;
+            nFinishD.value = undefined;
+            nStartD.value = props.start_date
+        }else if(nState.value == 'bookmarked'){
+            disableFDate.value = true;
+            disableSDate.value = true;
+            nStartD.value = undefined
+            nFinishD.value = undefined
+        }
+        else{
+            disableSDate.value = false;
+            disableFDate.value = false;
+            nStartD.value = props.start_date;
+            nFinishD.value = props.finish_date;
+        }
+    })
+
+    var rules = ref([
+        value =>{
+            if(value){
+                btnTrigger.value = false
+                return true
+            } 
+            btnTrigger.value = true
+            return "A state is required"
+        }
+    ])
+
+    var dateRules = ref([
+        value=>{
+            if(value < nStartD.value){
+                btnTrigger.value = true
+                return "Start date cannot be after finish date"
+            } 
+            btnTrigger.value = false
+            return true;
+        }
+    ]);
     
 
     function mediaCardBtn(){

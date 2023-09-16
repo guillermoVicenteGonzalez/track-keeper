@@ -80,6 +80,9 @@
                         return item;
                     }
 
+                    if(regex.test(item.Media.genre)){
+                        return item
+                    }
 
                 }else{
                     return item;
@@ -125,9 +128,10 @@
             return undefined;
         });
 
-        entries.value = res.data.value;
-        console.clear();
-        console.log(entries.value)
+        if(res){
+            entries.value = res.data.value;
+        }
+
     }
 
     getUserEntries();
