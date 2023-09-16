@@ -17,11 +17,11 @@ const Entry = sequelize.define('Entry',{
         type:DataTypes.ENUM('finished','on hold','to date','bookmarked','repeating','repeated')
     },
     start_date:{
-        type:DataTypes.DATE,
+        type:DataTypes.DATEONLY,
         allowNull:true
     },
     finish_date:{
-        type:DataTypes.DATE,
+        type:DataTypes.DATEONLY,
         allowNull:true
     }
 })
