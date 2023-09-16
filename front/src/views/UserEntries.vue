@@ -30,6 +30,7 @@
                 <v-container class="d-flex flex-wrap justify-center">
                  
                     <media-card
+                    @updated="getUserEntries()"
                     class="ma-3"
                     v-for="i in entries"
                     :key="i.entry_id"
@@ -66,6 +67,12 @@
     var filterOptions = ref([])
     var genreFilter = ref();
     var entries = ref();
+
+
+    function searchEntry(){
+        
+    }
+
 
     async function getUserEntries(){
         let {id, token} = store.getters.getUser;
