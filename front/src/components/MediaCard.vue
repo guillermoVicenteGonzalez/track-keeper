@@ -171,7 +171,9 @@
                         <v-card-actions class="justify-center">
                             <v-btn
                             @click="triggerDetails = false">Cancel</v-btn>
-                            <v-btn>Update</v-btn>
+
+                            <v-btn
+                            @click="updateEntry">Update</v-btn>
                         </v-card-actions>
                     </div>
 
@@ -229,6 +231,7 @@
     import axios from "axios"
     import Modal from "./Modal.vue";
     import LoadingModal from "./LoadingModal.vue";
+import { load } from "webfontloader";
 
     const emit = defineEmits('updated')
     const props = defineProps(['name','media_id','type','genre','description','cover',
@@ -313,6 +316,9 @@
             return undefined
         });
 
+
+        loading.value = false;
+        
         if(res){
             emit("updated")
             modal.value.createModal("Success","update media","update was successfull",false,undefined,true)
@@ -320,7 +326,53 @@
         }
     }
 
+
     async function updateEntry(){
+        let fields = {}
+        let {id, token} = store.getters.getUser;
+
+        loading.value = true
+
+        if(! ([" ",undefined].includes(nState.value)) || nState.value != props.state){
+            fields.state = nState.value;
+        }
+
+        if(! ([" ",undefined].includes(nStartD.value)) || nStartD.value != props.start_date){
+            fields.start_date = nStartD.value;
+        }
+
+        if(! ([" ",undefined].includes(nFinishD.value)) || nFinishD.value != props.finish_date){
+            fields.finish_date = nFinishD.value;
+        }
+
+        if(Object.keys(fields).length == 0){
+            modal.value.createModal("Error","update media","changes where either empty or equal to the previous values",true);
+            loading.value = false;
+            return undefined;
+        }
+
+        let res = await axios.put(apiConf.host + apiConf.port + apiConf.entry.update + id + "/" + props.entry_id, fields,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
+        })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","update entry",err.response.data.msg,true)
+            }else{
+                modal.value.createModal("Error","update entry","an unknown error ocurred",true)
+            }
+            console.log(err);
+            return undefined
+        });
+
+        loading.value = false
+
+        if(res){
+            emit("updated")
+            modal.value.createModal("Success","update entry","update was successfull",false,undefined,true)
+            return true
+        }
 
     }
 

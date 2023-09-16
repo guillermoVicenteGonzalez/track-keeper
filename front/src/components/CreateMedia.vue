@@ -36,7 +36,7 @@
                     variant="outlined"></v-text-field>
 
                     <v-text-field
-                    clearable=""
+                    clearable
                     label="duration"
                     variant="outlined"></v-text-field>
 
