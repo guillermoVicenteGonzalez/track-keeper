@@ -17,7 +17,7 @@
                         item-title="name"
                         item-value="value"
                         clearable
-                        v-model="genre"
+                        v-model="stateFilter"
                         :items="filterOptions"
                         variant="solo-filled"></v-select>
                     </v-col>
@@ -32,7 +32,7 @@
                     <media-card
                     @updated="getUserEntries()"
                     class="ma-3"
-                    v-for="i in entries"
+                    v-for="i in filterEntries()"
                     :key="i.entry_id"
                     v-bind="i.Media"
                     :entry_id="i.entry_id"
@@ -64,13 +64,47 @@
     var modal = ref();
     var search = ref();
     //va a ser genero
-    var filterOptions = ref([])
-    var genreFilter = ref();
+    const filterOptions = ['finished','on hold','to date','bookmarked','repeating','repeated'];
+
     var entries = ref();
+    var stateFilter = ref();
 
 
-    function searchEntry(){
-        
+    function searchEntry(entries){
+        if(entries instanceof Array){
+            return entries.filter(item =>{
+                if(search.value != " " && search.value != undefined){
+                    let regex = new RegExp(search.value);
+
+                    if(regex.test(item.Media.name)){
+                        return item;
+                    }
+
+
+                }else{
+                    return item;
+                }
+            })
+        }
+    }
+
+    function filterByState(entries){
+        if(entries instanceof Array){
+            return entries.filter(item =>{
+                if(stateFilter.value != undefined){
+                    if(item.state == stateFilter.value){
+                        return item
+                    }
+                }else{
+                    return item
+                }
+            })
+        }
+    }
+
+    function filterEntries(){
+        let filtered = filterByState(entries.value);
+        return searchEntry(filtered);
     }
 
 
