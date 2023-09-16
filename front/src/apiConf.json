@@ -1,5 +1,5 @@
 {
-    "host":"http://localhost",
+    "host":"http://192.168.0.44",
     "port":":2776",
     "users":{
         "signup":"/api/users",
@@ -11,7 +11,8 @@
         "getAll":"/api/media/",
         "create":"/api/media/",
         "uploadCover":"/api/media/cover/",
-        "getCover":"/api/media/cover/"
+        "getCover":"/api/media/cover/",
+        "update":"/api/media/"
     },
     "entry":{
         "create":"/api/entry/",

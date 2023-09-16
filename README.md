@@ -67,4 +67,4 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - automatic date
 - image modal (show image when clicking on it)
 - update image.
-- admin permission (think thoroughly)
+- admin permission (think thoroughly    )
