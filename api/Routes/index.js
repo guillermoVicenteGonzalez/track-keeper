@@ -67,7 +67,7 @@ router.route("/entry/:user_id/state/:state")
 router.route("/entry/:user_id/genre/:genre")
     .get(MediaCtrl.getEntriesByGenre)
 
-router.route("/entry/:user_id/type/:type")
+router.route("/entry/type/:user_id/:type")
     .get(MediaCtrl.getEntriesByType)
 
 /********************************************************

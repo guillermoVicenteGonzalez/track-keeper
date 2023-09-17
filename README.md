@@ -37,12 +37,13 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [x] error/info modal
         - [ ] password modal
         - [ ] loading modal
+            - [ ] timeouts
 
     - [ ] media
         - [x] media list
-        - [ ] create media
-            - [ ] emit event to reload
-            - [ ] Select instead of text field
+        - [x] create media
+            - [x] emit event to reload
+            - [x] Select instead of text field
         - [ ] Media card
             - [ ] truncate text if it does not fit
             - [x] Media data
@@ -69,3 +70,5 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - update image.
 - admin permission (think thoroughly    )
 - alphabeticall order
+- icons instead of words
+- animations

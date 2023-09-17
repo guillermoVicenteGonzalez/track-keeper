@@ -48,7 +48,7 @@
             <v-list-item prepend-icon="mdi-book-open-page-variant" title="Catalogue" value="catalogue" @click="navigate('catalogue','catalogue')"></v-list-item>
             <v-divider></v-divider>
             <v-list-item prepend-icon="mdi-cards" title="All media" value="User entries" @click="navigate('user entries','userEntries')"></v-list-item>
-            <v-list-item title="Games"></v-list-item>
+            <v-list-item title="Games" value="Games" prepend-icon="mdi-nintendo-game-boy" @click="navigate('collection', 'collection',{'type':'Videogame'})"></v-list-item>
             <v-list-item title="Movies"></v-list-item>
             <v-list-item title="TV shows"></v-list-item>
             <v-list-item title="Books"></v-list-item>
@@ -71,9 +71,12 @@
     var profileMenuItems = ref(['Profile','stats','settings','SignOut']);
 
 
-    function navigate(value,route){
+    function navigate(value,route,params){
         selection.value = value;
-        router.push({name:route});
+        router.push({
+            name:route,
+            params:params
+        });
     }
 
 </script>

@@ -215,7 +215,7 @@ exports.getUserEntries = async function(userId){
     let userEntries = await Entry.findAll({
         where:{user_id:userId},
         include:{model:Media, as:'Media'},
-        order:sequelize.col('start_date')
+        order:sequelize.col('finish_date')
     })
     .catch((err)=>{
         winston.log("error","getUserEntries: " + err)

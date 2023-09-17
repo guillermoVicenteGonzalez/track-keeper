@@ -17,6 +17,7 @@
     "entry":{
         "create":"/api/entry/",
         "getAll":"/api/entry/",
-        "update":"/api/entry/"
+        "update":"/api/entry/",
+        "getType":"/api/entry/type/"
     }
 }
