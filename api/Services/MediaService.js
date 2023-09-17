@@ -2,6 +2,7 @@ const Media         = require("../Models/Media")
 const Entry         = require("../Models/MediaEntry")
 const winston       = require("../logger/logger")
 const fs            = require("fs")
+const sequelize = require("../Database/database")
 
 
 exports.checkMediaType = function(type){
@@ -104,7 +105,10 @@ exports.getMediaByGenre = async function(genre){
 }
 
 exports.getMediaByType = async function(type){
-    let media = Media.findAll({where:{type:type}})
+    let media = Media.findAll({
+        where:{type:type},
+        order:sequelize.col('name')
+    })
     .catch((err)=>{
         winston.log("error","getMediaByType: " + err)
         return undefined
@@ -114,7 +118,9 @@ exports.getMediaByType = async function(type){
 }
 
 exports.getAllMediaRows = async function(){
-    let media = Media.findAll()
+    let media = Media.findAll({
+        order:sequelize.col('name')
+    })
     .catch((err)=>{
         winston.log("error","getAllMedia: " + err)
         return undefined
@@ -208,7 +214,8 @@ exports.getEntryById = async function(entryId){
 exports.getUserEntries = async function(userId){
     let userEntries = await Entry.findAll({
         where:{user_id:userId},
-        include:{model:Media, as:'Media'}
+        include:{model:Media, as:'Media'},
+        order:sequelize.col('name')
     })
     .catch((err)=>{
         winston.log("error","getUserEntries: " + err)
@@ -221,7 +228,8 @@ exports.getUserEntries = async function(userId){
 exports.getEntriesByState = async function(state, userId){
     let entries = await Entry.findAll({
         where:{state:state, user_id:userId},
-        include:{model:Media, as: 'Media'}
+        include:{model:Media, as: 'Media'},
+        order:sequelize.col('name')
     })
     .catch((err)=>{
         winston.log("error","getEntriesByState: " + err)
@@ -238,7 +246,8 @@ exports.getEntriesByGenre = async function(genre, userId){
             model:Media,
             as:'Media',
             where:{genre:genre}
-        }
+        },
+        order:sequelize.col('name')
     })
 
     .catch((err)=>{
@@ -256,7 +265,8 @@ exports.getEntriesByType = async function(type, userId){
             model:Media,
             as:'Media',
             where:{type:type}
-        }
+        },
+        order:sequelize.col('name')
     })
 
     .catch((err)=>{
