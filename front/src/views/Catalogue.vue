@@ -4,21 +4,37 @@
     elevation="3"
     location="top">
         <v-row class="d-flex align-center justify-center">
-            <v-col cols="8">
+            <v-col 
+            lg="9"
+            cols="8">
                 <v-text-field
                     v-model="search"
                     clearable
                     variant="solo-filled" append-inner-icon="mdi-magnify"></v-text-field>
             </v-col>
 
-            <v-col cols="4">
+            <v-col 
+            lg="3"
+            cols="4">
                 <v-select
-                item-title="name"
-                item-value="value"
+                item-title="value"
                 clearable
                 v-model="typeFilter"
                 :items="filterOptions"
-                variant="solo-filled"></v-select>
+                variant="solo-filled">
+                    <template v-slot:selection="{ item}">
+
+                            <span v-if="mobile">
+                                <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                            </span>
+
+                            <span v-else>
+                                <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                                  {{item.title }}
+                            </span>
+
+                    </template>
+                </v-select>
             </v-col>
         </v-row>
     </v-app-bar>
@@ -71,7 +87,9 @@
     import Modal from "@/components/Modal.vue";
     import MediaCard from "@/components/MediaCard.vue";
     import CreateMedia from "@/components/CreateMedia.vue";
+    import {useDisplay} from "vuetify"
 
+    const {mobile} = useDisplay();
     var triggerCreate = ref()
     const store = useStore();
     var media = ref();
@@ -145,6 +163,28 @@
     function filterMedia(){
         let filtered = filterByType(media.value);
         return searchMedia(filtered)
+    }
+
+    function filterIcon(type){
+        switch(type){
+            case 'Comic':
+                return 'mdi-arm-flex'
+
+            case 'Videogame':
+                return 'mdi-nintendo-game-boy';
+
+            case 'Film':
+                return "mdi-film";
+
+            case 'TVShow':
+                return "mdi-television";
+
+            case 'Book':
+                return "mdi-book-open";
+
+            case 'Anime':
+                return "mdi-syllabary-hiragana"
+        }
     }
 
     loadMedia();
