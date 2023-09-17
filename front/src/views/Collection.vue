@@ -1,12 +1,13 @@
 <template>
     <v-layout class="rounded fill-height ma-0 pa-0">
         <v-app-bar
-        density="compact"
+        :density="mobile ? 'compact':'default'"
         class="pt-4 px-4 align-center"
         elevation="3"
         location="top">
             <v-text-field
-            density="compact"
+            v-model="searchBar"
+            :density="mobile ? 'compact':'default'"
             append-inner-icon="mdi-magnify"
             variant="solo-filled"></v-text-field>
         </v-app-bar>
@@ -15,23 +16,30 @@
             <v-container class="d-flex justify-center">
                 <EntryList
                 class="mt-3"
-                :list="list"
+                :list="filterEntries()"
                 :type="route.params.type"></EntryList>
             </v-container>
         </v-main>
 
         <v-app-bar
+        class="pa-3"
+        :density="mobile ? 'compact':'default'"
         elevation="5"
         location="bottom">
-            <v-row class="px-3 mt-2 align-center">
+            <v-row class="mt-2 align-center">
                 <v-col>
                     <v-select
-                    density="compact"
+
+                    clearable
+                    :items="filterOptions"
+                    label="state"
+                    v-model="state"
+                    :density="mobile ? 'compact':'default'"
                     variant="solo-filled"></v-select>
                 </v-col>
                 <v-col>
                     <v-select
-                    density="compact"
+                    :density="mobile ? 'compact':'default'"
                     variant="solo-filled"></v-select>
                 </v-col>
                 </v-row>
@@ -53,12 +61,18 @@
     import Modal from "@/components/Modal.vue";
     import LoadingModal from "@/components/LoadingModal.vue";
     import {watch} from "vue"
+    import {useDisplay} from "vuetify"
 
+    const {mobile} = useDisplay()
     const store = useStore();
     const route = useRoute()
     var list = ref();
     var modal = ref();
     var loading = ref();
+    var searchBar = ref();
+    var state = ref("finished");
+    var years = []
+    const filterOptions = ['finished','on hold','to date','bookmarked','repeating','repeated'];
 
     watch(route,()=>{
         console.log(route.params.type);
@@ -88,9 +102,49 @@
 
         loading.value = false;
         if(res){
-            console.log(res);
             list.value = res.data.value;
         }
+    }
+
+
+    function searchEntry(list){
+        if(list instanceof Array){
+            return list.filter(item =>{
+                if(![" ",undefined].includes(searchBar.value)){
+                    let regex = RegExp(searchBar.value);
+
+                    if(regex.test(item.Media.name)){
+                        return item;
+                    }
+                }else{
+                    return item
+                }
+            })
+        }
+    }
+
+    function filterByState(list){
+        if(list instanceof Array){
+            return list.filter(item =>{
+                if(state.value != undefined){
+                    if(state.value== item.state){
+                        return item
+                    }
+                }else{
+                    return item;
+                }
+            })
+        }
+    }
+
+    function filterByDate(){
+
+    }
+
+    function filterEntries(){
+        let stateFiltered = filterByState(list.value)
+        let search = searchEntry(stateFiltered)
+        return search;
     }
 
     loadEntries()

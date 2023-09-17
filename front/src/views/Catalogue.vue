@@ -1,5 +1,6 @@
 <template>
     <v-app-bar
+    :density="mobile ? 'compact':'default'"
     class=" pt-4 px-4 align-center"
     elevation="3"
     location="top">
@@ -8,6 +9,7 @@
             lg="9"
             cols="7">
                 <v-text-field
+                    :density="mobile ? 'compact':'default'"
                     v-model="search"
                     clearable
                     variant="solo-filled" append-inner-icon="mdi-magnify"></v-text-field>
@@ -17,6 +19,7 @@
             lg="3"
             cols="5">
                 <v-select
+                :density="mobile ? 'compact':'default'"
                 item-title="value"
                 clearable
                 persistent-clear
