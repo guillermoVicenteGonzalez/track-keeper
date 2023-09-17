@@ -1,25 +1,43 @@
 <template>
         <v-layout class="rounded fill-height ma-0 pa-0">
             <v-app-bar
+            :density="mobile ? 'compact':'default'"
             class="pt-4 px-4 align-center"
             elevation="3"
             location="top">
                 <v-row class="d-flex align-center justify-center">
-                    <v-col cols="8">
+                    <v-col 
+                    lg="9"
+                    cols="7">
                         <v-text-field
+                        :density="mobile ? 'compact':'default'"
                             v-model="search"
                             clearable
                             variant="solo-filled" append-inner-icon="mdi-magnify"></v-text-field>
                     </v-col>
 
-                    <v-col cols="4">
+                    <v-col 
+                    lg="3"
+                    cols="5">
                         <v-select
+                        :density="mobile ? 'compact':'default'"
                         item-title="name"
-                        item-value="value"
+                        persistent-clear
                         clearable
                         v-model="stateFilter"
                         :items="filterOptions"
-                        variant="solo-filled"></v-select>
+                        variant="solo-filled">
+                            <template v-slot:selection="{ item}">
+                                <span v-if="mobile">
+                                    <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                                </span>
+
+                                <span v-else>
+                                    <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                                    {{item.title }}
+                                </span>
+                            </template>
+                        </v-select>
                     </v-col>
                 </v-row>
             </v-app-bar>
@@ -58,9 +76,10 @@
     import apiConf from "../apiConf.json"
     import MediaCard from "@/components/MediaCard.vue";
     import Modal from "@/components/Modal.vue";
+    import { useDisplay } from "vuetify"
 
+    const {mobile} = useDisplay();
     const store = useStore();
-    var genre
     var modal = ref();
     var search = ref();
     //va a ser genero
@@ -132,6 +151,28 @@
             entries.value = res.data.value;
         }
 
+    }
+
+    function filterIcon(type){
+        switch(type){
+            case 'finished':
+                return "mdi-check";
+
+            case 'on hold':
+                return "mdi-pause";
+
+            case 'to date':
+                return "mdi-clock-check"
+
+            case 'bookmarked':
+                return "mdi-bookmark-check"
+
+            case 'repeating':
+                return "mdi-repeat"
+
+            case 'repeated':
+                return "mdi-check-all"
+        }
     }
 
     getUserEntries();

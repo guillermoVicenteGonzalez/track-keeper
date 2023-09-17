@@ -6,7 +6,7 @@
         <v-row class="d-flex align-center justify-center">
             <v-col 
             lg="9"
-            cols="8">
+            cols="7">
                 <v-text-field
                     v-model="search"
                     clearable
@@ -15,24 +15,23 @@
 
             <v-col 
             lg="3"
-            cols="4">
+            cols="5">
                 <v-select
                 item-title="value"
                 clearable
+                persistent-clear
                 v-model="typeFilter"
                 :items="filterOptions"
                 variant="solo-filled">
                     <template v-slot:selection="{ item}">
+                        <span v-if="mobile">
+                            <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                        </span>
 
-                            <span v-if="mobile">
-                                <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
-                            </span>
-
-                            <span v-else>
-                                <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
-                                  {{item.title }}
-                            </span>
-
+                        <span v-else>
+                            <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                            {{item.title }}
+                        </span>
                     </template>
                 </v-select>
             </v-col>
