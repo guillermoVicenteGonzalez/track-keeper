@@ -215,7 +215,7 @@ exports.getUserEntries = async function(userId){
     let userEntries = await Entry.findAll({
         where:{user_id:userId},
         include:{model:Media, as:'Media'},
-        order:sequelize.col('name')
+        order:sequelize.col('start_date')
     })
     .catch((err)=>{
         winston.log("error","getUserEntries: " + err)
@@ -229,7 +229,7 @@ exports.getEntriesByState = async function(state, userId){
     let entries = await Entry.findAll({
         where:{state:state, user_id:userId},
         include:{model:Media, as: 'Media'},
-        order:sequelize.col('name')
+        order:sequelize.col('start_date')
     })
     .catch((err)=>{
         winston.log("error","getEntriesByState: " + err)
@@ -247,7 +247,7 @@ exports.getEntriesByGenre = async function(genre, userId){
             as:'Media',
             where:{genre:genre}
         },
-        order:sequelize.col('name')
+        order:sequelize.col('start_date')
     })
 
     .catch((err)=>{
@@ -266,7 +266,7 @@ exports.getEntriesByType = async function(type, userId){
             as:'Media',
             where:{type:type}
         },
-        order:sequelize.col('name')
+        order:sequelize.col('start_date')
     })
 
     .catch((err)=>{
