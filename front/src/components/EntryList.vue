@@ -16,7 +16,7 @@
             <tbody>
                 <tr v-for="item in list" :key="item.entry_id">
                     <th
-                    style="width: 50px;">
+                    style="width: 50px; height:50px; max-height: 60px;">
                         <v-img
                         style="width: 100%; height:100%;"
                         :src="url + item.Media.media_id"
@@ -45,7 +45,10 @@
 <script setup>
     import {ref} from "vue"
     import apiConf from "../apiConf.json"
+    import {useStore} from "vuex"
 
-    var url= ref(apiConf.host + apiConf.port + apiConf.media.getCover)
+    const store = useStore();
+    let {id} = store.getters.getUser;
+    var url= ref(apiConf.host + apiConf.port + apiConf.media.getCover + id + "/")
     const props = defineProps(['type','list'])
 </script>

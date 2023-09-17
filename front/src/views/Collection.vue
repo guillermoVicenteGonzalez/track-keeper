@@ -47,11 +47,12 @@
     import apiConf from "../apiConf.json"
     import {useStore} from "vuex"
     import axios from "axios";
-    import {ref} from "vue"
+    import {onMounted, ref} from "vue"
     import { useRoute } from "vue-router";
     import EntryList from "@/components/EntryList.vue";
     import Modal from "@/components/Modal.vue";
     import LoadingModal from "@/components/LoadingModal.vue";
+    import {watch} from "vue"
 
     const store = useStore();
     const route = useRoute()
@@ -59,10 +60,16 @@
     var modal = ref();
     var loading = ref();
 
+    watch(route,()=>{
+        console.log(route.params.type);
+        loadEntries();
+    })
+
     async function loadEntries(){
         let {id,token} = store.getters.getUser;
         let type = route.params.type;
 
+        console.log(apiConf.host + apiConf.port + apiConf.entry.getType + id +"/"+type)
         loading.value = true
         let res = await axios.get(apiConf.host + apiConf.port + apiConf.entry.getType + id +"/"+type,{
             headers:{
@@ -81,6 +88,7 @@
 
         loading.value = false;
         if(res){
+            console.log(res);
             list.value = res.data.value;
         }
     }

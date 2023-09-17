@@ -49,11 +49,11 @@
             <v-divider></v-divider>
             <v-list-item prepend-icon="mdi-cards" title="All media" value="User entries" @click="navigate('user entries','userEntries')"></v-list-item>
             <v-list-item title="Games" value="Games" prepend-icon="mdi-nintendo-game-boy" @click="navigate('collection', 'collection',{'type':'Videogame'})"></v-list-item>
-            <v-list-item title="Movies"></v-list-item>
-            <v-list-item title="TV shows"></v-list-item>
-            <v-list-item title="Books"></v-list-item>
-            <v-list-item title="Comics"></v-list-item>
-            <v-btn @click="console.log(selection)"></v-btn>
+            <v-list-item title="Movies" value="Movies" prepend-icon="mdi-film" @click="navigate('collection','collection',{'type':'Film'})"></v-list-item>
+            <v-list-item title="TV shows" value="TVShows" prepend-icon="mdi-television" @click="navigate('collection','collection',{'type':'TVShow'})"></v-list-item>
+            <v-list-item title="Books" value="Books" prepend-icon="mdi-book-open" @click="navigate('collection','collection',{'type':'Book'})"></v-list-item>
+            <v-list-item title="Comics" value="Comics" prepend-icon="mdi-arm-flex" @click="navigate('collection','collection',{'type':'Comic'})"></v-list-item>
+            <v-list-item title="Anime" value="Anime" prepend-icon="mdi-syllabary-hiragana" @click="navigate('collection','collection',{'type':'Anime'})"></v-list-item>
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -69,6 +69,7 @@
     const store = useStore();
     var drawer = ref();
     var profileMenuItems = ref(['Profile','stats','settings','SignOut']);
+
 
 
     function navigate(value,route,params){
