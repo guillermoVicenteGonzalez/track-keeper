@@ -40,7 +40,7 @@
                     <v-col 
                     v-if="isEntry"
                     md="10 text-start"
-                    cols="12 text-center">
+                    cols="12 text-cente">
                         <v-card-title 
                         class="text-lg-h4  text-sm-subtitle-1 text-center text-md-start">
                             {{ name }}
@@ -63,7 +63,7 @@
                     md="10 text-start"
                     cols="12 text-center">
                         <v-card-title 
-                        class="text-overline text-lg-h4  text-sm-subtitle-1 ">{{ name }}</v-card-title>
+                        class="text-overline text-center text-md-start text-lg-h4  text-sm-subtitle-1 ">{{ name }}</v-card-title>
                     </v-col>
 
                 </v-row>
@@ -72,22 +72,25 @@
                     <v-divider></v-divider>
                     <div v-if="isEntry">
                         <v-card-text
+                        :density="mobile ? 'compact':'default'"
                         style="max-height: 100px;"
                         class="border rounded ma-3 overflow-auto"> description: {{ description }}</v-card-text>
                 
                         <v-divider class="mb-3"></v-divider>
                         <v-select
+                        :density="mobile ? 'compact':'default'"
                         clearable
                         :rules="rules"
-                        class="ma-3"
+                        class="mx-3"
                         v-model="nState"
                         :items="states"
                         variant="solo-filled"></v-select>
 
                         <v-text-field
+                        :density="mobile ? 'compact':'default'"
                         clearable
                         :disabled="disableSDate"
-                        class="ma-3"
+                        class="mx-3"
                         label="start date"
                         :placeholder="start_date"
                         v-model="nStartD"
@@ -95,10 +98,11 @@
                         type="date"></v-text-field>
 
                         <v-text-field
+                        :density="mobile ? 'compact':'default'"
                         clearable
                         :rules="dateRules"
                         :disabled="disableFDate"
-                        class="ma-3"
+                        class="mx-3"
                         label="finish date"
                         :placeholder="finish_date"
                         v-model="nFinishD"
@@ -118,12 +122,14 @@
 
                     <div v-else>
                         <v-text-field
+                        :density="mobile ? 'compact':'default'"
                         variant="outlined"
                         label="name"
                         :placeholder="name"
                         v-model="nName"></v-text-field>
 
                         <v-select
+                        :density="mobile ? 'compact':'default'"
                         label="type"
                         variant="outlined"
                         :items="types"
@@ -131,12 +137,14 @@
                         v-model="nType"></v-select>
 
                         <v-text-field
+                        :density="mobile ? 'compact':'default'"
                         variant="outlined"
                         label="genre"
                         :placeholder="genre"
                         v-model="nGenre"></v-text-field>
 
                         <v-textarea
+                        :density="mobile ? 'compact':'default'"
                         variant="outlined"
                         label="description"
                         :placeholder="description"
@@ -172,7 +180,9 @@
     import {useStore} from "vuex"
     import axios from "axios"
     import apiConf from "../apiConf.json"
+    import {useDisplay} from "vuetify"
 
+    const {mobile} = useDisplay();
     var states = ref(['finished','on hold','to date','bookmarked','repeating','repeated']);
     const store = useStore();
     var loading = ref()
