@@ -21,9 +21,9 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [ ] Users
             - [ ] Upload profile
             - [ ] get profile
-        - [ ] Media
+        - [x] Media
             - [x] Upload cover
-            - [ ] get cover
+            - [x] get cover
         - [x] Entries
         - [x] Collections
         - [x] Collection Entries
@@ -49,17 +49,28 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
             - [x] Media data
             - [x] Media cover
             - [ ] edit media cover
-            - [ ] edit/delete media
+            - [x] edit/delete media
             - [x] add to user (entry)
         - [x] add entries
-        - [ ] user entry list
+        - [x] user entry list
         - [ ] user main page
     
     - [ ] Collections
+        - [ ] collection layout
         - [ ] create collection
         - [ ] see collection items
 
     - [ ] Stats
+        - [ ] time spent on each category
+            - [ ] total time + round graph
+        - [ ] counts
+        - [ ] favourite genres (sort by total or year)
+        - [ ] most time spent (1 media per category)
+
+    - [ ] Visuals
+        - [ ] animations
+        - [ ] styles
+        - [ ] all responsive
 
 ## Quick notes
 - delete vuex user at error
@@ -75,3 +86,9 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - evento "auth failed" global
 - check error user entries update event
 - collection create modal 102
+
+## Order
+    - 1.profile
+    - 2.collections
+    - 3.stats
+    - 4.visuals
