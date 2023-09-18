@@ -89,6 +89,8 @@
 
     watch(route,()=>{
         console.log(route.params.type);
+        state.value = "finished"
+        yearFilter.value = undefined
         loadEntries();
     })
 
@@ -154,7 +156,10 @@
             var prev = undefined;
             let years = list.map(item=>{
                 let y = item.finish_date;
-                y = y.split('-')[0];
+                if(y != undefined){
+                    y = y.split('-')[0];
+                }
+
                 if(y!= prev){
                     prev = y;
                     return y
