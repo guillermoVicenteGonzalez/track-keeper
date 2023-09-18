@@ -17,7 +17,7 @@
                 <v-row>
                     <v-col>
                         <EntryList
-                        class="mt-3"
+                        @updated="loadEntries()"
                         :list="filterEntries()"
                         :type="route.params.type"></EntryList>
                     </v-col>
@@ -85,7 +85,6 @@
     var loading = ref();
     var searchBar = ref();
     var state = ref("finished");
-    var years = []
     const filterOptions = ['finished','on hold','to date','bookmarked','repeating','repeated'];
 
     watch(route,()=>{
@@ -97,7 +96,6 @@
         let {id,token} = store.getters.getUser;
         let type = route.params.type;
 
-        console.log(apiConf.host + apiConf.port + apiConf.entry.getType + id +"/"+type)
         loading.value = true
         let res = await axios.get(apiConf.host + apiConf.port + apiConf.entry.getType + id +"/"+type,{
             headers:{
@@ -106,7 +104,7 @@
         })
         .catch((err)=>{
             if(err.response){
-                modal.value.createModal("Error","entries error",err.response.data.msg,true)
+                modal.value.createModal("Error","media error",err.response.data.msg,true);
             }else{
                 modal.value.createModal("Error","entries error",err.response.data.msg,true)
             }
