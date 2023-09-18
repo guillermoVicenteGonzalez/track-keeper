@@ -1,10 +1,11 @@
 <template>
     <v-card
+
+    elevation="3"
     v-if="props.list"
-    class="overflow-auto"
+    class="overflow-auto "
     min-width="320px"
-    width="20000px"
-    max-height="700px">
+    :max-height="mobile ? '500px':'660px'">
         <v-table>
             <thead>
                 <tr>
@@ -46,7 +47,9 @@
     import {ref} from "vue"
     import apiConf from "../apiConf.json"
     import {useStore} from "vuex"
+    import {useDisplay} from "vuetify"
 
+    const {mobile} = useDisplay();
     const store = useStore();
     let {id} = store.getters.getUser;
     var url= ref(apiConf.host + apiConf.port + apiConf.media.getCover + id + "/")

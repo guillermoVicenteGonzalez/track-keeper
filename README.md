@@ -72,3 +72,6 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - alphabeticall order
 - icons instead of words
 - animations
+- evento "auth failed" global
+- check error user entries update event
+- collection create modal 102

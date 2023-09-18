@@ -12,12 +12,22 @@
             variant="solo-filled"></v-text-field>
         </v-app-bar>
 
-        <v-main>
-            <v-container class="d-flex justify-center">
-                <EntryList
-                class="mt-3"
-                :list="filterEntries()"
-                :type="route.params.type"></EntryList>
+        <v-main class="justify-center align-start">
+            <v-container class="align-start">
+                <v-row>
+                    <v-col>
+                        <EntryList
+                        class="mt-3"
+                        :list="filterEntries()"
+                        :type="route.params.type"></EntryList>
+                    </v-col>
+                </v-row>
+                <v-row class="d-flex justify-center">
+                    <v-chip
+                    :text="'count: ' + length"
+                    class="rounded"
+                    ></v-chip>
+                </v-row>
             </v-container>
         </v-main>
 
@@ -29,7 +39,6 @@
             <v-row class="mt-2 align-center">
                 <v-col>
                     <v-select
-
                     clearable
                     :items="filterOptions"
                     label="state"
@@ -39,6 +48,9 @@
                 </v-col>
                 <v-col>
                     <v-select
+                    clearable
+                    :items="sortYears(list)"
+                    v-model="yearFilter"
                     :density="mobile ? 'compact':'default'"
                     variant="solo-filled"></v-select>
                 </v-col>
@@ -63,9 +75,11 @@
     import {watch} from "vue"
     import {useDisplay} from "vuetify"
 
+    var length = ref(0)
     const {mobile} = useDisplay()
     const store = useStore();
     const route = useRoute()
+    var yearFilter = ref();
     var list = ref();
     var modal = ref();
     var loading = ref();
@@ -137,13 +151,46 @@
         }
     }
 
-    function filterByDate(){
+    function sortYears(list){
+        if(list instanceof Array){
+            var prev = undefined;
+            let years = list.map(item=>{
+                let y = item.finish_date;
+                y = y.split('-')[0];
+                if(y!= prev){
+                    prev = y;
+                    return y
+                }
+            });
 
+            return years;
+        }
+    }
+
+    function filterByDate(list){
+        if(list instanceof Array){
+            return list.filter(item =>{
+                if(yearFilter.value != undefined){
+                    let fDate = item.finish_date.split('-')[0];
+                    if(yearFilter.value== fDate){
+                        return item
+                    }
+                }else{
+                    return item;
+                }
+            })
+        }
     }
 
     function filterEntries(){
         let stateFiltered = filterByState(list.value)
-        let search = searchEntry(stateFiltered)
+        let dateFiltered = filterByDate(stateFiltered)
+        let search = searchEntry(dateFiltered)
+        if(search instanceof Array){
+            length.value = search.length
+        }else{
+            length.value = 0;
+        }
         return search;
     }
 
