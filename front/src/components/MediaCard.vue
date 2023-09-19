@@ -1,7 +1,7 @@
 <template>
     <v-card 
     elevation="3"
-    :height="isEntry ? '200px':'170px' "
+    :height="isEntry ? '180px':'170px' "
     class="colorBorder border-b border b--hot-pink"
     width="400px">
         <v-container 
@@ -58,6 +58,13 @@
                 @click="mediaCardBtn"></v-btn>
 
             </div>
+
+            <v-card-actions v-else class="justify-center">
+                <v-btn
+                @click="deleteEntry()"
+                variant="flat"
+                icon="mdi-delete"></v-btn>
+            </v-card-actions>
 
             <add-entry 
             @hide="addEntryTrigger = false"
@@ -123,6 +130,8 @@
             }
         })
         .catch((err)=>{
+            loadingTrigger.value = false;
+
             if(err.response){
                 modal.value.createModal("Error","delete media",err.response.data.msg,true);
             }else{
@@ -142,14 +151,36 @@
         emit("updated");
     }
 
+    async function deleteEntry(){
+        loadingTrigger.value = true
+        let {id,token} = store.getters.getUser;
 
-   
+        let res = await axios.delete(apiConf.host +apiConf.port + apiConf.entry.delete + id + "/" + props.entry_id,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
+        })
+        .catch((err)=>{
+            loadingTrigger.value = false;
+
+            if(err.response){
+                modal.value.createModal("Error","delete entry",err.response.data.msg,true);
+            }else{
+                modal.value.createModal("Error","delete entry",err.response.data.msg,true);
+            }
+            console.log(err);
+            return undefined;
+        })
+
+        if(res){
+            modal.value.createModal("Success","delete media","Succesfully deleted media");
+        }
 
 
+        loadingTrigger.value = false;
 
-
-
-
+        emit("updated");
+    }
 
 </script>
 

@@ -26,6 +26,35 @@ const customTheme = {
   }
 }
 
+const theme2 = {
+  dark:false,
+  colors:{
+    primary: "#e91e63",
+    secondary: "#009688",
+    accent: "#ffc107",
+    error: "#ef0408",
+    warning: "#ffeb3b",
+    info: "#607d8b",
+    success: "#4caf50"
+  }
+}
+
+const myCustomLightTheme = {
+  dark: false,
+  colors: {
+    background: '#FFFFFF',
+    surface: '#FFFFFF',
+    primary: '#6200EE',
+    'primary-darken-1': '#3700B3',
+    secondary: '#03DAC6',
+    'secondary-darken-1': '#018786',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+  },
+}
+
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 /*
 export default createVuetify({
@@ -41,9 +70,22 @@ export default createVuetify({
   },
 })*/
 
+/*
+
 export default createVuetify(
   // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
   {
     blueprint:md3,
+    theme:{
+      defaultTheme:"theme2",
+      themes:{
+        theme2
+      }
+    }
   }
 )
+*/
+
+export default createVuetify({
+  blueprint:md3,
+})

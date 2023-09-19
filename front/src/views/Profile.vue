@@ -20,6 +20,7 @@
 <script setup>
     import {ref} from "vue";
     import {useStore} from "vuex"
+    import apiConf from "../apiConf.json"
 
 
 </script>

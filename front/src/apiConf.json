@@ -19,6 +19,7 @@
         "create":"/api/entry/",
         "getAll":"/api/entry/",
         "update":"/api/entry/",
-        "getType":"/api/entry/type/"
+        "getType":"/api/entry/type/",
+        "delete":"/api/entry/"
     }
 }
