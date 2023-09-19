@@ -20,6 +20,7 @@
                     <th
                     style="width: 50px; height:50px; max-height: 60px;">
                         <v-img
+                        @click="showImage(url + item.Media.media_id)"
                         style="width: 100%; height:100%;"
                         :src="url + item.Media.media_id"
                         cover>
@@ -59,6 +60,11 @@
 
     </v-card>
 
+    <view-image-modal
+    v-model="triggerImage"
+    @hide="triggerImage = false"
+    :url="modalUrl"></view-image-modal>
+
 
 </template>
 
@@ -68,7 +74,9 @@
     import {useStore} from "vuex"
     import {useDisplay} from "vuetify"
     import UpdateMediaCard from "./updateMediaCard.vue";
+    import ViewImageModal from "./ViewImageModal.vue";
 
+    var triggerImage = ref();
     var element = ref();
     var triggerDialog = ref();
     const {mobile} = useDisplay();
@@ -77,10 +85,16 @@
     var url= ref(apiConf.host + apiConf.port + apiConf.media.getCover + id + "/")
     const props = defineProps(['type','list'])
     const emit = defineEmits(['updated'])
+    var modalUrl = ref();
 
     function clickOnCard(item){
         element.value = item;
         console.log(item);
         triggerDialog.value = true
+    }
+
+    function showImage(url){
+        modalUrl.value = url;
+        triggerImage.value = true
     }
 </script>

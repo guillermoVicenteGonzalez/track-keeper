@@ -9,13 +9,14 @@
         class="align-center">
             <v-row 
             cursor
-            @click="triggerUpdate = true"
+
             no-gutters class="justify-space-between">
                 <v-col 
                 style="height: 90px;"
                 cols="2"
                 class="d-flex justify-center align-center">
                     <v-img
+                    @click="triggerImage = true"
                     class="bg-grey-darken-2 rounded"
                     style="width: 100%; height: 100%;"
                     cover
@@ -28,7 +29,9 @@
                         </template>
                     </v-img>
                 </v-col>
-                <v-col cols="9">
+                <v-col 
+                @click="triggerUpdate = true"
+                cols="9">
                     <v-card-title class="text-h5">{{ name }}</v-card-title>
                     <v-card-subtitle class="text-subtitle-1">{{ type}} ({{ genre }})</v-card-subtitle>
                     <div v-if="isEntry">
@@ -74,6 +77,11 @@
         <Modal ref="modal"></Modal>
 
         <loading-modal v-model="loadingTrigger"></loading-modal>
+
+        <ViewImageModal
+        @hide="triggerImage = false"
+        v-model="triggerImage"
+        :url="url + media_id"></ViewImageModal>
     </v-card>
 </template>
 
@@ -86,7 +94,9 @@
     import Modal from "./Modal.vue";
     import UpdateMediaCard from "./updateMediaCard.vue";
     import LoadingModal from "./LoadingModal.vue";
+    import ViewImageModal from "./ViewImageModal.vue";
 
+    var triggerImage = ref();
     var loadingTrigger = ref();
     var modal = ref();
     var triggerUpdate = ref();

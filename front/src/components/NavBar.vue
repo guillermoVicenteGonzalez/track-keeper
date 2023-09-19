@@ -80,4 +80,18 @@
         });
     }
 
+    function profileMenuAction(index){
+        switch(index){
+            case 0:
+                router.push({
+                    name:'profile',
+                });
+                break;
+
+            case 3:
+                store.commit("deleteUser")
+                router.push("/")
+        }
+    }
+
 </script>

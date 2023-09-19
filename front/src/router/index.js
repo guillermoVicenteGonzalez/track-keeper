@@ -10,6 +10,7 @@ import Verify from "@/components/Verify.vue"
 import Catalogue from "@/views/Catalogue.vue"
 import UserEntries from "@/views/UserEntries.vue"
 import Collection from "@/views/Collection.vue"
+import Profile from "@/views/Profile.vue"
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
         path:'collection/:type',
         name:'collection',
         component:Collection
+      },
+      {
+        path:'profile',
+        name:'profile',
+        component:Profile
       }
     ]
   },
