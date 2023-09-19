@@ -287,9 +287,11 @@ exports.updateUser = async function(req,res){
         return false
     }
 
+    let {username} = user
+
     let token = auth.split(' ')
     token = token[1]
-    let tokenRes = await UserService.verifyToken(user.username,token)
+    let tokenRes = await UserService.verifyToken(username,token)
     if(!tokenRes){
         let msg = "Authorization failed. The token is either invalid or expired"
         winston.log("info","updateUser: " +msg)
@@ -315,8 +317,16 @@ exports.updateUser = async function(req,res){
         return false
     }
 
+    let nToken = await UserService.createToken(updatedUser.username)
+    if(!token){
+        let msg = "Unable to generate jwt";
+        winston.log("info","updateUser: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+    
     updatedUser = UserService.filterUserFields(updatedUser)
-    res.status(200).json({user:updatedUser})
+    res.status(200).json({user:updatedUser,token:nToken})
     return true
 }
 

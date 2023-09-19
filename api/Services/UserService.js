@@ -121,6 +121,7 @@ exports.updateUserRow = async function(userId,fields){
 //devuelve 0 si no hay problemas, devuelve los campos incorrectos si los hay
 exports.validateUserFields = async function(fields){
     let invalidFields = []
+    var attributes = User.getAttributes()
     
     if(fields.password_hash){
         let msg = "tried to overwrite password"
@@ -162,7 +163,7 @@ exports.validateUserFields = async function(fields){
     }*/
 
     for(let i in fields){
-        if(! (User.getAttributes().includes(i))){
+        if(! (i in attributes)){
             invalidFields.push(i)
         }
     }
@@ -188,6 +189,7 @@ exports.createToken = async function(username){
         data:username,
         exp: Math.floor(Date.now()/1000) + (60* 60)
     },word)
+
 
     if(token){
         return token

@@ -15,7 +15,7 @@
                 class="mr-5" size="50" v-bind="props">
                     <v-img
                     v-bind="props" cover
-                    src="https://lindamood.net/wp-content/uploads/2019/10/Blank-profile-image-731x1024.jpg">
+                    :src="url">
                         <template v-slot:error>
                             <div
                             class="d-flex align-center justify-center">
@@ -62,14 +62,17 @@
     import {useStore} from "vuex"
     import {ref} from "vue"
     import {useRouter} from "vue-router"
+    import apiConf from "../apiConf.json"
 
+    const store = useStore();
+    var {id} = store.getters.getUser;
     var selection = ref();
     const router = useRouter();
     const props = defineProps(['username','user_id','email','admin','image','verified'])
-    const store = useStore();
     var drawer = ref();
     var profileMenuItems = ref(['Profile','stats','settings','SignOut']);
-
+    var url = ref();
+    url.value = apiConf.host + apiConf.port + apiConf.users.getPhoto + id;
 
 
     function navigate(value,route,params){

@@ -127,7 +127,7 @@
         </v-dialog>
 
         <Modal 
-        @submit="mode.value = 'view'"
+        @submit="mode='view'"
         ref="modal"></Modal>
 
         <LoadingModal v-model="loading"></LoadingModal>
@@ -237,7 +237,10 @@
         let {token} = store.getters.getUser;
     
         loading.value = true;
-        let res = await axios.put(apiConf.host + apiConf.port + apiConf.users.update + id,nFields.value,{
+        let res = await axios.put(apiConf.host + apiConf.port + apiConf.users.update + id,{
+            username:nFields.value.nName,
+            email:nFields.value.email
+        },{
             headers:{
                 'Authorization':'Bearer ' + token
             }
@@ -254,9 +257,17 @@
 
         loading.value = false;
         if(res){
+            let {user, token} = res.data;
+            store.commit("setUser",{
+                id:user.user_id,
+                name:user.username,
+                token:token
+            })
             modal.value.createModal("Success","update user","User data updated succesfully",false,undefined,true);
+            getUserData();
             return true;
         }
+
     }
 
     async function uploadImage(){
