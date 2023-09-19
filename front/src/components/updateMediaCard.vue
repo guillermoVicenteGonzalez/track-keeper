@@ -1,5 +1,7 @@
 <template>
     <v-dialog 
+    scrollable
+    transition="dialog-bottom-transition"
     persistent>
         <v-container
         class="d-flex justify-center align-center">

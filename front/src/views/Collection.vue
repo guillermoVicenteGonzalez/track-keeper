@@ -23,10 +23,12 @@
                     </v-col>
                 </v-row>
                 <v-row class="d-flex justify-center">
-                    <v-chip
-                    :text="'count: ' + length"
-                    class="rounded"
-                    ></v-chip>
+                    <v-fade-transition leave-absolute="">
+                        <v-chip
+                        :text="'count: ' + length"
+                        class="rounded"
+                        ></v-chip>
+                    </v-fade-transition>
                 </v-row>
             </v-container>
         </v-main>
@@ -58,6 +60,7 @@
         </v-app-bar>
 
         <LoadingModal v-model="loading"></LoadingModal>
+
 
         <Modal ref="modal"></Modal>
     </v-layout>
@@ -160,12 +163,18 @@
                     y = y.split('-')[0];
                 }
 
-                if(y!= prev){
+                if(y>prev || prev == undefined){
                     prev = y;
                     return y
                 }
             });
 
+            //this is so bad but i get an extra undf element and idkw
+            years = years.filter(item=>{
+                if(item != undefined){
+                    return item;
+                }
+            })
             return years;
         }
     }

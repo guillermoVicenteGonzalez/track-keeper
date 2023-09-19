@@ -86,6 +86,8 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - evento "auth failed" global
 - check error user entries update event
 - collection create modal 102
+- add user_id field to media so that it can be updated
+- add icons to every filter
 
 ## Order
     - 1.profile

@@ -10,8 +10,9 @@ exports.checkMediaType = function(type){
     return types.includes(type)
 }
 
-exports.createMediaRow = async function(name, type, genre, desc,dur){
+exports.createMediaRow = async function(name, type, genre, desc,dur,userId){
     let nMedia = await Media.create({
+        user_id:userId,
         name:name,
         type:type,
         genre:genre,
@@ -266,7 +267,7 @@ exports.getEntriesByType = async function(type, userId){
             as:'Media',
             where:{type:type}
         },
-        order:sequelize.col('start_date')
+        order:sequelize.col('finish_date')
     })
 
     .catch((err)=>{

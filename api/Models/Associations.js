@@ -15,7 +15,24 @@ exports.synchronize = async function(){
 
     console.log("starting sync");
 
-    
+    User.hasMany(Media,{
+        foreignKey:{
+            name:'user_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
+    Media.belongsTo(User,{
+        foreignKey:{
+            name:'user_id',
+            allowNull:false
+        },
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+    })
+
     User.hasMany(Entry,{
         foreignKey:{
             name:'user_id',

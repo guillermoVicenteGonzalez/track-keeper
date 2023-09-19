@@ -88,7 +88,7 @@ exports.createMedia = async function(req,res){
         return undefined
     }
 
-    let nMedia = await MediaService.createMediaRow(name,type,genre,description,duration)
+    let nMedia = await MediaService.createMediaRow(name,type,genre,description,duration,userId)
     if(!nMedia){
         let msg = "Unable to create new Media"
         winston.log("info","createMedia: " +  msg)
@@ -189,9 +189,9 @@ exports.deleteMedia = async function(req,res){
 
     let token = auth.split(' ')
     token = token[1]
-    let authRes = await UserService.authenticateUser(userId, token, res)
-    if(! (authRes instanceof User)){
-        winston.log("info","deleteMedia:" + authRes)
+    let user = await UserService.authenticateUser(userId, token, res)
+    if(! (user instanceof User)){
+        winston.log("info","deleteMedia:" + user)
         return undefined
     }
 
@@ -208,6 +208,13 @@ exports.deleteMedia = async function(req,res){
         winston.log("info","deleteMedia: " + msg)
         res.status(400).json({msg:msg})
         return undefined
+    }
+
+    if(!user.isAdmin && userId != media.user_id){
+        let msg = "Permission denied";
+        winston.log("info","deleteMedia: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
     }
 
     res.status(200).json({value:media})
@@ -229,9 +236,9 @@ exports.updateMedia = async function(req,res){
 
     let token = auth.split(' ')
     token = token[1]
-    let authRes = await UserService.authenticateUser(userId, token, res)
-    if(! (authRes instanceof User)){
-        winston.log("info","updateMedia:" + authRes)
+    let user = await UserService.authenticateUser(userId, token, res)
+    if(! (user instanceof User)){
+        winston.log("info","updateMedia:" + user)
         return undefined
     }
 
@@ -241,6 +248,21 @@ exports.updateMedia = async function(req,res){
         winston.log("info","updateMedia: " + msg)
         res.status(400).json({msg:msg})
         return undefined
+    }
+
+    let media = await MediaService.getMediaRowById(mediaId);
+    if(!media){
+        let msg = "Resource does not exist";
+        winston.log("info","updateMedia: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    if(!user.isAdmin && userId != media.user_id){
+        let msg = "Permission denied";
+        winston.log("info","deleteMedia: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
     }
 
     let updated = await MediaService.updateMediaRow(mediaId,fields)
@@ -273,6 +295,13 @@ exports.uploadMediaCover = async function(req,res){
     if(!user){
         let msg = "Authentication failed";
         winston.log("info","uploadMediaCover: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    if(!user.isAdmin && userId != media.user_id){
+        let msg = "Permission denied";
+        winston.log("info","deleteMedia: " + msg);
         res.status(400).json({msg:msg});
         return undefined;
     }

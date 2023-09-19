@@ -6,7 +6,8 @@
     class="overflow-auto border-b mt-2"
     min-width="320px"
     :max-height="mobile ? '500px':'660px'">
-        <v-table>
+        <v-table
+        transition="fade-transition">
             <thead>
                 <tr>
                     <th class="text-left">cover</th>
@@ -42,6 +43,7 @@
             </tbody>
         </v-table>
 
+
         <update-media-card 
         v-if="element"
         @updated="emit('updated')"
@@ -54,6 +56,7 @@
         isEntry="true"
         @hide="triggerDialog = false"
         v-model="triggerDialog"></update-media-card>
+
     </v-card>
 
 

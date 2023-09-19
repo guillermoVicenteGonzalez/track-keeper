@@ -53,10 +53,6 @@
                 icon="mdi-plus"
                 @click="mediaCardBtn"></v-btn>
 
-                <v-btn
-                class="mx-1"
-                size="small"
-                icon="mdi-cog"></v-btn>
             </div>
 
             <add-entry 
