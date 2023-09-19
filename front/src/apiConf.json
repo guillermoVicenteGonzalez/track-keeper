@@ -5,7 +5,11 @@
         "signup":"/api/users",
         "login":"/api/users/login",
         "getData":"/api/users/id/",
-        "sendMail":"/api/users/email/"
+        "sendMail":"/api/users/email/",
+        "getPhoto":"/api/users/photo/",
+        "uploadPhoto":"/api/users/photo/",
+        "update":"/api/users/id/",
+        "delete":"/api/users/id/"
     },
     "media":{
         "getAll":"/api/media/",

@@ -370,10 +370,10 @@ exports.updatePassword = async function(req,res){
 
 exports.uploadPhoto = async function(req,res){
     //parseo parametros
-    let userId = req.params.userId;
-    if(userId == undefined || userId == "undefined"){
+    let userId = req.params.user_id;
+    if(userId == undefined){
         let msg = "userId undefined";
-        console.log(msg);
+        winston.log("info","uploadPhoto:" + msg);
         res.status(400).json({success:false, msg:msg});
         return undefined;
     }
