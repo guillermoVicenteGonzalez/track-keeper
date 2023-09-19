@@ -40,6 +40,7 @@
                     <v-card-actions class="justify-center">
                         <v-btn
                         @click="emit('hide')">Cancel</v-btn>
+
                         <v-btn
                         type="submit"
                         :disabled="btnTrigger">Accept</v-btn>

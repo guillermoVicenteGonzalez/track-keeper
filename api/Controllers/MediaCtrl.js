@@ -459,12 +459,14 @@ exports.createEntry = async function(req,res){
         return undefined
     }
 
-    let duplicate = await MediaService.checkDuplicateMediaEntry(userId, mediaId)
-    if(duplicate){
-        let msg = "You alredy have a entry for that media"
-        winston.log("info","createEntry: " + msg)
-        res.status(400).json({msg:msg})
-        return undefined
+    if(!['repeating','repeated'].includes(state)){
+        let duplicate = await MediaService.checkDuplicateMediaEntry(userId, mediaId)
+        if(duplicate){
+            let msg = "You alredy have a entry for that media"
+            winston.log("info","createEntry: " + msg)
+            res.status(400).json({msg:msg})
+            return undefined
+        }
     }
 
     let checkState = MediaService.checkValidState(state)

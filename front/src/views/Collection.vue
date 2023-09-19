@@ -62,7 +62,7 @@
         <LoadingModal v-model="loading"></LoadingModal>
 
 
-        <Modal ref="modal"></Modal>
+        <modal ref="modal"></modal>
     </v-layout>
 </template>
 
@@ -78,13 +78,13 @@
     import {watch} from "vue"
     import {useDisplay} from "vuetify"
 
+    var modal = ref();
     var length = ref(0)
     const {mobile} = useDisplay()
     const store = useStore();
     const route = useRoute()
     var yearFilter = ref();
     var list = ref();
-    var modal = ref();
     var loading = ref();
     var searchBar = ref();
     var state = ref("finished");
@@ -108,6 +108,7 @@
             }
         })
         .catch((err)=>{
+            console.log(modal.value)
             if(err.response){
                 modal.value.createModal("Error","media error",err.response.data.msg,true);
             }else{
@@ -183,9 +184,11 @@
         if(list instanceof Array){
             return list.filter(item =>{
                 if(yearFilter.value != undefined){
-                    let fDate = item.finish_date.split('-')[0];
-                    if(yearFilter.value== fDate){
-                        return item
+                    if(item.finish_date != undefined){
+                        let fDate = item.finish_date.split('-')[0];
+                        if(yearFilter.value== fDate){
+                            return item
+                        }
                     }
                 }else{
                     return item;
