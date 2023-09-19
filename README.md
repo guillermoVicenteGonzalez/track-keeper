@@ -89,6 +89,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 - add user_id field to media so that it can be updated
 - add icons to every filter
 - if a user is deleted, its media (and therefore any entries that reference that media ) will be deleted => investigate on cascade etc (maybe even not putting anything)
+- loading while image loads
 
 
 ## Order

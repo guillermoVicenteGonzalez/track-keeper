@@ -10,6 +10,7 @@
                 style="cursor: pointer;"
                 class="ma-3" size="70" >
                     <v-img
+                    @click="imageModal = true"
                     style="width: 100%; height: 100%;"
                     cover
                     :src="url">
@@ -87,7 +88,7 @@
 
             <span>
                 <v-row>
-                    <v-col></v-col>
+                    <v-col v-if="!mobile"></v-col>
                     <v-col>
                         <v-switch
                         v-model="mode"
@@ -97,7 +98,7 @@
                         :label="`Mode: ${mode}`"
                         ></v-switch>
                     </v-col>
-                    <v-col></v-col>
+                    <v-col v-if="!mobile"></v-col>
                 </v-row>
             </span>            
         </v-card>
@@ -131,6 +132,11 @@
         ref="modal"></Modal>
 
         <LoadingModal v-model="loading"></LoadingModal>
+
+        <ViewImageModal
+        :url="url"
+        @hide="imageModal = false"
+        v-model="imageModal"></ViewImageModal>
     </v-container>
 </template>
 
@@ -142,7 +148,11 @@
     import axios from "axios"
     import Modal from "@/components/Modal.vue";
     import LoadingModal from "@/components/LoadingModal.vue";
+    import ViewImageModal from "@/components/ViewImageModal.vue";
+    import { useDisplay } from "vuetify"
 
+    const {mobile} = useDisplay()
+    var imageModal = ref();
     var loading = ref();
     var disableBtn = ref(true);
     var user = ref({
