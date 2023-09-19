@@ -45,7 +45,8 @@
                 <v-btn
                 class="mx-1"
                 size="small"
-                icon="mdi-delete"></v-btn>
+                icon="mdi-delete"
+                @click="deleteMedia()"></v-btn>
                 
                 <v-btn
                 size="small"
@@ -70,20 +71,24 @@
         :isEntry="isEntry"
         ></update-media-card>
 
+        <Modal ref="modal"></Modal>
+
+        <loading-modal v-model="loadingTrigger"></loading-modal>
     </v-card>
 </template>
 
 <script setup>
-    import {onMounted, ref} from "vue"
+    import {ref} from "vue"
     import apiConf from "../apiConf.json"
     import {useStore} from "vuex"
     import AddEntry from "./AddEntry.vue";
     import axios from "axios"
     import Modal from "./Modal.vue";
-    import LoadingModal from "./LoadingModal.vue";
-    import {watch} from "vue"
     import UpdateMediaCard from "./updateMediaCard.vue";
+    import LoadingModal from "./LoadingModal.vue";
 
+    var loadingTrigger = ref();
+    var modal = ref();
     var triggerUpdate = ref();
     const emit = defineEmits(['updated'])
     const props = defineProps(['name','media_id','type','genre','description','cover',
@@ -99,6 +104,33 @@
         addEntryTrigger.value = true
     }
 
+    async function deleteMedia(){
+        loadingTrigger.value = true;
+        let {id,token} = store.getters.getUser;
+        let res = await axios.delete(apiConf.host + apiConf.port +apiConf.media.delete + id +"/" + props.media_id ,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
+        })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","delete media",err.response.data.msg,true);
+            }else{
+                modal.value.createModal("Error","delete media",err.response.data.msg,true);
+            }
+            console.log(err);
+            return undefined;
+        });
+
+        if(res){
+            modal.value.createModal("Success","delete media","Succesfully deleted media");
+        }
+
+
+        loadingTrigger.value = false;
+
+        emit("updated");
+    }
 
 
    

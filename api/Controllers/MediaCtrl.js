@@ -195,12 +195,6 @@ exports.deleteMedia = async function(req,res){
         return undefined
     }
 
-    if(!authRes.admin){
-        let msg = "Permission denied"
-        winston.log("info","deleteMedia: " + msg)
-        res.status(400).json({msg:msg})
-        return undefined
-    }
 
     let media = await MediaService.getMediaRowById(mediaId)
     if(!media){
@@ -212,6 +206,14 @@ exports.deleteMedia = async function(req,res){
 
     if(!user.isAdmin && userId != media.user_id){
         let msg = "Permission denied";
+        winston.log("info","deleteMedia: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    let deleted = await MediaService.deleteMediaRow(mediaId)
+    if(!deleted){
+        let msg ="An error ocurred while trying to delete media";
         winston.log("info","deleteMedia: " + msg);
         res.status(400).json({msg:msg});
         return undefined;

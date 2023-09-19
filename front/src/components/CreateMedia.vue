@@ -102,8 +102,10 @@
                 return "This field cannot be empty"
             }else if(type.value && name.value && genre.value){
                 triggerBtn.value = false;
+                return true;
             }else{
                 triggerBtn.value = true;
+                return "you must fill all fields"
             }
         }
     ])
@@ -114,7 +116,7 @@
         loading.value = true;
         let media = await createMedia();
         console.log(media);
-        if(media){
+        if(media && photo.value != undefined){
             let coverRes = await uploadFile(media.media_id)
             if(coverRes){
                 modal.value.createModal("Success","create media","the new " + type.value + " was registered succesfully",false,undefined,true);
@@ -123,6 +125,7 @@
             }
         }
         loading.value = false;
+        modal.value.createModal("Success","media created","media created succesfully",false,undefined,true)
         emit('created')
     }
 

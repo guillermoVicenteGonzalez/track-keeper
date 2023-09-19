@@ -12,7 +12,8 @@
         "create":"/api/media/",
         "uploadCover":"/api/media/cover/",
         "getCover":"/api/media/cover/",
-        "update":"/api/media/"
+        "update":"/api/media/",
+        "delete":"/api/media/"
     },
     "entry":{
         "create":"/api/entry/",

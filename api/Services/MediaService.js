@@ -28,7 +28,7 @@ exports.createMediaRow = async function(name, type, genre, desc,dur,userId){
 }
 
 exports.deleteMediaRow = async function(mediaId){
-    let delMedia = await Media.destroy({where:{media_id:medaId}})
+    let delMedia = await Media.destroy({where:{media_id:mediaId}})
     .catch((err)=>{
         winston.log("error","deleteMediaRow: " + err)
         return undefined
