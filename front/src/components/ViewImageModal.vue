@@ -2,19 +2,29 @@
     <v-dialog>
         <div class="justify-end d-flex">
             <v-btn
+            variant="text"
             @click="emit('hide')"
             color="error"
             size="large"
-            variant="icon"
             icon="mdi-close"></v-btn>
         </div>
         <v-container 
         class="fill-height justify-center overflow-auto">
             <v-row>
                 <v-col 
-                style="max-height: 800px;">
+                style="max-height: 800px; min-height: 50px;">
                     <v-img
-                    :src="url"></v-img>
+                    style="height: 100%; width:100%;"
+                    :src="url">
+                        <template v-slot:error>
+                            <v-icon
+                            style="
+                            width:100%;
+                            height:100%
+                            "
+                            >mdi-image</v-icon>
+                        </template>
+                    </v-img>
                 </v-col>
             </v-row>
         </v-container>
