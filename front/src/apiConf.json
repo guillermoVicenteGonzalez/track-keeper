@@ -25,5 +25,8 @@
         "update":"/api/entry/",
         "getType":"/api/entry/type/",
         "delete":"/api/entry/"
+    },
+    "stats":{
+        "getCount":"/api/stats/types/count/"
     }
 }
