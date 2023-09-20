@@ -4,11 +4,21 @@
             <v-col class="text-center">
                 <div class="text-h3">Entry count pie chart</div>
             </v-col>
+
+            <v-btn
+            @click="flag = !flag"></v-btn>
+
+            <p>{{ flag }}</p>
         </v-row>
         
-        <v-row class="justify-center">
-            <v-col class="d-flex align-center">
+        <v-row class="justify-center align-center">
+            <v-col
+            style="max-height: 600px;"
+            lg="6" 
+            cols="12"
+            class="d-flex align-center justify-center">
                 <circle-chart
+                :loading="!flag"
                 v-if="flag"
                 :label="label"
                 :labels="labels"
@@ -21,13 +31,13 @@
                     <v-card-title class="text-center">Count</v-card-title>
                     <div 
                     class="d-flex justify-around align-center px-4"
-                    v-for="(item, index) in labels" :key="item">
+                    v-for="(item, index, key) in checks" :key="item">
                         <v-checkbox
-                        v-model="checks[item]"
-                        :color="colors[index]"
-                        :label="item"></v-checkbox>
+                        v-model="checks[index]"
+                        :color="colors[key]"
+                        :label="index"></v-checkbox>
 
-                        <div class="">{{  data[index], item}}</div>
+                        <div>{{ index  }}{{ item }}{{ key }}</div>
                     </div>
                 </v-card>
                 
@@ -50,6 +60,18 @@
                 variant="solo-filled"></v-text-field>
             </v-col>
         </v-row>
+
+        <v-row>
+            {{ data }}
+        </v-row>
+
+        <v-row>
+            {{ checks }}
+        </v-row>
+
+        <v-row>
+            {{ count }}
+        </v-row>
     </v-container>
 </template>
 
@@ -60,9 +82,10 @@
     import {useStore} from "vuex";
     import apiConf from "@/apiConf.json"
     import { useDisplay } from 'vuetify';
+    import {watch} from "vue"
 
     const {mobile} = useDisplay
-    var flag = ref(false)
+    var flag = ref(true)
     const store = useStore();
     var labels = ref([]);
     var colors = ref([                
@@ -76,6 +99,8 @@
     var data = ref([]);
     var label = ref(['count'])
     var checks=ref({})
+
+    var count = {}
 
     async function getEntryCount(){
         flag.value = false;
@@ -92,7 +117,8 @@
             alert("error");
         });
 
-        let count = res.data.value;
+        count = res.data.value;
+        console.log(count);
         var nLabels =[]
         var nData = [];
         for(let i in count){
@@ -107,10 +133,30 @@
         flag.value = true;
     }
 
-
-    function test(){
-        console.log(checks.value)
+    async function test(){
+        var nData = [];
+        for(let i in checks.value){
+            let index = labels.value.indexOf(i);
+            if(checks.value[i] == false){
+                //data.value[index] = 0;
+                nData[index] = 0;
+            }else{
+                //data.value[index] = count[i];
+                nData[index] = count[i]
+            }
+        }
+        data.value = [];
+        data.value = nData;
+        return nData;
     }
+
+    watch(checks.value,async ()=>{
+        flag.value = false;
+        await test();
+        flag.value = true;
+    })
+
+
 
     getEntryCount();
 

@@ -1,5 +1,7 @@
 <template>
-    <Pie :data="data" :options="options" />
+    <Pie 
+    :data="data" 
+    :options="options" />
 </template>
   
 <script setup>
@@ -47,7 +49,8 @@
         labels:undefined,
         colors:undefined,
         data:undefined,
-        label:undefined
+        label:undefined,
+        loading:undefined
     })
 
 
