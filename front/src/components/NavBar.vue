@@ -91,6 +91,12 @@
                 });
                 break;
 
+            case 1:
+                router.push({
+                    name:'stats'
+                });
+                break;
+
             case 3:
                 store.commit("deleteUser")
                 router.push("/")

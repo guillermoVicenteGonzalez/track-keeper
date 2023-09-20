@@ -11,6 +11,7 @@ import Catalogue from "@/views/Catalogue.vue"
 import UserEntries from "@/views/UserEntries.vue"
 import Collection from "@/views/Collection.vue"
 import Profile from "@/views/Profile.vue"
+import Stats from "@/views/Stats.vue"
 
 const routes = [
   {
@@ -56,6 +57,11 @@ const routes = [
         path:'profile',
         name:'profile',
         component:Profile
+      },
+      {
+        path:'stats',
+        name:'stats',
+        component:Stats
       }
     ]
   },

@@ -2,6 +2,7 @@ const{ Router }         = require("express");
 const usersCtrl         = require("../Controllers/UserCtrl")
 const MediaCtrl         = require("../Controllers/MediaCtrl")
 const CollectionCtrl    = require("../Controllers/CollectionCtrl,")
+const StatsCtrl         = require("../Controllers/StatsControl")
 
 const router = Router();
 
@@ -86,4 +87,14 @@ router.route("/collection/:user_id/:collection_id")
 
 router.route("/collection/:user_id/entry/:col_entry_id")
     .delete(CollectionCtrl.removeEntryFromCol)
+
+/********************************************************
+ * COLLECTIONS
+ *******************************************************/
+
+router.route("/stats/types/count/:user_id/")
+    .get(StatsCtrl.getEntryCount)
+
+
+
 module.exports = router
