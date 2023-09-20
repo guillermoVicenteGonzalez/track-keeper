@@ -85,10 +85,10 @@
 
         <loading-modal v-model="loadingTrigger"></loading-modal>
 
-        <ViewImageModal
-        @hide="triggerImage = false"
-        v-model="triggerImage"
-        :url="url + media_id"></ViewImageModal>
+            <ViewImageModal
+            @hide="triggerImage = false"
+            v-model="triggerImage"
+            :url="url + media_id"></ViewImageModal>
     </v-card>
 </template>
 

@@ -4,8 +4,6 @@
             <v-col class="text-center">
                 <div class="text-h3">Entry count pie chart</div>
             </v-col>
-
-            <p>{{ flag }}</p>
         </v-row>
         
         <v-row class="justify-between align-center">

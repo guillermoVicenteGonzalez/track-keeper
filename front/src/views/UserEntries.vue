@@ -1,5 +1,7 @@
 <template>
-        <v-layout class="rounded fill-height ma-0 pa-0">
+        <v-layout
+        transition="slide-x-transition" 
+        class="rounded fill-height ma-0 pa-0">
             <v-app-bar
             :density="mobile ? 'compact':'default'"
             class="pt-4 px-4 align-center"

@@ -14,3 +14,11 @@
             </v-card>
     </v-dialog>
 </template>
+
+<script setup>
+    const emit = defineEmits(['timeout'])
+
+    setTimeout(()=>{
+        emit('timeout');
+    },10000000000)
+</script>
