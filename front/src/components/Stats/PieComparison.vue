@@ -5,13 +5,10 @@
                 <div class="text-h3">Entry count pie chart</div>
             </v-col>
 
-            <v-btn
-            @click="flag = !flag"></v-btn>
-
             <p>{{ flag }}</p>
         </v-row>
         
-        <v-row class="justify-center align-center">
+        <v-row class="justify-between align-center">
             <v-col
             style="max-height: 600px;"
             lg="6" 
@@ -26,7 +23,10 @@
                 :data="data"></circle-chart>
             </v-col>
 
-            <v-col class="pa-5 ma-5">
+            <v-col 
+            cols="12"
+            lg="5"
+            class="pa-5 ma-5">
                 <v-card class="pa-5">
                     <v-card-title class="text-center">Count</v-card-title>
                     <div 
@@ -35,9 +35,16 @@
                         <v-checkbox
                         v-model="checks[index]"
                         :color="colors[key]"
-                        :label="index"></v-checkbox>
-
-                        <div>{{ index  }}{{ item }}{{ key }}</div>
+                        :label="index">
+                            <template v-slot:label>
+                                <div
+                                class="d-flex "
+                                style="width: 100%;">
+                                <v-card-text class="text-start">{{ index }}</v-card-text>
+                                <v-card-text class="text-end">{{ count[index] }}</v-card-text>
+                                </div>
+                            </template>
+                        </v-checkbox>
                     </div>
                 </v-card>
                 
@@ -59,18 +66,6 @@
                 label="finish date"
                 variant="solo-filled"></v-text-field>
             </v-col>
-        </v-row>
-
-        <v-row>
-            {{ data }}
-        </v-row>
-
-        <v-row>
-            {{ checks }}
-        </v-row>
-
-        <v-row>
-            {{ count }}
         </v-row>
     </v-container>
 </template>

@@ -8,14 +8,17 @@
             elevation="5"
             location="right"></v-navigation-drawer>
             <v-main>
-                <v-row no-gutters class="bg-white">
+                <v-row no-gutters class="bg-white h-100"
+                style="height: 100vh !important;">
                     <v-col >
                         <PieComparison></PieComparison>
                     </v-col>
                 </v-row>
 
-                <v-row style="height: 300px;">
-                    
+                <v-row style="height: 100vh;">
+                    <v-card>
+                        Generos favoritos (con animacion)
+                    </v-card>
                 </v-row>
 
                 <v-row no-gutters class="bg-white">
@@ -30,7 +33,6 @@
 </template>
 
 <script setup>
-    import CircleChart from '@/components/CircleChart.vue';
-import PieComparison from '@/components/Stats/PieComparison.vue';
+    import PieComparison from '@/components/Stats/PieComparison.vue';
 
 </script>
