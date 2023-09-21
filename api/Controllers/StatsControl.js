@@ -94,11 +94,11 @@ exports.getFavouriteGenres = async function(req,res){
         }
     }
 
-    res.status(200).json({genres:genres, count:obj});
+    res.status(200).json({value:obj});
     return true;
 }
 
-exports.getFavouriteGenresByType = async function(){
+exports.getFavouriteGenresByType = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
     let type = req.params.type;
@@ -143,7 +143,7 @@ exports.getFavouriteGenresByType = async function(){
         }
     }
 
-    res.status(200).json({genres:genres, count:obj});
+    res.status(200).json({value:obj});
     return true;
 }
 

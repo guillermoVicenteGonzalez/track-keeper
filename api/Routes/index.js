@@ -98,6 +98,9 @@ router.route("/stats/types/count/:user_id/")
 router.route("/stats/genres/count/:user_id")
     .get(StatsCtrl.getFavouriteGenres)
 
+router.route("/stats/genres/count/:user_id/type/:type")
+    .get(StatsCtrl.getFavouriteGenresByType)
+
 
 
 module.exports = router
