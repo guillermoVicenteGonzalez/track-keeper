@@ -1,6 +1,7 @@
 const UserService = require("../Services/UserService");
 const Entry = require("../Models/MediaEntry");
 const Media = require("../Models/Media");
+const {Op} = require("sequelize")
 const winston = require("../logger/logger")
 
 exports.getEntryRowCount = async function(userId, type, filter){
@@ -23,15 +24,16 @@ exports.getEntryRowCount = async function(userId, type, filter){
     return c;
 }
 
-exports.getGenres = async function(userId,type,date){
+exports.getGenres = async function(userId,type,startDate, finishDate){
 
     var whereObj = {}
+    var entryWhereObj = {user_id:userId, state:'finished'}
     if(type){
         whereObj.type=type
     }
 
-    if(date){
-        whereObj.finish_date=date;
+    if(finishDate && startDate){
+        entryWhereObj.finish_date = {[Op.between]:[startDate, finishDate],}
     }
 
 
@@ -41,11 +43,11 @@ exports.getGenres = async function(userId,type,date){
         include:{
             model:Entry,
             as:'Entry',
-            where:{user_id:userId, state:'finished'}
+            where:entryWhereObj
         }
     }).
     catch((err)=>{
-        winston.log("info","getFavouriteGenres: ")
+        winston.log("info","getGenres: " + err);
         return undefined;
     })
 

@@ -8,6 +8,7 @@
         class="text-center">favourite genres</v-card-title>
 
         <div 
+        v-if="genres"
         class="pa-2 overflow-auto"
         v-for="(item, key) in genres" :key="key">
             <label>{{ item[0] }}: {{ item[1] }}</label>
@@ -22,11 +23,16 @@
             </v-progress-linear>
         </div>
 
+        <v-card-text
+        class="text-center"
+        v-else>not enough data</v-card-text>
+
         <v-divider class="mt-5"></v-divider>
         <v-card-actions class="pt-5 mt5">
             <v-row>
             <v-col>
                 <v-select
+                clearable
                 v-model="typeFilter"
                 :items="filterTypes"
                 :density="mobile ? 'compact':'default'"
@@ -34,6 +40,11 @@
             </v-col>
             <v-col>
                 <v-select
+                label="year"
+                :items="years"
+                clearable
+                v-model="date"
+                type="year"
                 :density="mobile ? 'compact':'default'"
                 variant="solo-filled"></v-select>
             </v-col>
@@ -48,12 +59,14 @@
 
 <script setup>
     import axios from "axios";
-    import {ref} from "vue";
+    import {ref, watch} from "vue";
     import {useStore} from "vuex"
     import apiConf from "@/apiConf.json"
     import Modal from "../Modal.vue";
     import { useDisplay } from "vuetify";
 
+    var years = ref([])
+    var date = ref();
     const {mobile} = useDisplay();
     var genres = ref();
     var values = ref([]);
@@ -63,9 +76,11 @@
     var typeFilter = ref();
 
     async function getGenreCount(){
+        values.value = []
         let {id, token} = store.getters.getUser;
         let res = await axios.post(apiConf.host + apiConf.port + apiConf.stats.getGenres + id,{
-            type:typeFilter.value
+            type:typeFilter.value,
+            date:date.value
         },{
             headers:{
                 'Authorization':'Bearer ' + token
@@ -91,18 +106,34 @@
             genres.value = res.data.value;       
         }
 
+        if(arr.length >= 0 ){
         //we make a proportion
         let len = genres.value.length;
         let max = genres.value[0][1]; //it is sorted so the first is max
-        console.log(max)
-        for(let i =0; i<len; i++){
-            let aux = (genres.value[i][1] * 100) / max;
-            values.value.push(aux)
+            for(let i =0; i<len; i++){
+                let aux = (genres.value[i][1] * 100) / max;
+                values.value.push(aux)
+            }
         }
 
-        console.log(res.data)
+
     }
 
+    function yearIterator(){
+        let today = new Date();
+        var currentY = today.getFullYear()
+
+        for(let i=2000;i<=currentY;i++){
+            years.value.push(i);
+        }
+    }
+
+    yearIterator();
+
     getGenreCount();
+
+    watch([typeFilter,date],()=>{
+        getGenreCount()
+    })
 
 </script>

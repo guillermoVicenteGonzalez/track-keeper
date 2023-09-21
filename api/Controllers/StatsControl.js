@@ -54,10 +54,10 @@ exports.getFavouriteGenres = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
     let date = req.body.date;
-    let type = req.body.type
+    let type = req.body.type;
+    var finishD;
 
     if(!userId || !auth){
-        console.log(userId, auth);
         let msg = "Missing parameters";
         winston.log("info","getFavouriteGenres: " + msg);
         res.status(400).json({msg:msg});
@@ -73,10 +73,14 @@ exports.getFavouriteGenres = async function(req,res){
         return undefined
     }
 
+    if(date != undefined && !(date instanceof Date)){
+        finishD = new Date(date + 1,1,1,0,0)
+        date = new Date(date,1,1,0,0);
+    }
 
 
     //then we get an array of all the genres
-    var genres = await StatsService.getGenres(userId,type,date);
+    var genres = await StatsService.getGenres(userId,type,date, finishD);
 
     if(!genres){
         let msg = "Unable to get genres";
@@ -91,13 +95,11 @@ exports.getFavouriteGenres = async function(req,res){
      * if it is equal, we increment the count in obj and slice it to decrease the number of iterations
      */
     for(let i in genres){
-        //obj[genres[i]] = 1;
         let count = 1;
         let j = Number(i + 1); //if not it is treated as a string??????
         let name = genres[i]
         for(j; j<genres.length; j++){
             if(genres[i] == genres[j]){
-                //obj[genres[i]] ++;
                 count ++;
                 genres.splice(j,1);
             }
@@ -106,7 +108,6 @@ exports.getFavouriteGenres = async function(req,res){
         arr.push([name,count]);
     }
 
-    console.log(arr);
     //finally we have to sort them
     arr.sort((a,b)=>{
         return b[1] - a[1]
