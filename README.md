@@ -98,3 +98,4 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
     - 2.collections
     - 3.stats
     - 4.visuals
+        - custom scroller

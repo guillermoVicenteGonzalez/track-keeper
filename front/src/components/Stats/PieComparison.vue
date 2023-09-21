@@ -65,6 +65,12 @@
                 variant="solo-filled"></v-text-field>
             </v-col>
         </v-row>
+
+        <modal
+        ref="modal"></modal>
+
+        <loading-modal
+        v-model="loading"></loading-modal>
     </v-container>
 </template>
 
@@ -76,9 +82,13 @@
     import apiConf from "@/apiConf.json"
     import { useDisplay } from 'vuetify';
     import {watch} from "vue"
+    import Modal from '../Modal.vue';
+    import LoadingModal from '../LoadingModal.vue';
 
     const {mobile} = useDisplay
     var flag = ref(true)
+    var modal= ref();
+    var loading = ref();
     const store = useStore();
     var labels = ref([]);
     var colors = ref([                
@@ -107,7 +117,12 @@
         })
         .catch((err)=>{
             console.log(err);
-            alert("error");
+            if(err.response){
+                modal.value.createModal("Error","get entries",err.response.data.msg,true,"/");
+            }else{
+                modal.value.createModal("Error","get entries","An unknown error ocurred",true,"/");
+            }
+            return undefined;
         });
 
         count = res.data.value;

@@ -7,32 +7,36 @@
             rail
             elevation="5"
             location="right"></v-navigation-drawer>
-            <v-main>
-                <v-row no-gutters class="bg-white h-100"
-                style="height: 100vh !important;">
-                    <v-col >
-                        <PieComparison></PieComparison>
-                    </v-col>
-                </v-row>
 
-                <v-row style="height: 100vh;">
-                    <v-card>
-                        Generos favoritos (con animacion)
-                    </v-card>
-                </v-row>
+            <v-lazy>
+                <v-main class="justify-center align-center">
+                    <v-row no-gutters class="bg-white h-100"
+                    style="height: 100vh !important;">
+                        <v-col >
+                            <PieComparison></PieComparison>
+                        </v-col>
+                    </v-row>
 
-                <v-row no-gutters class="bg-white">
-                    <v-col >
-                        <PieComparison></PieComparison>
-                    </v-col>
-                </v-row>
-            </v-main>
+                    <v-row 
+                    class="d-flex justify-center align-center pa-5"
+                    style="height: 100vh; width: 100%;">
+                        <FavouriteGenres></FavouriteGenres>
+                    </v-row>
+
+                    <v-row no-gutters class="bg-white">
+                        <v-col>
+                            <PieComparison></PieComparison>
+                        </v-col>
+                    </v-row>
+                </v-main>
+            </v-lazy>
         </v-parallax>
 
         </v-layout>
 </template>
 
 <script setup>
-    import PieComparison from '@/components/Stats/PieComparison.vue';
+    import FavouriteGenres from '@/components/Stats/FavouriteGenres.vue';
+import PieComparison from '@/components/Stats/PieComparison.vue';
 
 </script>

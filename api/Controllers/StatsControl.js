@@ -13,6 +13,13 @@ const winston = require("../logger/logger")
 exports.getEntryCount = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
+
+    if(!userId || !auth){
+        let msg = "Missing parameters";
+        winston.log("info","getEntryCount: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
     
     //first we authenticate the user
     let token = auth.split(' ')
@@ -42,3 +49,101 @@ exports.getEntryCount = async function(req,res){
     res.status(200).json({value:count});
     return undefined
 }
+
+exports.getFavouriteGenres = async function(req,res){
+    let userId = req.params.user_id;
+    let auth = req.headers.authorization;
+
+    if(!userId || !auth){
+        let msg = "Missing parameters";
+        winston.log("info","getFavouriteGenres: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    //first we authenticate the user
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","createEntry: " + authRes)
+        return undefined
+    }
+
+    //then we get an array of all the genres
+    var genres = await StatsService.getGenres(userId);
+    if(!genres){
+        let msg = "Unable to get genres";
+        winston.log("info","getFavouriteGenres: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+    var obj = {};
+
+    /**
+     * now we compare each element of the array to the rest.
+     * if it is equal, we increment the count in obj and slice it to decrease the number of iterations
+     */
+    for(let i in genres){
+        obj[genres[i]] = 1;
+        for(let j=i+1; j<genres.length; j++){
+            if(genres[i] == genres[j]){
+                obj[genres[i]] ++;
+                genres.splice(j,1);
+            }
+        }
+    }
+
+    res.status(200).json({genres:genres, count:obj});
+    return true;
+}
+
+exports.getFavouriteGenresByType = async function(){
+    let userId = req.params.user_id;
+    let auth = req.headers.authorization;
+    let type = req.params.type;
+
+    if(!userId || !auth || !type){
+        let msg = "Missing parameters";
+        winston.log("info","getFavouriteGenresByType: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    //first we authenticate the user
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","createEntry: " + authRes)
+        return undefined
+    }
+
+    //then we get an array of all the genres
+    var genres = await StatsService.getGenres(userId,type);
+    if(!genres){
+        let msg = "Unable to get genres";
+        winston.log("info","getFavouriteGenres: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+    var obj = {};
+
+    /**
+     * now we compare each element of the array to the rest.
+     * if it is equal, we increment the count in obj and slice it to decrease the number of iterations
+     */
+    for(let i in genres){
+        obj[genres[i]] = 1;
+        for(let j=i+1; j<genres.length; j++){
+            if(genres[i] == genres[j]){
+                obj[genres[i]] ++;
+                genres.splice(j,1);
+            }
+        }
+    }
+
+    res.status(200).json({genres:genres, count:obj});
+    return true;
+}
+
