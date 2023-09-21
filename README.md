@@ -93,7 +93,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 
 
 ## Order
-    - 1.profile
+    - [x] 1.profile
     - 2. update media cover
     - 2.collections
     - 3.stats

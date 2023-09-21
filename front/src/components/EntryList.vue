@@ -12,7 +12,7 @@
                 class="text-subtitle-2 text-xl-h1">
                     <th class>cover</th>
                     <th class="">Name</th>
-                    <th v-if="!mobile">start_date</th>
+                    <th v-if="!mobile" class="text-center">start_date</th>
                     <th>finish date</th>
                     <th>Delete</th>
                 </tr>
@@ -51,6 +51,7 @@
                     class=""
                     style="max-width: 40px;">
                         <v-btn
+                        @click="deleteEntry(item.entry_id)"
                         color="error"
                         size="small"
                         variant="text"
@@ -76,6 +77,12 @@
 
     </v-card>
 
+    <loading-modal
+    v-model="loading"></loading-modal>
+
+    <modal
+    ref="modal"></modal>
+
     <view-image-modal
     v-model="triggerImage"
     @hide="triggerImage = false"
@@ -86,12 +93,17 @@
 
 <script setup>
     import {ref} from "vue"
-    import apiConf from "../apiConf.json"
     import {useStore} from "vuex"
     import {useDisplay} from "vuetify"
     import UpdateMediaCard from "./updateMediaCard.vue";
     import ViewImageModal from "./ViewImageModal.vue";
+    import apiConf from "@/apiConf.json"    
+    import axios from "axios";
+    import LoadingModal from "./LoadingModal.vue";
+    import Modal from "./Modal.vue";
 
+    var modal = ref();
+    var loading = ref();
     var triggerImage = ref();
     var element = ref();
     var triggerDialog = ref();
@@ -112,5 +124,29 @@
     function showImage(url){
         modalUrl.value = url;
         triggerImage.value = true
+    }
+
+    async function deleteEntry(entryId){
+        let {token} = store.getters.getUser;
+
+        let res = await axios.delete(apiConf.host + apiConf.port + apiConf.entry.delete + id + "/" + entryId,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
+        })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","delete entry",err.response.data.msg,true);
+            }else{
+                modal.value.createModal("Error","delete entry","An unknown error ocurred",true);
+            }
+            console.log(err);
+            return undefined;
+        })
+
+        if(res){
+            modal.value.createModal("Success","delete entry","Succesfully deleted entry",false);
+            emit("updated");
+        }
     }
 </script>
