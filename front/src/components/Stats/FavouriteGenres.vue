@@ -99,6 +99,8 @@
             let aux = (genres.value[i][1] * 100) / max;
             values.value.push(aux)
         }
+
+        console.log(res.data)
     }
 
     getGenreCount();

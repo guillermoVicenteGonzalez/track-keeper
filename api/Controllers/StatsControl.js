@@ -76,7 +76,7 @@ exports.getFavouriteGenres = async function(req,res){
 
 
     //then we get an array of all the genres
-    var genres = await StatsService.getGenres(userId,type,year);
+    var genres = await StatsService.getGenres(userId,type,date);
 
     if(!genres){
         let msg = "Unable to get genres";
@@ -93,8 +93,9 @@ exports.getFavouriteGenres = async function(req,res){
     for(let i in genres){
         //obj[genres[i]] = 1;
         let count = 1;
-        let j //if not it is treated as a string??????
-        for(j=1; j<genres.length; j++){
+        let j = Number(i + 1); //if not it is treated as a string??????
+        let name = genres[i]
+        for(j; j<genres.length; j++){
             if(genres[i] == genres[j]){
                 //obj[genres[i]] ++;
                 count ++;
@@ -102,9 +103,10 @@ exports.getFavouriteGenres = async function(req,res){
             }
         }
 
-        arr.push([genres[i],count]);
+        arr.push([name,count]);
     }
 
+    console.log(arr);
     //finally we have to sort them
     arr.sort((a,b)=>{
         return b[1] - a[1]

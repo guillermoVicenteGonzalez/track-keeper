@@ -85,7 +85,7 @@
     import Modal from '../Modal.vue';
     import LoadingModal from '../LoadingModal.vue';
 
-    const {mobile} = useDisplay
+    const {mobile} = useDisplay()
     var flag = ref(true)
     var modal= ref();
     var loading = ref();
