@@ -20,7 +20,9 @@
                     <v-row 
                     class="d-flex justify-center align-center pa-5"
                     style="height: 100vh; width: 100%;">
+                    <v-container class="d-flex justify-center align-center">
                         <FavouriteGenres></FavouriteGenres>
+                    </v-container>
                     </v-row>
 
                     <v-row no-gutters class="bg-white">
@@ -37,6 +39,6 @@
 
 <script setup>
     import FavouriteGenres from '@/components/Stats/FavouriteGenres.vue';
-import PieComparison from '@/components/Stats/PieComparison.vue';
+    import PieComparison from '@/components/Stats/PieComparison.vue';
 
 </script>

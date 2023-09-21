@@ -53,8 +53,11 @@ exports.getEntryCount = async function(req,res){
 exports.getFavouriteGenres = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
+    let year = req.body.year;
+    let date = req.body.type
 
     if(!userId || !auth){
+        console.log(userId, auth);
         let msg = "Missing parameters";
         winston.log("info","getFavouriteGenres: " + msg);
         res.status(400).json({msg:msg});
@@ -70,8 +73,11 @@ exports.getFavouriteGenres = async function(req,res){
         return undefined
     }
 
+
+
     //then we get an array of all the genres
-    var genres = await StatsService.getGenres(userId);
+    var genres = await StatsService.getGenres(userId,type,year);
+
     if(!genres){
         let msg = "Unable to get genres";
         winston.log("info","getFavouriteGenres: " + msg);
@@ -87,13 +93,15 @@ exports.getFavouriteGenres = async function(req,res){
     for(let i in genres){
         //obj[genres[i]] = 1;
         let count = 1;
-        for(let j=i+1; j<genres.length; j++){
+        let j //if not it is treated as a string??????
+        for(j=1; j<genres.length; j++){
             if(genres[i] == genres[j]){
                 //obj[genres[i]] ++;
                 count ++;
                 genres.splice(j,1);
             }
         }
+
         arr.push([genres[i],count]);
     }
 

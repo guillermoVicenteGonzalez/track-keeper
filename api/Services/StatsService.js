@@ -23,35 +23,31 @@ exports.getEntryRowCount = async function(userId, type, filter){
     return c;
 }
 
-exports.getGenres = async function(userId,type){
-    if(type != undefined){
-        var genres = await Media.findAll({
-            attributes:['genre'],
-            where:{type:type},
-            include:{
-                model:Entry,
-                as:'Entry',
-                where:{user_id:userId, state:'finished'}
-            }
-        }).
-        catch((err)=>{
-            winston.log("info","getFavouriteGenres: ")
-            return undefined;
-        })
-    }else{
-        var genres = await Media.findAll({
-            attributes:['genre'],
-            include:{
-                model:Entry,
-                as:'Entry',
-                where:{user_id:userId, state:'finished'}
-            }
-        }).
-        catch((err)=>{
-            winston.log("info","getFavouriteGenres: ")
-            return undefined;
-        })
+exports.getGenres = async function(userId,type,date){
+
+    var whereObj = {}
+    if(type){
+        whereObj.type=type
     }
+
+    if(date){
+        whereObj.finish_date=date;
+    }
+
+
+    var genres = await Media.findAll({
+        attributes:['genre'],
+        where:whereObj,
+        include:{
+            model:Entry,
+            as:'Entry',
+            where:{user_id:userId, state:'finished'}
+        }
+    }).
+    catch((err)=>{
+        winston.log("info","getFavouriteGenres: ")
+        return undefined;
+    })
 
     if(genres){
         var nGenres = genres.map((item)=>{

@@ -96,7 +96,7 @@ router.route("/stats/types/count/:user_id/")
     .get(StatsCtrl.getEntryCount)
 
 router.route("/stats/genres/count/:user_id")
-    .get(StatsCtrl.getFavouriteGenres)
+    .post(StatsCtrl.getFavouriteGenres)
 
 router.route("/stats/genres/count/:user_id/type/:type")
     .get(StatsCtrl.getFavouriteGenresByType)
