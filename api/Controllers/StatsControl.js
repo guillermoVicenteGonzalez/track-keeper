@@ -53,8 +53,8 @@ exports.getEntryCount = async function(req,res){
 exports.getFavouriteGenres = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
-    let year = req.body.year;
-    let date = req.body.type
+    let date = req.body.date;
+    let type = req.body.type
 
     if(!userId || !auth){
         console.log(userId, auth);

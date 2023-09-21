@@ -65,7 +65,7 @@
     async function getGenreCount(){
         let {id, token} = store.getters.getUser;
         let res = await axios.post(apiConf.host + apiConf.port + apiConf.stats.getGenres + id,{
-            "hola":"que tal"
+            type:typeFilter.value
         },{
             headers:{
                 'Authorization':'Bearer ' + token
