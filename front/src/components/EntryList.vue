@@ -1,6 +1,5 @@
 <template>
     <v-card
-    color="success"
     elevation="3"
     v-if="props.list"
     class="overflow-auto border-b mt-2"
@@ -9,10 +8,13 @@
         <v-table
         transition="fade-transition">
             <thead>
-                <tr>
-                    <th class="text-left">cover</th>
-                    <th class="text-left">Name</th>
-                    <th class="text-left">finish date</th>
+                <tr 
+                class="text-subtitle-2 text-xl-h1">
+                    <th class>cover</th>
+                    <th class="">Name</th>
+                    <th v-if="!mobile">start_date</th>
+                    <th>finish date</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +38,24 @@
                     </th>
                     <th
                     @click="clickOnCard(item)"
-                    class="text-body-2 text-md-body-1" >{{ item.Media.name}}</th>
+                    class="text-body-2 text-md-body-1">{{ item.Media.name}}</th>
+
+                    <th
+                    v-if="!mobile">{{ item.start_date }}</th>
+
                     <th
                     class="text-body-2 text-md-body-1" 
                     style="min-width: 110px;">{{ item.finish_date }}</th>
+
+                    <th
+                    class=""
+                    style="max-width: 40px;">
+                        <v-btn
+                        color="error"
+                        size="small"
+                        variant="text"
+                        icon="mdi-delete"></v-btn>
+                    </th>
                 </tr>
             </tbody>
         </v-table>

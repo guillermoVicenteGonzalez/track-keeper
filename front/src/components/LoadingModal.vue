@@ -20,5 +20,5 @@
 
     setTimeout(()=>{
         emit('timeout');
-    },10000000000)
+    },100000000)
 </script>
