@@ -78,23 +78,31 @@ exports.getFavouriteGenres = async function(req,res){
         res.status(400).json({msg:msg});
         return undefined;
     }
-    var obj = {};
+    var arr = [];
 
     /**
      * now we compare each element of the array to the rest.
      * if it is equal, we increment the count in obj and slice it to decrease the number of iterations
      */
     for(let i in genres){
-        obj[genres[i]] = 1;
+        //obj[genres[i]] = 1;
+        let count = 1;
         for(let j=i+1; j<genres.length; j++){
             if(genres[i] == genres[j]){
-                obj[genres[i]] ++;
+                //obj[genres[i]] ++;
+                count ++;
                 genres.splice(j,1);
             }
         }
+        arr.push([genres[i],count]);
     }
 
-    res.status(200).json({value:obj});
+    //finally we have to sort them
+    arr.sort((a,b)=>{
+        return b[1] - a[1]
+    })
+
+    res.status(200).json({value:arr});
     return true;
 }
 
@@ -142,6 +150,9 @@ exports.getFavouriteGenresByType = async function(req,res){
             }
         }
     }
+
+    //finally we have to sort them
+    
 
     res.status(200).json({value:obj});
     return true;

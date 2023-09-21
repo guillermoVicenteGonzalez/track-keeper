@@ -27,6 +27,7 @@
         "delete":"/api/entry/"
     },
     "stats":{
-        "getCount":"/api/stats/types/count/"
+        "getCount":"/api/stats/types/count/",
+        "getGenres":"/api/stats/genres/count/"
     }
 }

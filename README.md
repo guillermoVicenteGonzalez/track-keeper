@@ -16,39 +16,41 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [x] Entry
         - [x] Collection
         - [x] Collection Entry
+        - [ ] Stats service
 
     - [ ] Controllers
-        - [ ] Users
-            - [ ] Upload profile
-            - [ ] get profile
+        - [x] Users
+            - [x] Upload profile
+            - [x] get profile
         - [x] Media
             - [x] Upload cover
             - [x] get cover
         - [x] Entries
         - [x] Collections
         - [x] Collection Entries
+        - [ ] Stats controller
 
 - [ ] frontend
     - [ ] basic structure 
         - [ ] landing
         - [x] sign up
         - [x] sign in
-        - [ ] profile
+        - [x] profile
         - [x] error/info modal
         - [ ] password modal
-        - [ ] loading modal
-            - [ ] timeouts
+        - [x] loading modal
+            - [x] timeouts
 
     - [ ] media
         - [x] media list
         - [x] create media
             - [x] emit event to reload
             - [x] Select instead of text field
-        - [ ] Media card
-            - [ ] truncate text if it does not fit
+        - [x] Media card
+            - [x] truncate text if it does not fit
             - [x] Media data
             - [x] Media cover
-            - [ ] edit media cover
+            - [x] edit media cover
             - [x] edit/delete media
             - [x] add to user (entry)
         - [x] add entries
