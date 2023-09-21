@@ -17,10 +17,10 @@
                 class="d-flex justify-center align-center">
                     <v-img
                     @click="triggerImage = true"
-                    class="bg-grey-darken-2 rounded"
-                    style="width: 100%; height: 100%;"
+                    class="bg-grey-darken-2 rounded reactiveImg"
+                    style="width: 100%; height: 100%; cursor: pointer;"
                     cover
-                    :src="url + media_id">
+                    :src="url + media_id + '?' + new Date().getTime()">
                         <template v-slot:error>
                             <v-icon 
                             style="
@@ -30,6 +30,7 @@
                     </v-img>
                 </v-col>
                 <v-col 
+                style="cursor: pointer;"
                 @click="triggerUpdate = true"
                 cols="9">
                     <v-card-title class="text-h5">{{ name }}</v-card-title>
@@ -183,5 +184,11 @@
     }
 
 </script>
+
+<style>
+    .reactiveImg:hover{
+        background-color: rgba(0, 0, 0, 0.17);
+    }
+</style>
 
 

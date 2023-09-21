@@ -301,13 +301,6 @@ exports.uploadMediaCover = async function(req,res){
         return undefined;
     }
 
-    if(!user.isAdmin && userId != media.user_id){
-        let msg = "Permission denied";
-        winston.log("info","deleteMedia: " + msg);
-        res.status(400).json({msg:msg});
-        return undefined;
-    }
-
     let media = await MediaService.getMediaRowById(mediaId)
     if(!media){
         let msg = "Media does not exist";
@@ -315,6 +308,14 @@ exports.uploadMediaCover = async function(req,res){
         res.status(400).json({msg:msg});
         return undefined;
     }
+
+    if(!user.isAdmin && userId != media.user_id){
+        let msg = "Permission denied";
+        winston.log("info","deleteMedia: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
 
     upload(req,res,async (err)=>{
         if(err){

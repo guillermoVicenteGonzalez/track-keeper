@@ -28,13 +28,21 @@
                         class="bg-grey-darken-2 rounded"
                         style="width: 100%; height: 100%;"
                         cover
-                        :src="url + media_id">
+                        :src="previewUrl">
                             <template v-slot:error>
                                 <v-icon 
                                 style="
                                 width: 100%;
                                 height:100%;">mdi-image</v-icon>
                             </template>
+
+                            <div
+                            @click="photoDiag = true"
+                            class="d-flex justify-center align-center customBg"
+                            style="width: 100%; height:100%;" 
+                            v-if="!isEntry">
+                                <v-icon>mdi-camera</v-icon>
+                            </div>
                         </v-img>
                     </v-col>
 
@@ -170,6 +178,33 @@
             ref="modal"></Modal>
 
             <loading-modal v-model="loading"></loading-modal>
+
+            <v-dialog v-model="photoDiag">
+                <v-container class="d-flex justify-center align-center">
+                    <v-card 
+                    class="pa-5"
+                    min-width="300px"
+                    max-width="600px"
+                    width="600px">
+                        <v-card-title class="text-center">Update image</v-card-title>
+                        <v-file-input
+                        @click:clear="nPhoto = undefined"
+                        clearable
+                        v-model="nPhoto"
+                        :density="mobile ? 'compact':'default'"
+                        prepend-icon="mdi-camera"
+                        variant="solo-filled"></v-file-input>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-btn
+                            @click="photoDiag = false">Cancel</v-btn>
+                            
+                            <v-btn
+                            @click="uploadImage">Accept</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-container>
+            </v-dialog>
         </v-container>
     </v-dialog>
 </template>
@@ -184,6 +219,8 @@
     import apiConf from "../apiConf.json"
     import {useDisplay} from "vuetify"
 
+    var nPhoto = ref();
+    var photoDiag = ref();
     const {mobile} = useDisplay();
     var states = ref(['finished','on hold','to date','bookmarked','repeating','repeated']);
     const store = useStore();
@@ -194,7 +231,9 @@
     const emit = defineEmits(['hide','updated'])
     var url = ref();
     let {id} = store.getters.getUser; 
-    url.value = apiConf.host + apiConf.port + apiConf.media.getCover + id + "/";
+    url.value = apiConf.host + apiConf.port + apiConf.media.getCover + id + "/" + props.media_id;
+    var previewUrl = ref();
+    previewUrl.value = url.value;
     var types = ref([
         'book',
         'Videogame',
@@ -371,6 +410,45 @@
     }
 
 
+    function previewImage(){
+        console.log(nPhoto.value)
+        if(nPhoto.value != undefined){
+            var file = nPhoto.value[0];
+            var src = URL.createObjectURL(file);
+            previewUrl.value = src
+        }else{
+            previewUrl.value = url.value 
+        }
+    }
+
+    async function uploadImage(){
+        let {id,username, token} = store.getters.getUser;
+
+        var formData = new FormData();
+        formData.append("name",username);
+        formData.append("file",nPhoto.value[0]);
+
+        let res = await axios.post(apiConf.host + apiConf.port + apiConf.media.uploadCover + id + "/" + props.media_id, formData,{
+            headers:{
+                "Content-Type":"multipart/form-data",
+                'Authorization':'Bearer ' + token,   
+            }
+        }).catch((err)=>{
+            console.log(err);
+            if(err.response){
+                modal.value.createModal("Error","update cover",err.response.data.msg,true)
+            }else{
+                modal.value.createModal("Error","update cover","An unexpected error ocurred",true)
+            }
+            return undefined
+        })
+
+        if(res){
+            modal.value.createModal("Success","update cover","cover was updated succesfully",false);
+            photoDiag.value = undefined;
+            emit("updated")
+        }
+    }
 
     function setValues(){
         nName.value = props.name;
@@ -387,8 +465,24 @@
         emit('hide');
     }
 
+    watch(nPhoto,()=>{
+        previewImage()
+    })
+
     onMounted(()=>{
         setValues();
     })
 
 </script>
+
+<style>
+
+    .customBg{
+        background-color: rgba(0, 0, 0, 0.263);
+    }
+
+    .customBg:hover{
+        background-color: rgba(0, 0, 0, 0.537);
+        cursor: pointer;
+    }
+</style>

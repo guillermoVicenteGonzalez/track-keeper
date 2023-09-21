@@ -111,6 +111,7 @@
                 width="600px"
                 max-width="600">
                     <v-file-input
+                    clearable
                     @click:clear="photo = undefined"
                     v-model="photo"
                     label="profile image"
@@ -233,7 +234,6 @@
     }
 
     function previewImage(){
-        console.log(photo.value)
         if(photo.value != undefined){
             file = photo.value[0];
             var src = URL.createObjectURL(file)
