@@ -23,9 +23,11 @@
 
             <v-col 
             cols="12"
-            lg="5"
-            class="pa-5 ma-5">
-                <v-card class="pa-5">
+            lg="6 d-inline"
+            class="py-5">
+                <v-card 
+                elevation="2"
+                class="pa-5" v-if="!mobile">
                     <v-card-title class="text-center">Count</v-card-title>
                     <div 
                     class="d-flex justify-around align-center px-4"
@@ -44,6 +46,75 @@
                             </template>
                         </v-checkbox>
                     </div>
+                </v-card>
+
+                <v-card 
+                elevation="5"
+                v-else>
+                    <v-container class="justify-center">
+                        <v-row class="">
+                            <v-col>
+                                <v-card-title class="text-center">Count</v-card-title>
+                            </v-col>
+                        </v-row>
+
+                        <v-row>
+
+                            <v-col>
+                                <div
+                                v-for="(item, index, key) in checks" :key="item">
+                                    <v-checkbox
+                                    v-if="key%3==0"
+                                    v-model="checks[index]"
+                                    :color="colors[key]"
+                                    :label="index">
+                                        <template v-slot:label>
+                                            <p 
+                                            style="font-size: 15px;"
+                                            class="text-sm-subtitle-1">{{ index }}</p>
+                                        </template>
+                                    </v-checkbox>                                    
+                               </div>                                
+                            </v-col>
+
+                            
+                            <v-col>
+                                <div
+                                class="d-block"
+                                v-for="(item, index, key) in checks" :key="item">
+                                    <v-checkbox
+                                    class="text-sm-subtitle-1"
+                                    v-if="key%3==1"
+                                    v-model="checks[index]"
+                                    :color="colors[key]"
+                                    :label="index">
+                                    <template v-slot:label>
+                                            <p 
+                                            style="font-size: 15px;"
+                                            class="text-sm-subtitle-1">{{ index }}</p>
+                                        </template>
+                                    </v-checkbox>                                    
+                               </div>                                
+                            </v-col>
+
+                            <v-col>
+                                <div
+                                v-for="(item, index, key) in checks" :key="item">
+                                    <v-checkbox
+                                    v-if="key%3==2"
+                                    v-model="checks[index]"
+                                    :color="colors[key]"
+                                    :label="index">
+                                    <template v-slot:label>
+                                            <p 
+                                            style="font-size: 14px;"
+                                            class="text-sm-subtitle-1">{{ index }}</p>
+                                        </template>
+                                    </v-checkbox>                                    
+                               </div>                                
+                            </v-col>
+                        </v-row>
+                    </v-container>
                 </v-card>
                 
             </v-col>
@@ -66,8 +137,8 @@
             </v-col>
         </v-row>
 
-        <modal
-        ref="modal"></modal>
+        <Modal
+        ref="modal"></Modal>
 
         <loading-modal
         v-model="loading"></loading-modal>
