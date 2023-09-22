@@ -1,7 +1,7 @@
 const UserService = require("../Services/UserService");
 const Entry = require("../Models/MediaEntry");
 const Media = require("../Models/Media");
-const {Op} = require("sequelize")
+const {Op, where} = require("sequelize")
 const winston = require("../logger/logger")
 
 exports.getEntryRowCount = async function(userId, type, date1, date2){
@@ -63,4 +63,88 @@ exports.getGenres = async function(userId,type,startDate, finishDate){
     }
 
     return nGenres;
+}
+
+exports.getYearlyEvolution = async function(userId, type){
+    let minDate;
+    let maxDate;
+    var values = []
+    let includeObj = {}
+    var whereObj = {}
+
+    minDate = await Entry.min('finish_date')
+    maxDate = await Entry.max('finish_date')
+    minDate = new Date(minDate);
+    maxDate = new Date(maxDate)
+
+
+    let minYear = minDate.getFullYear();
+    let maxYear = maxDate.getFullYear();
+
+
+    if(type != undefined){
+        /*includeObj = {
+            include:{
+                model:Media,
+                as:'Media',
+                where:{type:type}
+            },
+//            attributes:{exclude:['Media']}
+        }*/
+
+        includeObj={
+            model:Media,
+            as:'Media',
+            where:{type:type}
+        }
+        whereObj={type:type}
+    }
+
+    for(let i = minYear; i<=maxYear; i++){
+        let date1 = new Date(i,1,1,0,0);
+        let date2 = new Date(i+1,1,1,0,0);
+
+        let count = await Entry.count({
+            where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
+            include:{
+                model:Media,
+                as:'Media',
+                where:whereObj
+            }
+        })
+
+        values.push([i,count]);
+    }
+
+    return values;
+}
+
+exports.getMonthlyEvolution = async function(userId, year, type){
+    console.log(type);
+    var values = []
+    var whereObj = {}
+    var months = ['January','February','March','April',
+    'May','June','July','August','September','October','November','December']
+
+    if(type != undefined){
+        whereObj = {type:type}
+    }
+
+    for(let i=1;i<=12;i++){
+        let date1 = new Date(year,i,1,0,0);
+        let date2 = new Date(year,i+1,1,0,0);
+
+        let count = await Entry.count({
+            where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
+            include:{
+                model:Media,
+                as:'Media',
+                where:whereObj
+            }
+        })
+
+        values.push([months[i],count]);
+    }
+
+    return values;
 }

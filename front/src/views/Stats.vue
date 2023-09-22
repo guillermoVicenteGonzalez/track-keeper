@@ -51,9 +51,12 @@
                         </v-container>
                     </v-row>
 
-                    <v-row no-gutters class="bg-white">
-                        <v-col>
-                            <PieComparison></PieComparison>
+                    <v-row 
+                    
+                    id="#evolution"
+                    no-gutters class="bg-white">
+                        <v-col class="d-flex justify-center align-center">
+                            <EvolutionLineChart></EvolutionLineChart>
                         </v-col>
                     </v-row>
                 </v-main>
@@ -64,7 +67,8 @@
 </template>
 
 <script setup>
-    import FavouriteGenres from '@/components/Stats/FavouriteGenres.vue';
+    import EvolutionLineChart from '@/components/Stats/EvolutionLineChart.vue';
+import FavouriteGenres from '@/components/Stats/FavouriteGenres.vue';
     import PieComparison from '@/components/Stats/PieComparison.vue';
     import {useDisplay} from "vuetify";
 

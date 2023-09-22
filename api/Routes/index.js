@@ -89,7 +89,7 @@ router.route("/collection/:user_id/entry/:col_entry_id")
     .delete(CollectionCtrl.removeEntryFromCol)
 
 /********************************************************
- * COLLECTIONS
+ * STATS
  *******************************************************/
 
 router.route("/stats/types/count/:user_id/")
@@ -98,6 +98,11 @@ router.route("/stats/types/count/:user_id/")
 router.route("/stats/genres/count/:user_id")
     .post(StatsCtrl.getFavouriteGenres)
 
+router.route("/stats/evolution/:user_id")
+    .post(StatsCtrl.getEvolution)
+    
+router.route("/test")
+    .get(StatsCtrl.test)
 
 
 

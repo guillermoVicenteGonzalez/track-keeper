@@ -28,6 +28,7 @@
     },
     "stats":{
         "getCount":"/api/stats/types/count/",
-        "getGenres":"/api/stats/genres/count/"
+        "getGenres":"/api/stats/genres/count/",
+        "evolution":"/api/stats/evolution/"
     }
 }

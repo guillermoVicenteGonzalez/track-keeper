@@ -127,3 +127,48 @@ exports.getFavouriteGenres = async function(req,res){
     res.status(200).json({value:arr});
     return true;
 }
+
+
+exports.getEvolution = async function(req,res){
+    let userId = req.params.user_id;
+    let auth = req.headers.authorization;
+    let year = req.body.year;
+    let type = req.body.type;
+
+    if(!userId || !auth){
+        let msg = "Missing parameters";
+        winston.log("info","getFavouriteGenres: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    //first we authenticate the user
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","createEntry: " + authRes)
+        return undefined
+    }
+
+    if(year != undefined){
+        var value = await StatsService.getMonthlyEvolution(userId,year,type)
+    }else{
+        var value = await StatsService.getYearlyEvolution(userId,type)
+    }
+
+    if(!value){
+        let msg = "Unable to get evolution";
+        winston.log("info","getEvlution: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    res.status(200).json({value:value});
+    return true
+}
+
+exports.test = async function(req,res){
+    let value = await StatsService.getYearlyEvolution(1);
+    res.status(200).json({value:value});
+}
