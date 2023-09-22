@@ -24,12 +24,12 @@
             </thead>
             <tbody>
                 <tr v-for="item in list" :key="item.entry_id">
-                    <th
-                    style="width: 30px !important;">
+                    <th>
                         <v-img
+                        :max-height="mobile ? '50px':'100px'"
                         cover
                         @click="showImage(url + item.Media.media_id)"
-                        style="width: 100%; "
+                        style="width: 100%; height: 100%;"
                         :src="url + item.Media.media_id">
                             <template v-slot:error>
                                 <v-icon
