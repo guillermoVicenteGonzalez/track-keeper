@@ -9,23 +9,28 @@
         transition="fade-transition">
             <thead>
                 <tr 
-                class="text-subtitle-2 text-xl-h1">
-                    <th class>cover</th>
-                    <th class="">Name</th>
+                class="text-subtitle-2 ">
+                    <th style="width: 100px;">
+                        cover
+                    </th>
+                    <th class="text-center">Name</th>
                     <th v-if="!mobile" class="text-center">start_date</th>
-                    <th>finish date</th>
-                    <th>Delete</th>
+                    <th class="text-center">finish date</th>
+                    <th style="width: 50px;">
+                        <v-icon v-if="mobile">mdi-delete</v-icon>
+                        <p v-else>Delete</p>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in list" :key="item.entry_id">
                     <th
-                    style="width: 50px; height:50px; max-height: 60px;">
+                    style="width: 30px !important;">
                         <v-img
+                        cover
                         @click="showImage(url + item.Media.media_id)"
-                        style="width: 100%; height:100%;"
-                        :src="url + item.Media.media_id"
-                        cover>
+                        style="width: 100%; "
+                        :src="url + item.Media.media_id">
                             <template v-slot:error>
                                 <v-icon
                                 style="
@@ -38,13 +43,14 @@
                     </th>
                     <th
                     @click="clickOnCard(item)"
-                    class="text-body-2 text-md-body-1">{{ item.Media.name}}</th>
+                    class="text-body-2 text-md-body-1 text-center">{{ item.Media.name}}</th>
 
                     <th
+                    class="text-body-2 text-md-body-1 text-center"
                     v-if="!mobile">{{ item.start_date }}</th>
 
                     <th
-                    class="text-body-2 text-md-body-1" 
+                    class="text-body-2 text-md-body-1 text-center" 
                     style="min-width: 110px;">{{ item.finish_date }}</th>
 
                     <th
