@@ -1,5 +1,6 @@
 <template>
-    <v-container class="justify-center align-center">
+    <v-container 
+    class="justify-center align-center" >
         <v-row>
             <v-col class="text-center">
                 <div class="text-h3">Entry count pie chart</div>
@@ -77,7 +78,7 @@
                                             class="text-sm-subtitle-1">{{ index }}</p>
                                         </template>
                                     </v-checkbox>                                    
-                               </div>                                
+                            </div>                                
                             </v-col>
 
                             
@@ -97,7 +98,7 @@
                                             class="text-sm-subtitle-1">{{ index }}</p>
                                         </template>
                                     </v-checkbox>                                    
-                               </div>                                
+                            </div>                                
                             </v-col>
 
                             <v-col>
@@ -114,7 +115,7 @@
                                             class="text-sm-subtitle-1">{{ index }}</p>
                                         </template>
                                     </v-checkbox>                                    
-                               </div>                                
+                            </div>                                
                             </v-col>
                         </v-row>
                     </v-container>
@@ -122,6 +123,16 @@
                 
             </v-col>
         </v-row>
+
+        <v-expand-transition>
+            <v-row
+            v-if="checkNoData()">
+                <v-col>
+                    <v-card-text 
+                    class="text-center text-error">No data</v-card-text>
+                </v-col>
+            </v-row>
+        </v-expand-transition>
 
         <v-row>
             <v-col>
@@ -203,7 +214,6 @@
 
     async function getEntryCount(){
         flag.value = false;
-        console.log("getEntryCount")
         let {id,token} = store.getters.getUser;
         let auxMonth = month.value ? months.indexOf(month.value):undefined
 
@@ -227,20 +237,18 @@
 
         if(res){
             count = res.data.value;
-        console.log(count);
-        var nLabels =[]
-        var nData = [];
-        for(let i in count){
-            nLabels.push(i);
-            nData.push(count[i])
-            checks.value[i] = true;
+            var nLabels =[]
+            var nData = [];
+            for(let i in count){
+                nLabels.push(i);
+                nData.push(count[i])
+                checks.value[i] = true;
+            }
+
+            labels.value = nLabels,
+            data.value = nData;
         }
-
-        labels.value = nLabels,
-        data.value = nData;
-
         flag.value = true;
-        }
 
     }
 
@@ -271,6 +279,9 @@
     }
 
 
+    function checkNoData(){
+        return data.value.every(item => item === 0)
+    }
 
     getYears()
 

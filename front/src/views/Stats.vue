@@ -34,10 +34,10 @@
             <v-lazy>
                 <v-main 
                 id="pieChart"
-                class="justify-center align-center h-100-lg">
-                    <v-row no-gutters class="bg-white"
+                class="justify-center align-center fill-height">
+                    <v-row no-gutters class="bg-white" style=""
 >
-                        <v-col >
+                        <v-col>
                             <PieComparison></PieComparison>
                         </v-col>
                     </v-row>

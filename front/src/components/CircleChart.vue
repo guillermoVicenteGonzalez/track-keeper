@@ -2,6 +2,8 @@
     <Pie 
     :data="data" 
     :options="options" />
+
+
 </template>
   
 <script setup>
@@ -31,6 +33,7 @@
     });
     */
 
+
     var data = ref({
         labels:props.labels,
         datasets:[{
@@ -45,6 +48,8 @@
         responsive:true
     })
 
+
+
     const props = defineProps({
         labels:undefined,
         colors:undefined,
@@ -52,6 +57,7 @@
         label:undefined,
         loading:undefined
     })
+
 
 
 </script>
