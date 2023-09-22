@@ -1,5 +1,4 @@
 <template>
-
     <v-navigation-drawer
     v-if="!mobile"
     permanent
@@ -16,6 +15,12 @@
         class="py-5"
         href="#genreCount">
             <v-icon>mdi-poll</v-icon>
+        </v-list-item>
+
+        <v-list-item
+        class="py-5"
+        href="#evolution">
+            <v-icon>mdi-chart-line</v-icon>
         </v-list-item>
     </v-navigation-drawer>
 
@@ -35,8 +40,7 @@
                 <v-main 
                 id="pieChart"
                 class="justify-center align-center fill-height">
-                    <v-row no-gutters class="bg-white" style=""
->
+                    <v-row no-gutters class="bg-white" style="">
                         <v-col>
                             <PieComparison></PieComparison>
                         </v-col>
@@ -52,12 +56,15 @@
                     </v-row>
 
                     <v-row 
-                    
-                    id="#evolution"
+                    id="evolution"
                     no-gutters class="bg-white">
                         <v-col class="d-flex justify-center align-center">
                             <EvolutionLineChart></EvolutionLineChart>
                         </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <!--Maybe summary (favourite genre, general count, fav type and a custom)-->
                     </v-row>
                 </v-main>
             </v-lazy>
@@ -68,11 +75,12 @@
 
 <script setup>
     import EvolutionLineChart from '@/components/Stats/EvolutionLineChart.vue';
-import FavouriteGenres from '@/components/Stats/FavouriteGenres.vue';
+    import FavouriteGenres from '@/components/Stats/FavouriteGenres.vue';
     import PieComparison from '@/components/Stats/PieComparison.vue';
     import {useDisplay} from "vuetify";
 
     const {mobile} = useDisplay()
+    const emit = defineEmits(['reloadUser'])
 
 </script>
 

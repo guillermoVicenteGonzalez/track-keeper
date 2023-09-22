@@ -137,7 +137,6 @@
                 return item[1]
             });
 
-            console.log(tempLabels, tempDatasets)
             data.value.labels = tempLabels;
             data.value.datasets[0].data = tempDatasets
 
