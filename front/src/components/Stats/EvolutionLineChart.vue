@@ -1,45 +1,49 @@
 <template>
-    <v-container class="pa-5 ma-5">
+    <v-container 
+    :fluid="mobile"
+    class="pa-5 ma-5">
         <v-row>
             <v-col>
                 <v-card-title class="text-center">Evolution</v-card-title>
             </v-col>
         </v-row>
-            <v-row class="d-flex justify-center pa-5 ma-5">
-                <v-expand-transition>
+    
+            <v-row no-gutters
+            :style="mobile ? '':'min-height: 600px;'"
+            class="d-flex justify-center h-auto">
+                <v-scale-transition>
 
                 <v-col 
                 v-if="flag"
-
-                style="max-height: 600px;"
+                xl="pa-5 ma-5"
                 class="d-flex justify-center">
                         <Line
-                    style="width: 100% height:100%;"
-                    :options="options"
-                    :data="data"></Line>
+                        style="
+                        max-height: 600px;"
+                        :options="options"
+                        :data="data"></Line>
                 </v-col>
-
-            </v-expand-transition>
-
+            </v-scale-transition>
             </v-row>
 
-
         <v-row>
-            <v-col>
+            <v-col md="6">
                 <v-select
+                :density="mobile ? 'compact':'default'"
                 clearable
-                label="filter by year"
+                label="year"
                 variant="solo-filled"
                 v-model="year"
                 :items="years"
                 ></v-select>
             </v-col>
 
-            <v-col>
+            <v-col lg="6">
                 <v-select
+                :density="mobile ? 'compact':'default'"
                 :items="types"
                 clearable
-                label="filter by type"
+                label="type"
                 variant="solo-filled"
                 v-model="type"></v-select>
             </v-col>
@@ -63,6 +67,7 @@
     import {Chart as ChartJS,CategoryScale,LinearScale,PointElement,LineElement,Title,Tooltip,Legend} from 'chart.js'
     import Modal from "../Modal.vue";
     import {watch} from "vue"
+    import {useDisplay} from "vuetify"
 
 
     ChartJS.register(
@@ -75,6 +80,7 @@
         Legend
     )
 
+    const {mobile} = useDisplay()
     var types = ['Videogame','Film','Book','Comic','TVShow','Anime','Other']
     var years = ref([]);
     var flag = ref(true)
