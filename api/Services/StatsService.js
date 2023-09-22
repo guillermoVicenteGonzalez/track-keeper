@@ -4,12 +4,17 @@ const Media = require("../Models/Media");
 const {Op} = require("sequelize")
 const winston = require("../logger/logger")
 
-exports.getEntryRowCount = async function(userId, type, filter){
+exports.getEntryRowCount = async function(userId, type, date1, date2){
+    var whereObj = {
+        user_id:userId,
+        state:'finished',
+    }
+    if(date1!= undefined && date2 != undefined){
+        whereObj.finish_date = {[Op.between]:[date1,date2]}
+    }
+    
     let c = await Entry.count({
-        where:{
-            user_id:userId,
-            state:'finished',
-        },
+        where:whereObj,
         include:{
             model:Media,
             as:'Media',

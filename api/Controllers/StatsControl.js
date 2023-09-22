@@ -13,6 +13,9 @@ const winston = require("../logger/logger")
 exports.getEntryCount = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
+    let year = req.body.year;
+    let month = req.body.month;
+    var date1 = undefined, date2 = undefined;
 
     if(!userId || !auth){
         let msg = "Missing parameters";
@@ -30,12 +33,20 @@ exports.getEntryCount = async function(req,res){
         return undefined
     }
 
+    //now, if there are both year an month, we compose the dates
+    if(year != undefined && month != undefined){
+        date1 = new Date(year, month,1,0,0);
+        date2 = new Date(year, month + 1,1,0,0)
+    }else if(year != undefined){
+        date1 = new Date(year,1,1,0,0);
+        date2 = new Date(year +1,1,1,0,0);
+    }
 
     //then we get all the posible types
     let types = Media.getAttributes().type.values;
     let count ={};
     for(let i in types){
-        let t = await StatsService.getEntryRowCount(userId,types[i]);
+        let t = await StatsService.getEntryRowCount(userId,types[i],date1,date2);
         if(t == undefined){
             let msg = "An error ocurred trying to count the number of: " +types[i] +"s";
             winston.log("info","getEntryCount: " + msg);
@@ -116,56 +127,3 @@ exports.getFavouriteGenres = async function(req,res){
     res.status(200).json({value:arr});
     return true;
 }
-
-exports.getFavouriteGenresByType = async function(req,res){
-    let userId = req.params.user_id;
-    let auth = req.headers.authorization;
-    let type = req.params.type;
-
-    if(!userId || !auth || !type){
-        let msg = "Missing parameters";
-        winston.log("info","getFavouriteGenresByType: " + msg);
-        res.status(400).json({msg:msg});
-        return undefined;
-    }
-
-    //first we authenticate the user
-    let token = auth.split(' ')
-    token = token[1]
-    let authRes = await UserService.authenticateUser(userId, token, res)
-    if(! (authRes instanceof User)){
-        winston.log("info","createEntry: " + authRes)
-        return undefined
-    }
-
-    //then we get an array of all the genres
-    var genres = await StatsService.getGenres(userId,type);
-    if(!genres){
-        let msg = "Unable to get genres";
-        winston.log("info","getFavouriteGenres: " + msg);
-        res.status(400).json({msg:msg});
-        return undefined;
-    }
-    var obj = {};
-
-    /**
-     * now we compare each element of the array to the rest.
-     * if it is equal, we increment the count in obj and slice it to decrease the number of iterations
-     */
-    for(let i in genres){
-        obj[genres[i]] = 1;
-        for(let j=i+1; j<genres.length; j++){
-            if(genres[i] == genres[j]){
-                obj[genres[i]] ++;
-                genres.splice(j,1);
-            }
-        }
-    }
-
-    //finally we have to sort them
-    
-
-    res.status(200).json({value:obj});
-    return true;
-}
-

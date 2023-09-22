@@ -41,7 +41,10 @@
                                 class="d-flex "
                                 style="width: 100%;">
                                 <v-card-text class="text-start">{{ index }}</v-card-text>
+                                <v-card-text class="text-end">{{ data[key] }}</v-card-text>
+<!--
                                 <v-card-text class="text-end">{{ count[index] }}</v-card-text>
+-->                          
                                 </div>
                             </template>
                         </v-checkbox>
@@ -122,18 +125,36 @@
 
         <v-row>
             <v-col>
+                <v-select
+                v-model="year"
+                clearable
+                label="year"
+                variant="solo-filled"
+                :items="years"
+                ></v-select>
+
+                <!--
                 <v-text-field
+                v-model="date1"
                 type="date"
                 clearable
-                label="start date"
-                variant="solo-filled"></v-text-field>
+                label="date interval"
+                variant="solo-filled"></v-text-field>-->
             </v-col>
             <v-col>
-                <v-text-field
+                <v-select
+                v-model="month"
+                clearable
+                label="month"
+                variant="solo-filled"
+                :items="months"
+                ></v-select>
+                <!--<v-text-field
+                v-model="date2"
                 type="date"
                 clearable
-                label="finish date"
-                variant="solo-filled"></v-text-field>
+                label="date interval"
+                variant="solo-filled"></v-text-field>-->
             </v-col>
         </v-row>
 
@@ -156,6 +177,10 @@
     import Modal from '../Modal.vue';
     import LoadingModal from '../LoadingModal.vue';
 
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var years = ref([]);
+    var year =ref()
+    var month = ref()
     const {mobile} = useDisplay()
     var flag = ref(true)
     var modal= ref();
@@ -180,8 +205,12 @@
         flag.value = false;
         console.log("getEntryCount")
         let {id,token} = store.getters.getUser;
+        let auxMonth = month.value ? months.indexOf(month.value):undefined
 
-        let res = await axios.get(apiConf.host + apiConf.port + apiConf.stats.getCount + id,{
+        let res = await axios.post(apiConf.host + apiConf.port + apiConf.stats.getCount + id,{
+            year:year.value,
+            month:auxMonth
+        },{
             headers:{
                 'Authorization':'Bearer ' + token
             }
@@ -196,7 +225,8 @@
             return undefined;
         });
 
-        count = res.data.value;
+        if(res){
+            count = res.data.value;
         console.log(count);
         var nLabels =[]
         var nData = [];
@@ -210,6 +240,8 @@
         data.value = nData;
 
         flag.value = true;
+        }
+
     }
 
     async function test(){
@@ -228,6 +260,24 @@
         data.value = nData;
         return nData;
     }
+
+    function getYears(){
+        var today = new Date();
+        today = today.getFullYear();
+        for(let i = 2000; i<=today; i++){
+            years.value.push(i);
+        }
+
+    }
+
+
+
+    getYears()
+
+    watch([year,month],()=>{
+            getEntryCount()
+        
+    })
 
     watch(checks.value,async ()=>{
         flag.value = false;

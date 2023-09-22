@@ -93,13 +93,12 @@ router.route("/collection/:user_id/entry/:col_entry_id")
  *******************************************************/
 
 router.route("/stats/types/count/:user_id/")
-    .get(StatsCtrl.getEntryCount)
+    .post(StatsCtrl.getEntryCount)
 
 router.route("/stats/genres/count/:user_id")
     .post(StatsCtrl.getFavouriteGenres)
 
-router.route("/stats/genres/count/:user_id/type/:type")
-    .get(StatsCtrl.getFavouriteGenresByType)
+
 
 
 
