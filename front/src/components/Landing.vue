@@ -1,8 +1,8 @@
 <template>
-<v-app-bar
-    location="top"
-      elevation="5"
-      color="primary">
+  <v-app-bar
+  location="top"
+  elevation="5"
+  color="primary">
         <v-app-bar-title>Track-keeper</v-app-bar-title>
         <template v-slot:append>
           <v-btn
@@ -14,67 +14,80 @@
         </template>
     </v-app-bar>
 
+    <v-row
+    id="title"
+    color="primary" 
+    class="fill-height align-center justify-center bg-background">
+      <v-col 
+      lg="7"
+      cols="10"
+      color="secondary"
+      class="">
+        <h1
+        style="text-decoration:;"
+        class="text-h2 text-start font-weight-bold">{{ title }}</h1>
 
-
-
-  
-      <v-row
-      id="title"
-      color="primary" 
-      class="h-screen align-center justify-center bg-background">
-        <v-col 
-        lg="7"
-        cols="10"
+        <v-divider
+        style="opacity: 100%;"
         color="secondary"
-        class="">
-          <h1
-          style="text-decoration:;"
-          class="text-h2 text-start font-weight-bold">{{ title }}</h1>
+        thickness="7"
+        class="rounded  my-2"></v-divider>
 
-          <v-divider
-          style="opacity: 100%;"
+        <h1 class="text-lg-h2"
+        >{{ subtitle }}</h1>
+
+        <div class="d-flex my-5 ">
+          <v-btn
+          elevation="5"
+          class="mr-5"
+          color="primary"
+          >Get started</v-btn>
+
+          <v-btn
+          href="#content"
           color="secondary"
-          thickness="7"
-          class="rounded  my-2"></v-divider>
+          variant="flat"
+          >Learn more</v-btn>
+        </div>
 
-          <h1 class="text-lg-h2"
-          >{{ subtitle }}</h1>
-
-          <div class="d-flex my-5 ">
-            <v-btn
-            elevation="5"
-            class="mr-5"
-            color="primary"
-            >Get started</v-btn>
-
-            <v-btn
-            href="#content"
-            color="secondary"
-            variant="flat"
-            >Learn more</v-btn>
-          </div>
-
-        </v-col>
-      </v-row>
+      </v-col>
+    </v-row>
   
+    <v-row 
+    id="content"
+    class="d-flex justify-space-around py-15 px-3 bg-background-darken">
+      <v-col
+      class="bg-blue"
+      lg="3"
+      cols="12">
+        <v-card
+        elevation="5"
+        min-height="200px"
+        max-width="500px">
+          <v-card-title>Organize your media</v-card-title>
+        </v-card>
+      </v-col>
 
-      <v-row 
-      style="min-height: 300px;"
-      id="content" 
-      class="fill-height justify-center align-center bg-surface">
-        <v-col cols="3">
-          <v-card>hola</v-card>
-        </v-col>
+      <v-col
+      class="bg-blue d-flex justify-center"
+      lg="3"
+      cols="12">
+        <v-card
+        class="bg-red"></v-card>
+      </v-col>
 
-        <v-col cols="3">
-          <v-card
-          elevation="5">Hola</v-card>
-        </v-col>
+      <v-col
+      class="bg-blue"
+      lg="3"
+      cols="12">
+        <v-card
+        class="bg-red"
+        min-height="300px"
+        max-width="400px"></v-card>
+      </v-col>
+    </v-row>
 
-        <v-col cols="3">
-          <v-card>HOla</v-card>
-        </v-col>
-      </v-row>-->
+
 
 
 
