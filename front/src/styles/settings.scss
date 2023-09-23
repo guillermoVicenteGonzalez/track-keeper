@@ -9,11 +9,23 @@
 //   $color-pack: false
 // );
 
+
+// https://vuetifyjs.com/features/sass-variables/`
+ @use 'vuetify/settings' with (
+   $color-pack: true,
+   $button-color:secondary,
+);
+
+.guilleBackground{
+    background-color: primary;
+}
+
 html{
     overflow: auto;
 }
 
 body{
+
     overflow: auto;
 }
 

@@ -1,6 +1,6 @@
 <template>
     <v-card
-    elevation="3"
+    elevation="5"
     v-if="props.list"
     class="overflow-auto border-b mt-2"
     min-width="320px"

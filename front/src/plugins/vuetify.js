@@ -54,6 +54,59 @@ const myCustomLightTheme = {
     warning: '#FB8C00',
   },
 }
+/*
+const lightTheme = {
+  dark:false,
+  colors:{
+    background:'#FFFFFF',
+    surface:'#FFFFFF',
+    primary:'#B8884B',
+    'primary-darken-1':'#B8724B',
+    secondary:'#A6BEDC',
+    'secondary-darken':'#4B7BB8',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+    'dark':'#4a5759'
+  }
+}*/
+
+const mainTheme = {
+  dark:false,
+  colors:{
+    background:'#eaefd3',
+    surface:'#FFFFFF',
+    primary:'#b3c0a4',
+    secondary:'#505168',
+    'secondary-darken':'#27233a',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+  }
+}
+
+const lightTheme2 = {
+  dark:false,
+  colors:{
+    //
+    background:'#FFFFFF',
+    'background-darken-1':'#f4f4f7',
+    primary:'#A6BEDC',
+    'primary-darken-1':'#9cbde5',
+    'primary-darken-2':'#8aadd8',
+    'primary-darken-3':'#5c95db',
+    'primary-darken-4':'55769e',
+    //secondary:'#F4DFE0',
+    secondary:'#FCADB2',
+    'secondary-darken':'#ff8e94',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+  }
+}
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 /*
@@ -88,4 +141,10 @@ export default createVuetify(
 
 export default createVuetify({
   blueprint:md3,
+  theme:{
+    defaultTheme:'lightTheme2',
+    themes:{
+      lightTheme2
+    }
+  }
 })
