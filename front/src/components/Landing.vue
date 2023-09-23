@@ -1,5 +1,4 @@
 <template>
-
 <v-app-bar
     location="top"
       elevation="5"
@@ -15,11 +14,10 @@
         </template>
     </v-app-bar>
 
-  <v-layout
-  style="margin: 0%; padding:0%;"
-  fluid
-  class="d-block   align-center justify-center ">
 
+
+
+  
       <v-row
       id="title"
       color="primary" 
@@ -76,18 +74,10 @@
         <v-col cols="3">
           <v-card>HOla</v-card>
         </v-col>
-      </v-row>
+      </v-row>-->
 
 
 
-    </v-layout>
-
-    <!--
-                <v-btn
-          @click="router.push('/signup')">Sign up</v-btn>
-          <v-btn
-          @click="toLoginScreen">Sign in</v-btn>
-    -->
 </template>
 
 <script setup>
@@ -122,13 +112,14 @@
 <style>
 
 html{
-    scroll-behavior: smooth !important;
+  overflow: hidden !important;
 }
 
+body{
+  scroll-behavior: smooth  !important;
 
-@import url(https://fonts.googleapis.com/css?family=Exo:100);
-/* Background data (Original source: https://subtlepatterns.com/grid-me/) */
-/* Animations */
+}
+
 @-webkit-keyframes bg-scrolling-reverse {
   100% {
     background-position: 50px 50px;
@@ -186,8 +177,6 @@ html{
   -moz-animation-timing-function: linear;
   -o-animation-timing-function: linear;
   animation-timing-function: linear;
-}
-#title::before {
 }
 
 
