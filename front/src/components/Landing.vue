@@ -6,18 +6,23 @@
         <v-app-bar-title>Track-keeper</v-app-bar-title>
         <template v-slot:append>
           <v-btn
+          color="secondary"
+          class="mx-2"
+          variant="elevated"
           @click="router.push('/signup')">Sign up</v-btn>
 
           <v-btn
-          variant="solo-filled"
+          class="mx-2"
+          variant="elevated"
           @click="toLoginScreen">Sign in</v-btn>
         </template>
     </v-app-bar>
 
+  <v-container fluid>
     <v-row
     id="title"
     color="primary" 
-    class="fill-height align-center justify-center bg-background">
+    class="align-center justify-center bg-background h-screen">
       <v-col 
       lg="7"
       cols="10"
@@ -25,7 +30,8 @@
       class="">
         <h1
         style="text-decoration:;"
-        class="text-h2 text-start font-weight-bold">{{ title }}</h1>
+        class="text-h2 text-start font-weight-bold 
+        text-fade text-expand">{{ title }}</h1>
 
         <v-divider
         style="opacity: 100%;"
@@ -38,6 +44,7 @@
 
         <div class="d-flex my-5 ">
           <v-btn
+          @click="router.push('/signup')"
           elevation="5"
           class="mr-5"
           color="primary"
@@ -55,8 +62,16 @@
   
     <v-row 
     id="content"
-    class="d-flex justify-space-around py-15 px-3 bg-background-darken">
-      <v-col
+    class="d-flex overflow-auto justify-space-around align-center py-15 px-3 bg-background-darken">
+    
+    <v-col cols="12" class="text-center">
+      <h1 class>What is Track-keeper ?</h1>
+      <v-divider></v-divider>
+      <p>Track keeper is a platform for you to track your media consumption</p>
+    </v-col>
+
+    
+    <v-col
       class="bg-blue"
       lg="3"
       cols="12">
@@ -64,7 +79,9 @@
         elevation="5"
         min-height="200px"
         max-width="500px">
-          <v-card-title>Organize your media</v-card-title>
+          <v-icon>mdi-file-cabinet</v-icon>
+          <v-card-title>Organize your media consumption</v-card-title>
+          <v-card-text>Clasify the media you consume as finished, watching, rewatching</v-card-text>
         </v-card>
       </v-col>
 
@@ -73,7 +90,11 @@
       lg="3"
       cols="12">
         <v-card
-        class="bg-red"></v-card>
+          class="bg-red"
+          min-height="300px"
+          max-width="400px">Contribute to our catalogue
+            <v-card-title></v-card-title>
+        </v-card>
       </v-col>
 
       <v-col
@@ -83,10 +104,13 @@
         <v-card
         class="bg-red"
         min-height="300px"
-        max-width="400px"></v-card>
+        max-width="400px">Get in depth stats</v-card>
       </v-col>
     </v-row>
-
+    <v-row>
+      <v-footer></v-footer>
+    </v-row>
+  </v-container>
 
 
 
@@ -98,7 +122,9 @@
   import { useRouter } from 'vue-router';
   import {useStore} from "vuex"
   import { useTheme } from "vuetify";
+  import { useDisplay } from "vuetify";
 
+  const {mobile} = useDisplay();
   var router = useRouter()
   const store = useStore();
   var titleText = "Track-keeper"
@@ -125,7 +151,7 @@
 <style>
 
 html{
-  overflow: hidden !important;
+  overflow: auto !important;
 }
 
 body{
@@ -191,6 +217,22 @@ body{
   -o-animation-timing-function: linear;
   animation-timing-function: linear;
 }
+
+/**********************************************
+* TEXT ANIMATIONS
+**********************************************/
+
+
+@keyframes fadeIn{
+  0%{opacity: 0;}
+  100%{opacity:1;}
+}
+
+
+.text-fade{
+  animation:fadeIn 5s;
+}
+
 
 
 
