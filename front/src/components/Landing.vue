@@ -3,16 +3,17 @@
   location="top"
   elevation="5"
   color="primary">
-        <v-app-bar-title>Track-keeper</v-app-bar-title>
+        <v-app-bar-title
+        class="font-weight-bold">Track-keeper</v-app-bar-title>
         <template v-slot:append>
           <v-btn
           color="secondary"
-          class="mx-2"
+          class="mr-2"
           variant="elevated"
           @click="router.push('/signup')">Sign up</v-btn>
 
           <v-btn
-          class="mx-2"
+          class="ml-2"
           variant="elevated"
           @click="toLoginScreen">Sign in</v-btn>
         </template>
@@ -31,7 +32,7 @@
         <h1
         style="text-decoration:;"
         class="text-h2 text-start font-weight-bold 
-        text-fade text-expand">{{ title }}</h1>
+        text-fade text-h4">{{ title }}</h1>
 
         <v-divider
         style="opacity: 100%;"
@@ -39,7 +40,7 @@
         thickness="7"
         class="rounded  my-2"></v-divider>
 
-        <h1 class="text-lg-h2"
+        <h1 class="text-lg-h2 text-h5"
         >{{ subtitle }}</h1>
 
         <div class="d-flex my-5 ">
@@ -60,58 +61,123 @@
       </v-col>
     </v-row>
   
-    <v-row 
-    id="content"
-    class="d-flex overflow-auto justify-space-around align-center py-15 px-3 bg-background-darken">
-    
-    <v-col cols="12" class="text-center">
-      <h1 class>What is Track-keeper ?</h1>
-      <v-divider></v-divider>
-      <p>Track keeper is a platform for you to track your media consumption</p>
-    </v-col>
 
-    
-    <v-col
-      class="bg-blue"
-      lg="3"
-      cols="12">
-        <v-card
-        elevation="5"
-        min-height="200px"
-        max-width="500px">
-          <v-icon>mdi-file-cabinet</v-icon>
-          <v-card-title>Organize your media consumption</v-card-title>
-          <v-card-text>Clasify the media you consume as finished, watching, rewatching</v-card-text>
-        </v-card>
+    <div id="content" class="pa-5 bg-background">
+
+      <v-row class="justify-center mt-15">
+        <v-col 
+        lg="4"
+        cols="12">
+        <h1 
+        color="text"
+        class="text-center text-h5 text-lg-h4 font-weight-black">What is  track-keeper ?</h1>
+
+        <v-divider
+        class="my-5"></v-divider>
+
+        <p 
+        style="text-align: justify;"
+        class="text-body-1"
+        >Track keeper was born because of my obssession of keeping a record of every media i enjoy, be it film, book or videogame.<br><br>
+          There are numerous solution that do so better than this project but none do it in a centralized way where you can easily keep all of your collections in one place.
+        </p>
       </v-col>
+      </v-row>
 
+      <v-row 
+      class="d-flex overflow-auto justify-space-around align-center py-15 px-3">  
       <v-col
-      class="bg-blue d-flex justify-center"
-      lg="3"
-      cols="12">
-        <v-card
-          class="bg-red"
-          min-height="300px"
-          max-width="400px">Contribute to our catalogue
-            <v-card-title></v-card-title>
-        </v-card>
-      </v-col>
+        lg="3"
+        cols="12">
+          <v-card
+          class="pa-5"
+          elevation="5">
+            <v-icon
+            color="secondary-darken"
+            size="40"
+            style="width:100%;">mdi-file-cabinet</v-icon>
+            <h1
+            color="text"
+            class="text-center truncate text-truncateb text-h6 ">Organize your media record</h1>
+            
+            <v-divider></v-divider>
 
-      <v-col
-      class="bg-blue"
-      lg="3"
-      cols="12">
-        <v-card
-        class="bg-red"
-        min-height="300px"
-        max-width="400px">Get in depth stats</v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-footer></v-footer>
-    </v-row>
+            <v-card-text>Clasify the media you consume as finished, watching, rewatching 
+              to keep track of what you've done this year</v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col
+        lg="3"
+        cols="12">
+          <v-card
+          class="pa-5"
+          elevation="5">
+            <v-icon
+            color="secondary-darken"
+            size="40"
+            style="width:100%;">mdi-book-open-page-variant</v-icon>
+            <v-card-title
+            color="text"
+            class="text-center">Contribute to our catalogue</v-card-title>
+            
+            <v-divider></v-divider>
+
+            <v-card-text>Our database of media is still growing. Create data for shows you want to add but have not yet been added to our catalogue</v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col
+        lg="3"
+        cols="12">
+          <v-card
+          class="pa-5"
+          elevation="5"
+          min-height="230px"
+          height="230px"
+          max-height="300px">
+            <v-icon
+            color="secondary-darken"
+            size="40"
+            style="width:100%;">mdi-chart-pie</v-icon>
+            <v-card-title
+            color="text"
+            class="text-center">Get in depth stats</v-card-title>
+            
+            <v-divider></v-divider>
+
+            <v-card-text>Analise you habits and your progress with numerous custom made charts</v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+  </div>
+  
   </v-container>
 
+
+  <v-footer 
+  elevation="5"
+  location="bottom"
+  class="bg-primary d-block pt-5">
+
+    <div class="d-flex justify-center">
+
+      <v-btn 
+      size="small"
+      color="secondary-darken"
+      v-for="icon in icons"
+      :key="icon"
+      class="mx-3"
+      :icon="icon"
+      ></v-btn>
+    </div>
+
+    <v-spacer></v-spacer>
+
+    <div class="w-100 text-center pt-2">
+      2023-<strong>Guillermo Vicente Gonzalez</strong>
+    </div>
+  </v-footer>
 
 
 
@@ -131,6 +197,7 @@
   var subtitleText = "Keep track of everything you watch, play and read"
   var title = ref(titleText)
   var subtitle = ref(subtitleText);
+  var icons = ref(['mdi-linkedin', 'mdi-github']);
 
   function toLoginScreen(){
     let user = store.getters.getUser;
