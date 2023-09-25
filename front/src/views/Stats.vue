@@ -36,6 +36,7 @@
 
     <v-layout>
         <v-parallax 
+        src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1920' height='1080' preserveAspectRatio='none' viewBox='0 0 1920 1080'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1098%26quot%3b)' fill='none'%3e%3crect width='1920' height='1080' x='0' y='0' fill='rgba(166%2c 190%2c 220%2c 1)'%3e%3c/rect%3e%3cpath d='M57 1080L1137 0L1317 0L237 1080z' fill='url(%26quot%3b%23SvgjsLinearGradient1099%26quot%3b)'%3e%3c/path%3e%3cpath d='M723.6 1080L1803.6 0L2517.6 0L1437.6 1080z' fill='url(%26quot%3b%23SvgjsLinearGradient1099%26quot%3b)'%3e%3c/path%3e%3cpath d='M1888 1080L808 0L86.5 0L1166.5 1080z' fill='url(%26quot%3b%23SvgjsLinearGradient1100%26quot%3b)'%3e%3c/path%3e%3cpath d='M1257.4 1080L177.4000000000001 0L49.90000000000009 0L1129.9 1080z' fill='url(%26quot%3b%23SvgjsLinearGradient1100%26quot%3b)'%3e%3c/path%3e%3cpath d='M916.346273700141 1080L1920 76.34627370014096L1920 1080z' fill='url(%26quot%3b%23SvgjsLinearGradient1099%26quot%3b)'%3e%3c/path%3e%3cpath d='M0 1080L1003.653726299859 1080L 0 76.34627370014096z' fill='url(%26quot%3b%23SvgjsLinearGradient1100%26quot%3b)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1098'%3e%3crect width='1920' height='1080' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='0%25' y1='100%25' x2='100%25' y2='0%25' id='SvgjsLinearGradient1099'%3e%3cstop stop-color='rgba(255%2c 142%2c 148%2c 1)' offset='0'%3e%3c/stop%3e%3cstop stop-opacity='0' stop-color='rgba(255%2c 142%2c 148%2c 1)' offset='0.66'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='100%25' y1='100%25' x2='0%25' y2='0%25' id='SvgjsLinearGradient1100'%3e%3cstop stop-color='rgba(255%2c 142%2c 148%2c 1)' offset='0'%3e%3c/stop%3e%3cstop stop-opacity='0' stop-color='rgba(255%2c 142%2c 148%2c 1)' offset='0.66'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e"
         id="parallax">
             <v-lazy>
                 <v-main 
@@ -61,6 +62,7 @@
                     no-gutters class="bg-background">
                         <v-col class="d-flex justify-center align-center">
                             <EvolutionLineChart
+                            class="rounded bg-surface mt-10"
                             ></EvolutionLineChart>
                         </v-col>
                     </v-row>

@@ -80,6 +80,7 @@
         Legend
     )
 
+    
     const {mobile} = useDisplay()
     var types = ['Videogame','Film','Book','Comic','TVShow','Anime','Other']
     var years = ref([]);
@@ -100,7 +101,10 @@
         {
         label: 'Entries added',
         backgroundColor: '#f87979',
-        data: [40, 39, 10, 40, 39, 80, 40]
+        data: [40, 39, 10, 40, 39, 80, 40],
+        fill:false,
+        borderColor: '#9cbde5',
+        tension:false,
         }
     ]
     })

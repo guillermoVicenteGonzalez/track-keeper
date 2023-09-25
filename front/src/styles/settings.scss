@@ -14,6 +14,7 @@
  @use 'vuetify/settings' with (
    $color-pack: true,
    $button-background:rgb(var(--v-theme-secondary)),
+   $list-color:	rgba(var(--v-theme-secondary-darken-1), var(--v-low-emphasis-opacity))
 );
 
 .guilleBackground{
