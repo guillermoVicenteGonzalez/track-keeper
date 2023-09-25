@@ -62,7 +62,7 @@
         <LoadingModal v-model="loading"></LoadingModal>
 
 
-        <modal ref="modal"></modal>
+        <Modal ref="modal"></Modal>
     </v-layout>
 </template>
 
@@ -91,7 +91,6 @@
     const filterOptions = ['finished','on hold','to date','bookmarked','repeating','repeated'];
 
     watch(route,()=>{
-        console.log(route.params.type);
         state.value = "finished"
         yearFilter.value = undefined
         loadEntries();
@@ -108,7 +107,6 @@
             }
         })
         .catch((err)=>{
-            console.log(modal.value)
             if(err.response){
                 modal.value.createModal("Error","media error",err.response.data.msg,true);
             }else{

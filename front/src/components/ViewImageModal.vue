@@ -36,5 +36,5 @@
     const props = defineProps(['url'])
     const emit = defineEmits(['hide'])
 
-    console.log(props.url)
+
 </script>

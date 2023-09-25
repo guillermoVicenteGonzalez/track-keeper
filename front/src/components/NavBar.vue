@@ -159,7 +159,6 @@
   }
 
 
-    console.log(theme.global.name.value)
     switchBtn.value = theme.global.name.value == 'darkTheme' ? true:false
   
 

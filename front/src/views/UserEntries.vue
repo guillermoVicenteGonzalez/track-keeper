@@ -90,6 +90,7 @@
 
     var entries = ref();
     var stateFilter = ref();
+    const emit = defineEmits(['reloadUser'])
 
 
     function searchEntry(entries){

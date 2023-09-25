@@ -181,10 +181,12 @@
       <v-btn 
       size="small"
       color="secondary-darken"
-      v-for="icon in icons"
+      v-for="(icon, key) in icons"
       :key="icon"
       class="mx-3"
       :icon="icon"
+      :href="links[key]"
+      target="_blank"
       ></v-btn>
     </div>
 
@@ -216,6 +218,7 @@
   var title = ref(titleText)
   var subtitle = ref(subtitleText);
   var icons = ref(['mdi-linkedin', 'mdi-github']);
+  var links = ref(['https://linkedin.com/in/guillermo-vicente-gonzález','https://github.com/guillermoVicenteGonzalez'])
 
   function toLoginScreen(){
     let user = store.getters.getUser;
