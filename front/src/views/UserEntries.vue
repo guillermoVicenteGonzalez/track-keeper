@@ -1,74 +1,75 @@
 <template>
-        <v-layout
-        transition="slide-x-transition" 
-        class="rounded fill-height ma-0 pa-0">
-            <v-app-bar
-            :density="mobile ? 'compact':'default'"
-            class="pt-4 px-4 align-center"
-            elevation="3"
-            location="top">
-                <v-row class="d-flex align-center justify-center">
-                    <v-col 
-                    lg="9"
-                    cols="7">
-                        <v-text-field
-                        :density="mobile ? 'compact':'default'"
-                            v-model="search"
-                            clearable
-                            variant="solo-filled" append-inner-icon="mdi-magnify"></v-text-field>
-                    </v-col>
 
-                    <v-col 
-                    lg="3"
-                    cols="5">
-                        <v-select
-                        :density="mobile ? 'compact':'default'"
-                        item-title="name"
-                        persistent-clear
-                        clearable
-                        v-model="stateFilter"
-                        :items="filterOptions"
-                        variant="solo-filled">
-                            <template v-slot:selection="{ item}">
-                                <span v-if="mobile">
-                                    <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
-                                </span>
+    <v-app-bar
+    :density="mobile ? 'compact':'default'"
+    class="pt-4 px-4 align-center"
+    elevation="3"
+    location="top">
+        <v-row class="d-flex align-center justify-center">
+            <v-col 
+            lg="9"
+            cols="7">
+                <v-text-field
+                :density="mobile ? 'compact':'default'"
+                    v-model="search"
+                    clearable
+                    variant="solo-filled" append-inner-icon="mdi-magnify"></v-text-field>
+            </v-col>
 
-                                <span v-else>
-                                    <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
-                                    {{item.title }}
-                                </span>
-                            </template>
-                        </v-select>
-                    </v-col>
-                </v-row>
-            </v-app-bar>
+            <v-col 
+            lg="3"
+            cols="5">
+                <v-select
+                :density="mobile ? 'compact':'default'"
+                item-title="name"
+                persistent-clear
+                clearable
+                v-model="stateFilter"
+                :items="filterOptions"
+                variant="solo-filled">
+                    <template v-slot:selection="{ item}">
+                        <span v-if="mobile">
+                            <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                        </span>
+
+                        <span v-else>
+                            <v-icon class="mr-2">{{ filterIcon(item.value) }}</v-icon>
+                            {{item.title }}
+                        </span>
+                    </template>
+                </v-select>
+            </v-col>
+        </v-row>
+    </v-app-bar>
+
+    <v-layout
+    transition="slide-x-transition" 
+    class="rounded fill-height ma-0 pa-0">
 
 
+        <v-main class=" " style="min-height: 300px;">
+            <v-container class="d-flex flex-wrap justify-center">
+                
+                <media-card
+                @updated="getUserEntries()"
+                class="ma-3"
+                v-for="i in filterEntries()"
+                :key="i.entry_id"
+                v-bind="i.Media"
+                :entry_id="i.entry_id"
+                :review="i.review"
+                :state="i.state"
+                :start_date="i.start_date"
+                :finish_date="i.finish_date"
+                isEntry="true"
+                ></media-card>
 
-            <v-main class=" " style="min-height: 300px;">
-                <v-container class="d-flex flex-wrap justify-center">
-                 
-                    <media-card
-                    @updated="getUserEntries()"
-                    class="ma-3"
-                    v-for="i in filterEntries()"
-                    :key="i.entry_id"
-                    v-bind="i.Media"
-                    :entry_id="i.entry_id"
-                    :review="i.review"
-                    :state="i.state"
-                    :start_date="i.start_date"
-                    :finish_date="i.finish_date"
-                    isEntry="true"
-                    ></media-card>
+            </v-container>
+        </v-main>
 
-                </v-container>
-            </v-main>
+        <modal ref = "modal"></modal>
 
-            <modal ref = "modal"></modal>
-
-        </v-layout>
+    </v-layout>
 </template>
 
 <script setup>

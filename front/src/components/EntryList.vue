@@ -26,10 +26,11 @@
                 <tr v-for="item in list" :key="item.entry_id">
                     <th>
                         <v-img
-                        :max-height="mobile ? '50px':'100px'"
+                        :min-height="mobile ? '50px':'70px'"
+                        :max-height="mobile ? '50px':'70px'"
                         cover
                         @click="showImage(url + item.Media.media_id)"
-                        style="width: 100%; height: 100%;"
+                        style="width: 100%; height: 100%; cursor: pointer;"
                         :src="url + item.Media.media_id">
                             <template v-slot:error>
                                 <v-icon
@@ -42,7 +43,9 @@
                         </v-img>
                     </th>
                     <th
+                    
                     @click="clickOnCard(item)"
+                    style="cursor:pointer;"
                     class="text-body-2 text-md-body-1 text-center">{{ item.Media.name}}</th>
 
                     <th
@@ -59,7 +62,7 @@
                         <v-btn
                         @click="deleteEntry(item.entry_id)"
                         color="error"
-                        size="small"
+                        :size="mobile ? 'small':'default'"
                         variant="text"
                         icon="mdi-delete"></v-btn>
                     </th>
