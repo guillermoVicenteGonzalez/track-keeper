@@ -101,6 +101,7 @@ const lightTheme2 = {
     //secondary:'#F4DFE0',
     secondary:'#FCADB2',
     'secondary-darken':'#ff8e94',
+    'secondary-darken-2':'#ff757c',
     error: '#B00020',
     info: '#2196F3',
     success: '#4CAF50',
@@ -112,14 +113,14 @@ const lightTheme2 = {
 const darkTheme = {
   dark:true,
   colors:{
-    primary:'#A6BEDC',
+    primary:'#6f96c6',
     'primary-darken-1':'#9cbde5',
     'primary-darken-2':'#8aadd8',
     'primary-darken-3':'#5c95db',
     'primary-darken-4':'55769e',
     secondary:'#FCADB2',
     'secondary-darken':'#ff8e94',
-    text:'#A6BEDC'
+    text:'#6f96c6'
   }
 }
 

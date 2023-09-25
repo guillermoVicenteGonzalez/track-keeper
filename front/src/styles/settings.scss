@@ -13,7 +13,7 @@
 // https://vuetifyjs.com/features/sass-variables/`
  @use 'vuetify/settings' with (
    $color-pack: true,
-   $button-color:secondary,
+   $button-background:rgb(var(--v-theme-secondary)),
 );
 
 .guilleBackground{
@@ -28,4 +28,5 @@ body{
     scroll-behavior: smooth  !important;
     overflow: auto;
 }
+
 

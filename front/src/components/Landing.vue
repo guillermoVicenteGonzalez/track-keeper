@@ -5,19 +5,24 @@
   color="primary">
         <v-app-bar-title
         class="font-weight-bold">Track-keeper</v-app-bar-title>
-        <template v-slot:append class="align-center">
+        <template v-slot:append >
           
           
           <v-btn
+          :text="mobile ? false:'Sign up'"
+          :icon="mobile ? 'mdi-account-plus':false"
           color="secondary"
           class="mr-2"
           variant="elevated"
-          @click="router.push('/signup')">Sign up</v-btn>
+          @click="router.push('/signup')"></v-btn>
 
           <v-btn
+          :text="mobile ? false:'Sign in'"
+          :icon="mobile ? 'mdi-login':false"
+          color="background"
           class="ml-2"
           variant="elevated"
-          @click="toLoginScreen">Sign in</v-btn>
+          @click="toLoginScreen"></v-btn>
 
           <v-switch
           v-model="switchBtn"
@@ -43,7 +48,7 @@
         <h1
         style="text-decoration:;"
         class="text-xl-h2 text-start font-weight-bold 
-        text-fade text-h4">{{ title }}</h1>
+        text-fade text-h4 text-text">{{ title }}</h1>
 
         <v-divider
         style="opacity: 100%;"
@@ -222,8 +227,11 @@
     } 
   }
 
+
+
+
   function toggleTheme (){
-    theme.global.name.value = theme.global.current.value.dark ? 'lightTheme2':'darkTheme'
+    theme.global.name.value = switchBtn.value ? 'lightTheme2':'darkTheme'  
   }
 
 
