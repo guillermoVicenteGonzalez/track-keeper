@@ -105,6 +105,21 @@ const lightTheme2 = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
+    text:'#000000'
+  }
+}
+
+const darkTheme = {
+  dark:true,
+  colors:{
+    primary:'#A6BEDC',
+    'primary-darken-1':'#9cbde5',
+    'primary-darken-2':'#8aadd8',
+    'primary-darken-3':'#5c95db',
+    'primary-darken-4':'55769e',
+    secondary:'#FCADB2',
+    'secondary-darken':'#ff8e94',
+    text:'#A6BEDC'
   }
 }
 
@@ -144,7 +159,8 @@ export default createVuetify({
   theme:{
     defaultTheme:'lightTheme2',
     themes:{
-      lightTheme2
+      lightTheme2,
+      darkTheme
     }
   }
 })
