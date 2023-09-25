@@ -148,3 +148,4 @@ exports.getMonthlyEvolution = async function(userId, year, type){
 
     return values;
 }
+

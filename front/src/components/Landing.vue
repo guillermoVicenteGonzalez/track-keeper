@@ -238,7 +238,7 @@
   }
 
 
-
+  switchBtn.value = theme.global.name.value == 'darkTheme' ? true:false
 
 </script>
 
