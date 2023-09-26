@@ -101,6 +101,9 @@ router.route("/stats/genres/count/:user_id")
 router.route("/stats/evolution/:user_id")
     .post(StatsCtrl.getEvolution)
     
+router.route("/stats/recent/:user_id")
+    .get(StatsCtrl.getRecentActivity)
+
 router.route("/test")
     .get(StatsCtrl.test)
 

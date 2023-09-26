@@ -12,6 +12,7 @@ import UserEntries from "@/views/UserEntries.vue"
 import Collection from "@/views/Collection.vue"
 import Profile from "@/views/Profile.vue"
 import Stats from "@/views/Stats.vue"
+import Homepage from "@/components/Homepage.vue"
 
 const routes = [
   {
@@ -62,6 +63,11 @@ const routes = [
         path:'stats',
         name:'stats',
         component:Stats
+      },
+      {
+        path:'/',
+        name:'homepage',
+        component:Homepage
       }
     ]
   },

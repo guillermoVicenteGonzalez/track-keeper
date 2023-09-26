@@ -168,6 +168,47 @@ exports.getEvolution = async function(req,res){
     return true
 }
 
+exports.getRecentActivity = async function(req,res){
+    let userId = req.params.user_id;
+    let auth = req.headers.authorization;
+
+    if(!userId || !auth){
+        let msg = "Missing parameters";
+        winston.log("info","getRecentActivity: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    //first we authenticate the user
+    let token = auth.split(' ')
+    token = token[1]
+    let authRes = await UserService.authenticateUser(userId, token, res)
+    if(! (authRes instanceof User)){
+        winston.log("info","getRecentActivity: " + authRes)
+        return undefined
+    }
+
+    let media = await StatsService.recentMediaRows();
+    if(!media){
+        let msg = "Unable to get recent media";
+        winston.log("info","getRecentActivity: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    let entries = await StatsService.recentEntryRows(userId);
+    if(!entries){
+        let msg = "Unable to get recently added entries"
+        winston.log("info","getRecentActivity: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    res.status(200).json({media:media, entries:entries});
+    return true;
+}
+
+
 exports.test = async function(req,res){
     let value = await StatsService.getYearlyEvolution(1);
     res.status(200).json({value:value});

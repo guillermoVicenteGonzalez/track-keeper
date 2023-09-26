@@ -2,7 +2,8 @@ const UserService = require("../Services/UserService");
 const Entry = require("../Models/MediaEntry");
 const Media = require("../Models/Media");
 const {Op, where} = require("sequelize")
-const winston = require("../logger/logger")
+const winston = require("../logger/logger");
+const sequelize = require("../Database/database");
 
 exports.getEntryRowCount = async function(userId, type, date1, date2){
     var whereObj = {
@@ -149,3 +150,31 @@ exports.getMonthlyEvolution = async function(userId, year, type){
     return values;
 }
 
+exports.recentMediaRows = async function(){
+    let list = await Media.findAll({
+        limit:10,
+        order:sequelize.col('createdAt')
+    })    
+    .catch((err)=>{
+        winston.log("error","recentMediaRows: " + err);
+        return undefined;
+    });
+
+    return list;
+}
+
+exports.recentEntryRows = async function(userId){
+    let list = await Entry.findAll({
+        where:{
+            user_id:userId
+        },
+        limit:10,
+        order:sequelize.col('createdAt')
+    })
+    .catch((err)=>{
+        winston.log("error","recentEntryRows: " + err);
+        return undefined;
+    });
+
+    return list;
+}
