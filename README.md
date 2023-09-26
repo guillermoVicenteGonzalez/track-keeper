@@ -31,13 +31,12 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [ ] Stats controller
 
 - [ ] frontend
-    - [ ] basic structure 
-        - [ ] landing
+    - [x] basic structure 
+        - [x] landing
         - [x] sign up
         - [x] sign in
         - [x] profile
         - [x] error/info modal
-        - [ ] password modal
         - [x] loading modal
             - [x] timeouts
 

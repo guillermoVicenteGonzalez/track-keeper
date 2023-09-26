@@ -76,6 +76,11 @@
                     <v-card-actions 
                     v-if="mode == 'edit'"
                     class="d-flex justify-center align-center">
+
+                        <v-btn 
+                        @click="deleteUser"
+                        color="error">Delete</v-btn>
+
                         <v-btn
                         :disabled="disableBtn"
                         type="submit">update</v-btn>
@@ -278,6 +283,30 @@
             return true;
         }
 
+    }
+
+    async function deleteUser(){
+        let {id,token} = store.getters.getUser;
+
+        let res = await axios.delete(apiConf.host + apiConf.port + apiConf.users.delete + id,{
+            headers:{
+                'Authorization':'Bearer ' + token
+            }
+        })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","delete user",err.response.data.msg,true);
+            }else{
+                modal.value.createModal("Error","delete user","An unknown error ocurred",true);
+            }
+            console.log(err);
+            return undefined;
+        })
+
+        if(res){
+            store.commit("deleteUser");
+            modal.value.createModal("Success","delete user","Account was deleted succesfully",false,"/");
+        }
     }
 
     async function uploadImage(){
