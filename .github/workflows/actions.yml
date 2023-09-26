@@ -25,7 +25,7 @@ jobs:
           npm audit fix
           cd /var/www/html/track-keeper/api
           a=$(npm i)
-          # npm audit fix
+        # npm audit fix
       - name: transpile web
         run: |
           cd /var/www/html/track-keeper/front
@@ -34,4 +34,5 @@ jobs:
       - name: restart api service
         run: |
           systemctl restart track-keeper.service
-          systemctl status track-keeper.service
+        #  systemctl status track-keeper.service
+        # no permission (yet)

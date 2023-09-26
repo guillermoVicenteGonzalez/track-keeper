@@ -65,7 +65,7 @@ const routes = [
         component:Stats
       },
       {
-        path:'/',
+        path:'',
         name:'homepage',
         component:Homepage
       }

@@ -169,7 +169,11 @@ exports.recentEntryRows = async function(userId){
             user_id:userId
         },
         limit:10,
-        order:sequelize.col('createdAt')
+        order:sequelize.col('createdAt'),
+        include:{
+            model:Media,
+            as:'Media',
+        }
     })
     .catch((err)=>{
         winston.log("error","recentEntryRows: " + err);

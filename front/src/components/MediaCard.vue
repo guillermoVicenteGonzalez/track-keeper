@@ -3,7 +3,8 @@
     elevation="3"
     :height="isEntry ? '180px':'170px' "
     class="colorBorder border-b border b--hot-pink"
-    width="400px">
+    width="400px"
+    min-width="300px">
         <v-container 
         fluid
         class="align-center">

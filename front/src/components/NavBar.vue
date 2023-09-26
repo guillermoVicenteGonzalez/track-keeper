@@ -60,7 +60,7 @@
         <v-list nav v-model="selection">
             <v-list-item 
             color="secondary-darken"
-            prepend-icon="mdi-home" title="Home" value="home" @click="navigate('Home','home')"></v-list-item>
+            prepend-icon="mdi-home" title="Home" value="home" @click="navigate('Home','homepage')"></v-list-item>
             
             <v-divider></v-divider>
             
