@@ -5,6 +5,20 @@ jobs:
   configure-update:
     runs-on: self-hosted
     steps:
+      - name: pull from repo  
+        run: |
+          cd /var/www/html/track-keeper
+          ls -l 
+          git stash
+          git pull -q --force;
+          if [! -d "/var/www/html/track-keeper/api/storage" ]; then
+            cd /var/www/html/track-keeper/api
+            mkdir storage
+            cd storage
+            mkdir covers
+            mkdir profile
+          fi
+          return 0;
       - name: reinstall dependencies
         run: |
           cd /var/www/html/track-keeper/front 
