@@ -26,10 +26,12 @@
                 style="cursor: pointer;"
                 class="mr-5" size="50" v-bind="props">
                     <v-img
+                    class="bg-secondary"
                     v-bind="props" cover
                     :src="url">
                         <template v-slot:error>
                             <div
+                            style="width: 100%; height:100%;"
                             class="d-flex align-center justify-center">
                                 <v-icon>mdi-account</v-icon>
                             </div>
