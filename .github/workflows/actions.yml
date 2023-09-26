@@ -1,16 +1,10 @@
 name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} is deploying an update
 on: [push]
 jobs:
   configure-update:
     runs-on: self-hosted
     steps:
-      - name: pull from repo  
-        run: |
-          cd /var/www/html/track-keeper
-          ls -l 
-          git stash
-          git pull -q --force;
       - name: reinstall dependencies
         run: |
           cd /var/www/html/track-keeper/front 
