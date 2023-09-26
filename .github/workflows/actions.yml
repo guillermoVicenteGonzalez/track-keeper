@@ -18,3 +18,21 @@ jobs:
             mkdir covers
             mkdir profile
           fi
+          return true;
+      - name: reinstall dependencies
+        run: |
+          cd /var/www/html/track-keeper/front 
+          npm i
+          npm audit fix
+          cd /var/www/html/track-keeper/api
+          npm i
+          npm audit fix
+      - name: transpile web
+        run: |
+          cd /var/www/html/track-keeper/front
+          npm run build
+      
+      - name: restart api service
+        run: |
+          systemctl restart track-keeper.service
+          systemctl status track-keeper.service
