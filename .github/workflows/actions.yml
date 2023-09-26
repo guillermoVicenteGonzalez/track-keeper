@@ -11,8 +11,6 @@ jobs:
           ls -l 
           git stash
           git pull -q --force;
-
-
       - name: reinstall dependencies
         run: |
           cd /var/www/html/track-keeper/front 
