@@ -24,8 +24,8 @@ jobs:
           npm i
           npm audit fix
           cd /var/www/html/track-keeper/api
-          npm i
-          npm audit fix
+          a = $(npm i)
+          # npm audit fix
       - name: transpile web
         run: |
           cd /var/www/html/track-keeper/front
