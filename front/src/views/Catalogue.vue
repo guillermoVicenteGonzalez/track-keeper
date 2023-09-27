@@ -60,7 +60,8 @@
 
 
 
-        <v-bottom-navigation>
+        <v-bottom-navigation
+        class="bg-primary">
             <v-btn 
             @click="triggerCreate = true">
                 <v-icon>mdi-plus</v-icon>
