@@ -127,7 +127,7 @@ exports.getFavouriteGenres = async function(req,res){
         return b[1] - a[1]
     })
 
-    res.status(200).json({value:arr});
+    res.status(200).json({value:arr,genres:genres});
     return true;
 }
 
