@@ -73,8 +73,11 @@
 
     async function login(){
         loadingDialog.value = true;
-        let {id, login, token} = store.getters.getUnverifiedUser;
-        if(!id || !token || !login){
+        let params = store.getters.getUnverifiedUser;
+        console.log(params);
+        let {id, name, token} = store.getters.getUnverifiedUser;
+        if(!id || !token || !name){
+            console.log(id, token, )
             modal.value.createModal("Error","login error","Couldn't find user credentials, redirecting to landing page",true,"/");
             return undefined;
         }        
@@ -85,7 +88,12 @@
             }
         })
         .catch((err)=>{
-            modal.value.createModal("Error","login error",err.response.data.message,true);
+            if(err.response){
+                modal.value.createModal("Error","login error",err.response.data.message,true);
+            }else{
+                modal.value.createModal("Error","login error","An unexpected error ocurred",true);
+            }
+            console.log(err);
             return undefined;
         });
 
@@ -97,7 +105,7 @@
             });
 
             store.commit("deleteUnverifiedUser");
-            router.push("/home");
+            router.push("/home/" + id);
         }
         loadingDialog.value;
     }
