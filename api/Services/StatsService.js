@@ -59,7 +59,7 @@ exports.getGenres = async function(userId,type,startDate, finishDate){
 
     if(genres){
         var nGenres = genres.map((item)=>{
-            return item.genre.toLowerCase();
+            return item.genre.toLowerCase().trim();
         });
     }
 
