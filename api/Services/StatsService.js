@@ -82,7 +82,6 @@ exports.getYearlyEvolution = async function(userId, type){
     let minYear = minDate.getFullYear();
     let maxYear = maxDate.getFullYear();
 
-    console.log(minYear, maxYear);
 
     if(type != undefined){
         /*includeObj = {
@@ -103,21 +102,10 @@ exports.getYearlyEvolution = async function(userId, type){
     }
 
     for(let i = minYear; i<=maxYear; i++){
-        let date1 = new Date(i,1,1,0,0);
-        let date2 = new Date(i+1,1,1,0,0);
+        let date1 = new Date(i,0,1,0,0);
+        let date2 = new Date(i+1,0,1,0,0);
 
         console.log(date1, date2);
-
-        let list = await Entry.findAll({
-            where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
-            include:{
-                model:Media,
-                as:'Media',
-                where:whereObj
-            }
-        });
-
-        console.log(list);
         
         let count = await Entry.count({
             where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
