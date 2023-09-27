@@ -112,7 +112,7 @@ exports.getFavouriteGenres = async function(req,res){
         for(j; j<genres.length; j++){
             console.log(genres[i], genres[j]);
             if(genres[i] == genres[j]){
-                console.log("iguales);
+                console.log("iguales");
                 count ++;
                 genres.splice(j,1);
                 console.log(genres);
