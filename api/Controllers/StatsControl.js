@@ -110,9 +110,12 @@ exports.getFavouriteGenres = async function(req,res){
         let j = Number(i + 1); //if not it is treated as a string??????
         let name = genres[i]
         for(j; j<genres.length; j++){
+            console.log(genres[i], genres[j]);
             if(genres[i] == genres[j]){
+                console.log("iguales);
                 count ++;
                 genres.splice(j,1);
+                console.log(genres);
             }
         }
 
