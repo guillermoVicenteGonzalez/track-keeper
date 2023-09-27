@@ -11,32 +11,27 @@
             </v-col>
         </v-row>
 
-        <v-row>
+        <v-row classs="bg-red">
             <v-col 
-            class="d-block bg-surface pt-5 rounded">
+            class="d-block bg-surface pt-5 rounded bg-red">
                 <h1 
-                class="text-center my-5">Recently added to catalogue</h1>
+                class="text-center my-5 text-lg-h4 text-h5">Recently added to catalogue</h1>
                 <div class="d-flex justify-center">
-                    <div
-                    class="d-flex"
-                    :key="index"
-                    v-for="(item , index) in media">
                         <MediaCard
-                        transition="fade-transition"
+                        @updated="getRecentActivity()"
+                        v-for="(item , index) in filterMedia(media,page-1)"
                         class="mx-3"
                         :key="index"
-                        v-if="cardsToShow(index)"
-                        
                         v-bind="item">
                         </MediaCard>
-                    </div>
                 </div>
 
 
 
                 <v-pagination
-                class="py-5"
-                :length="mobile ? media.length:pages"
+                :density="mobile ? 'compact':'default'"
+                class="py-5 "
+                :length="mobile ? length:pages"
                 v-model="page">
 
                 </v-pagination>
@@ -45,15 +40,16 @@
 
         <v-row>
             <v-col  class="d-block bg-surface  rounded">
-                <h1 class="text-center">Entries you recently added</h1>
+                <h1 
+                class="text-center my-5 text-lg-h4 text-h5">Entries you recently added</h1>
                 
                 <div class="d-flex justify-center my-10">
-                    <div v-for="(i, index) in entries"
-                    :key="index">
+
                     <MediaCard
+                    v-for="(i, index) in filterMedia(entries,entryPage -1)"
                     @updated="getRecentActivity()"
                     class="mx-3"
-                    :key="key"
+                    :key="index"
                     isEntry="true"
                     v-bind="i.Media"
                     :entry_id="i.entry_id"
@@ -61,11 +57,12 @@
                     :state="i.state"
                     :start_date="i.start_date"
                     :finish_date="i.finish_date"></MediaCard>
-                    </div>
                 </div>
 
                 <v-pagination
-                :length="mobile ? entries.length:entryPages">
+                :density="mobile ? 'compact':'default'"
+                v-model="entryPage"
+                :length="mobile ? entriesL:entryPages">
 
                 </v-pagination>
             </v-col>
@@ -86,11 +83,13 @@
     const store = useStore();
     var pages = ref(3);
     var page = ref(1);
-    var entryPages = ref();
+    var entryPage = ref(1);
     const {mobile} = useDisplay();
     var entries = ref();
-    var media = ref();
+    var media = ref([]);
     var username = ref("user");
+    var length = ref(10);
+    var entriesL = ref(10);
     let {name} = store.getters.getUser;
     if(name){
         username.value = name;
@@ -116,25 +115,28 @@
             entries.value = res.data.entries;
             pages.value = Math.round(media.value.length/3);
             entryPages.value = Math.round(entries.value.length/3)
+            length.value = media.value.length;
+            entriesL.value = entries.value.length;
             console.log(pages.value);
         }
     }
 
-    function cardsToShow(index){
-        if(mobile == true){
-            if(index == page.value){
-                return true;
+    function filterMedia(array, currentP){
+        if(array instanceof Array)
+        return  array.filter((item)=>{
+            let index = array.indexOf(item);
+            if(mobile.value == true){
+                if(index == currentP){
+                    return item;
+                }
             }else{
-                return false
+                if(currentP <= index/3 && index/3 < currentP +1){
+                    return item;
+                }
             }
-        }else{
-            if(page.value -1 <= index/3 && index/3 < page.value){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        })
     }
+
 
     getRecentActivity();
 </script>
