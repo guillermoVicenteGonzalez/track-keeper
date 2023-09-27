@@ -38,7 +38,7 @@
             </v-col>
         </v-row>
 
-        <v-row>
+        <v-row class="my-10">
             <v-col  class="d-block bg-surface  rounded">
                 <h1 
                 class="text-center my-5 text-lg-h4 text-h5">Entries you recently added</h1>
@@ -78,7 +78,7 @@
     import MediaCard from "./MediaCard.vue";
     import { useDisplay } from "vuetify";
 
-    var entryPages = ref();
+    var entryPages = ref(3);
     var loading = ref();
     const store = useStore();
     var pages = ref(3);
