@@ -21,17 +21,17 @@
                     class="d-flex"
                     :key="index"
                     v-for="(item , index) in media">
-                    <v-slide-x-transition>
                         <MediaCard
+                        transition="fade-transition"
                         class="mx-3"
                         :key="index"
                         v-if="cardsToShow(index)"
                         
                         v-bind="item">
                         </MediaCard>
-                    </v-slide-x-transition>
                     </div>
                 </div>
+
 
 
                 <v-pagination

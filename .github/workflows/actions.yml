@@ -33,6 +33,6 @@ jobs:
       
       - name: restart api service
         run: |
-          systemctl restart track-keeper.service
+        #  systemctl restart track-keeper.service
         #  systemctl status track-keeper.service
         # no permission (yet)

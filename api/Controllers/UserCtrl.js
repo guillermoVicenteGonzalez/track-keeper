@@ -71,7 +71,7 @@ exports.createUser = async function(req,res){
     }
 
     //verificar formato email
-    let mailRes = await UserService.sendVerificationMail(email,nUser.id, username)
+    let mailRes = await UserService.sendVerificationMail(email,nUser.user_id, username)
     if(!mailRes){
         let msg = "unable to send verification email. Please sign up again"
         winston.log("info","createUser: " + msg)

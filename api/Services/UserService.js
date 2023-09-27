@@ -216,11 +216,13 @@ exports.verifyToken = async function(username, token){
 }
 
 exports.sendVerificationMail = async function(destination, userId, username){
+    console.log(userId)
     let url = "http://" + process.env.API_HOST + ":" + process.env.API_PORT + "/api/users/verify/" + userId 
+    console.log(url);
     const message = {
         from:emailConf.user,
         to:destination,
-        subject:username + "verify account",
+        subject:username + " verify track-keeper account",
         text: "Thanks for joining, please click this link to verify your account",
         html: '<a href="' + url + '">Click</a>', // html body         
     }
