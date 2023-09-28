@@ -104,8 +104,6 @@ exports.getYearlyEvolution = async function(userId, type){
     for(let i = minYear; i<=maxYear; i++){
         let date1 = new Date(i,0,1,0,0);
         let date2 = new Date(i+1,0,1,0,0);
-
-        console.log(date1, date2);
         
         let count = await Entry.count({
             where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
