@@ -122,7 +122,7 @@ exports.getFavouriteGenres = async function(req,res){
         }*/
 
         while(j<genres.length){
-            console.log(genres[i], genres[j],i j);
+            console.log(genres[i], genres[j],i,j);
             if(genres[i] == genres[j]){
                 console.log("iguales");
                 count ++;
