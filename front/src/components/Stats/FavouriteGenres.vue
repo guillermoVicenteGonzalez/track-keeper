@@ -8,7 +8,7 @@
         class="text-center">favourite genres</v-card-title>
 
         <div 
-        v-if="genres"
+        style="max-height: 80%;"
         class="pa-2 overflow-auto"
         v-for="(item, key) in genres" :key="key">
             <label>{{ item[0] }}: {{ item[1] }}</label>
@@ -25,7 +25,7 @@
 
         <v-card-text
         class="text-center"
-        v-else>not enough data</v-card-text>
+        v-if="!genres">not enough data</v-card-text>
 
         <v-divider class="mt-5"></v-divider>
         <v-card-actions class="pt-5 mt5">
