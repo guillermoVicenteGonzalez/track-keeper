@@ -107,7 +107,7 @@ exports.getFavouriteGenres = async function(req,res){
      */
     for(let i in genres){
         let count = 1;
-        let j = Number(i + 1); //if not it is treated as a string??????
+        let j = Number(i) + 1; //if not it is treated as a string??????
         //let j = 1;
         let name = genres[i]
         
