@@ -14,6 +14,7 @@
                         cover
                     </th>
                     <th class="text-center">Name</th>
+                    <th v-if="!mobile" class="text-center">state</th>
                     <th v-if="!mobile" class="text-center">start_date</th>
                     <th class="text-center">finish date</th>
                     <th style="width: 50px;">
@@ -47,6 +48,10 @@
                     @click="clickOnCard(item)"
                     style="cursor:pointer;"
                     class="text-body-2 text-md-body-1 text-center">{{ item.Media.name}}</th>
+
+                    <th
+                    class="text-body-2 text-md-body-1 text-center"
+                    v-if="!mobile">{{ item.state}}</th>
 
                     <th
                     class="text-body-2 text-md-body-1 text-center"
