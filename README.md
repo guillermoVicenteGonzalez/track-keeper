@@ -105,7 +105,7 @@ As for the backend  i used nodejs with express. Javascript is a great language b
 - image modal (show image when clicking on it)
 - update image.
 - admin permission (think thoroughly    )
-- alphabeticall order
+- alphabeticall order   
 - icons instead of words
 - animations
 - evento "auth failed" global
