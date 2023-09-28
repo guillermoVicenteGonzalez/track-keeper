@@ -1,34 +1,48 @@
 <template>
     <v-card
-    max-height="600px"
-    class="overflow-auto pa-5"
+ 
+    max-height="520px"
+    class=" pa-5"
     width="800px"
     min-width="300px">
         <v-card-title 
         class="text-center">favourite genres</v-card-title>
 
-        <div 
-        style="max-height: 80%;"
-        class="pa-2 overflow-auto"
-        v-for="(item, key) in genres" :key="key">
-            <label>{{ item[0] }}: {{ item[1] }}</label>
-            <v-progress-linear
-            
-            rounded
-            height="9"
-            class="rounded"
-            color="green"
-            v-model="values[key]">
+        <v-container 
+        fluid
+        class="overflow-auto">
+            <v-row
+            no-gutters 
+            style="height:300px; margin:0; padding:0;">
+                <v-col class="overflow-auto">
+                    <div
+                    style="text-align: ;"
+                    wrap
+                    class="pa-2 overflow-auto "
+                    v-for="(item, key) in genres" :key="key">
+                        <label>{{ item[0] }}: {{ item[1] }}</label>
+                        <v-progress-linear
+                        
+                        rounded
+                        height="9"
+                        class="rounded"
+                        color="green"
+                        v-model="values[key]">
 
-            </v-progress-linear>
-        </div>
+                        </v-progress-linear>
+                    </div>                    
+                </v-col>
+            </v-row>
+        </v-container>
 
         <v-card-text
         class="text-center"
         v-if="!genres">not enough data</v-card-text>
 
         <v-divider class="mt-5"></v-divider>
-        <v-card-actions class="pt-5 mt5">
+        <v-card-actions 
+        location="bottom"
+        class="pt-5 mt5">
             <v-row>
             <v-col>
                 <v-select
