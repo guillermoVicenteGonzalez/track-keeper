@@ -137,8 +137,6 @@ exports.getMonthlyEvolution = async function(userId, year, type){
         let date1 = new Date(year,i,1,1,0);
         let date2 = new Date(year,i+1,1,1,0);
 
-        console.log(date1,date2);
-
         let count = await Entry.count({
             where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
             include:{
