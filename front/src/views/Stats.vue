@@ -32,6 +32,10 @@
         <v-btn
         icon="mdi-poll"
         href="#genreCount"></v-btn>
+
+        <v-btn
+        icon="mdi-chart-line"
+        href="#evolution"></v-btn>
     </v-bottom-navigation>
 
     <v-layout>
