@@ -30,7 +30,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [x] Collection Entries
         - [ ] Stats controller
 
-- [ ] frontend
+- [x] frontend
     - [x] basic structure 
         - [x] landing
         - [x] sign up
@@ -40,7 +40,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
         - [x] loading modal
             - [x] timeouts
 
-    - [ ] media
+    - [x] media
         - [x] media list
         - [x] create media
             - [x] emit event to reload
@@ -54,7 +54,7 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
             - [x] add to user (entry)
         - [x] add entries
         - [x] user entry list
-        - [ ] user main page
+        - [x] user main page
     
     - [ ] Collections
         - [ ] collection layout
@@ -70,8 +70,8 @@ small giweb app that allows users to keep track of the books, movies, game, etc 
 
     - [ ] Visuals
         - [ ] animations
-        - [ ] styles
-        - [ ] all responsive
+        - [x] styles
+        - [x] all responsive
 
 ## Quick notes
 - delete vuex user at error

@@ -8,11 +8,10 @@
             </v-col>
         </v-row>
     
-            <v-row no-gutters
-            :style="mobile ? '':'min-height: 600px;'"
-            class="d-flex justify-center h-auto">
-                <v-scale-transition>
-
+        <v-row no-gutters
+        :style="mobile ? '':'min-height: 600px;'"
+        class="d-flex justify-center h-auto">
+            <v-scale-transition>
                 <v-col 
                 v-if="flag"
                 xl="pa-5 ma-5"
@@ -24,7 +23,14 @@
                         :data="data"></Line>
                 </v-col>
             </v-scale-transition>
-            </v-row>
+        </v-row>
+
+        <v-row>
+            <v-col>
+                <p 
+                class="text-body-1 text-center">Total: {{ total }}</p>
+            </v-col>
+        </v-row>
 
         <v-row>
             <v-col md="6">
@@ -49,8 +55,7 @@
             </v-col>
         </v-row>
 
-        <v-row>
-        </v-row>
+
 
         <Modal
         ref="modal"></Modal>
@@ -94,6 +99,7 @@
     var count = ref();
     var year = ref();
     var type = ref();
+    var total = ref();
 
     const data = ref({
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -143,7 +149,7 @@
 
             data.value.labels = tempLabels;
             data.value.datasets[0].data = tempDatasets
-
+            total.value = tempDatasets.reduce((total,num)=>{return total + num});
             flag.value = true;
         }
     }
