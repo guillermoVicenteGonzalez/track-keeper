@@ -107,10 +107,11 @@ exports.getFavouriteGenres = async function(req,res){
      */
     for(let i in genres){
         let count = 1;
-        //let j = Number(i + 1); //if not it is treated as a string??????
-        let j = 1;
+        let j = Number(i + 1); //if not it is treated as a string??????
+        //let j = 1;
         let name = genres[i]
-        for(j; j<genres.length; j++){
+        
+        /*for(j; j<genres.length; j++){
             console.log(genres[i], genres[j]);
             if(genres[i] == genres[j]){
                 console.log("iguales");
@@ -118,6 +119,18 @@ exports.getFavouriteGenres = async function(req,res){
                 genres.splice(j,1);
                 console.log(genres);
             }
+        }*/
+
+        while(j<genres.length){
+            console.log(genres[i], genres[j]);
+            if(genres[i] == genres[j]){
+                console.log("iguales");
+                count ++;
+                genres.splice(j,1);
+                console.log(genres);
+            }else{
+                j++;
+            }   
         }
 
         arr.push([name,count]);
