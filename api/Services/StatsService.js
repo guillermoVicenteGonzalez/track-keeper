@@ -133,9 +133,9 @@ exports.getMonthlyEvolution = async function(userId, year, type){
         whereObj = {type:type}
     }
 
-    for(let i=1;i<=12;i++){
-        let date1 = new Date(year,i,1,0,0);
-        let date2 = new Date(year,i+1,1,0,0);
+    for(let i=0;i<=12;i++){
+        let date1 = new Date(year,i,1,1,0);
+        let date2 = new Date(year,i+1,1,1,0);
 
         let count = await Entry.count({
             where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
