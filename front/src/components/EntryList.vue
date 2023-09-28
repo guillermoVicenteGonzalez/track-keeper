@@ -1,6 +1,6 @@
 <template>
     <v-card
-    :max-height="height - 260"
+    :max-height="height - 300"
     elevation="5"
     v-if="props.list"
     class="overflow-auto border-b mt-2 fill-height "
