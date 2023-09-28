@@ -155,7 +155,10 @@ exports.getMonthlyEvolution = async function(userId, year, type){
 exports.recentMediaRows = async function(){
     let list = await Media.findAll({
         limit:10,
-        order:sequelize.col('createdAt')
+        group:'media_id',
+        order:sequelize.literal('max("createdAt") DESC'),
+        attributes:{exclude:['cover']}
+
     })    
     .catch((err)=>{
         winston.log("error","recentMediaRows: " + err);
@@ -170,12 +173,16 @@ exports.recentEntryRows = async function(userId){
         where:{
             user_id:userId
         },
+        group:"entry_id",
+        order:sequelize.literal('max("finish_date") DESC'),
         limit:10,
-        order:sequelize.col('createdAt'),
         include:{
             model:Media,
             as:'Media',
-        }
+            attributes:{exclude:['cover','createdAt']},
+        },
+        group:['Media.media_id','entry_id']
+
     })
     .catch((err)=>{
         winston.log("error","recentEntryRows: " + err);
