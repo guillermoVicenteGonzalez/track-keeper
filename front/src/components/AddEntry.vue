@@ -81,7 +81,6 @@
     const emit = defineEmits(['hide'])
 
     watch(state,()=>{
-        console.log(['finished','repeated'].includes(state.value));
         if( !(['finished','repeated','bookmarked'].includes(state.value))){
             disableFDate.value = true;
             disableSDate.value = false;
@@ -104,7 +103,6 @@
                 btnTrigger.value = false
                 return true
             } 
-            console.log("disabling button")
             btnTrigger.value = true
             return "A state is required"
         }
@@ -122,7 +120,6 @@
     ]);
 
     async function addEntry(){
-        console.log(s_date.value)
         triggerLoading.value = true;
         let {id,token} = store.getters.getUser;
         let res = await axios.post(apiConf.host + apiConf.port + apiConf.entry.create + id,{

@@ -45,7 +45,6 @@
     async function resendEmail(){
         loadingDialog.value = true;
         let {id, username} = store.getters.getUnverifiedUser;
-        console.log(id);
         if(!id){
             modal.value.createModal("Error","mail error","Couldn't find user credentials, redirecting to landing page",true,"/");
             loadingDialog.value = false;
@@ -74,10 +73,8 @@
     async function login(){
         loadingDialog.value = true;
         let params = store.getters.getUnverifiedUser;
-        console.log(params);
         let {id, name, token} = store.getters.getUnverifiedUser;
         if(!id || !token || !name){
-            console.log(id, token, )
             modal.value.createModal("Error","login error","Couldn't find user credentials, redirecting to landing page",true,"/");
             return undefined;
         }        

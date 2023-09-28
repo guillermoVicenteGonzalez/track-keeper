@@ -115,7 +115,6 @@
     async function createFullMedia(){
         loading.value = true;
         let media = await createMedia();
-        console.log(media);
         if(media && photo.value != undefined){
             let coverRes = await uploadFile(media.media_id)
             if(coverRes){

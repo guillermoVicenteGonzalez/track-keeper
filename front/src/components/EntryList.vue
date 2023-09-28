@@ -131,7 +131,6 @@
 
     function clickOnCard(item){
         element.value = item;
-        console.log(item);
         triggerDialog.value = true
     }
 

@@ -151,7 +151,6 @@
     }
 
     function toggleTheme (){
-        console.log(switchBtn.value)
         if(switchBtn.value == false){
             theme.global.name.value = 'darkTheme'
         }else{

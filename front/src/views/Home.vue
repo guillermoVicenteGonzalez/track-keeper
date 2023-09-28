@@ -48,7 +48,6 @@ import NavBar from "@/components/NavBar.vue";
             }
             store.commit('deleteUser')
             console.log(err);
-            console.log("pushing?")
             return undefined
         });
 
@@ -60,7 +59,6 @@ import NavBar from "@/components/NavBar.vue";
     }
     
     function handleTimeout(){
-        console.log("handle timeout")
         modal.value.createModal("Error","Authentication error","An unexpected error ocurred",true,"/");
         loading.value = false;
     }

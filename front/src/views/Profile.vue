@@ -204,8 +204,6 @@
                 return true;
             }else{
                 buttonBooleans.value.email = false;
-                console.log(buttonBooleans.value)
-                console.log(disableBtn.value)
                 return "email field cannot be empty";
             }
         }

@@ -411,7 +411,6 @@
 
 
     function previewImage(){
-        console.log(nPhoto.value)
         if(nPhoto.value != undefined){
             var file = nPhoto.value[0];
             var src = URL.createObjectURL(file);

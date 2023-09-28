@@ -110,7 +110,6 @@
     const emit = defineEmits(['reloadUser'])
 
     async function loadMedia(){
-        console.log("loading media")
         let {id,token} = store.getters.getUser;
         let list = await axios.get(apiConf.host + apiConf.port + apiConf.media.getAll + id,{
             headers:{

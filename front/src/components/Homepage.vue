@@ -110,14 +110,12 @@
         });
 
         if(res){
-            console.log(res);
             media.value = res.data.media;
             entries.value = res.data.entries;
             pages.value = Math.round(media.value.length/3);
             entryPages.value = Math.round(entries.value.length/3)
             length.value = media.value.length;
             entriesL.value = entries.value.length;
-            console.log(pages.value);
         }
     }
 
