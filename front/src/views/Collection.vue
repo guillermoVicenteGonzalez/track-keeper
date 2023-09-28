@@ -12,9 +12,11 @@
             variant="solo-filled"></v-text-field>
         </v-app-bar>
 
-        <v-main class="justify-center align-start">
-            <v-container class="align-start">
-                <v-row>
+        <v-main class="justify-center align-start h-100">
+            <v-container class="align-start h-100">
+
+                <v-row 
+                style="max-height: 90%;">
                     <v-col>
                         <EntryList
                         @updated="loadEntries()"
@@ -22,7 +24,10 @@
                         :type="route.params.type"></EntryList>
                     </v-col>
                 </v-row>
-                <v-row class="d-flex justify-center">
+
+                <v-row
+                style="min-height: 10%;" 
+                class="d-flex justify-center align-center">
                     <v-fade-transition leave-absolute="">
                         <v-chip
                         :text="'count: ' + length"

@@ -2,9 +2,9 @@
     <v-card
     elevation="5"
     v-if="props.list"
-    class="overflow-auto border-b mt-2"
+    class="overflow-auto border-b mt-2 fill-height"
     min-width="320px"
-    :max-height="mobile ? '500px':'660px'">
+    >
         <v-table
         transition="fade-transition">
             <thead>
