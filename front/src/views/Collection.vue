@@ -1,6 +1,6 @@
 <template>
-    <v-layout class="rounded fill-height ma-0 pa-0">
-        <v-app-bar
+
+<v-app-bar
         :density="mobile ? 'compact':'default'"
         class="pt-4 px-4 align-center"
         elevation="3"
@@ -12,11 +12,38 @@
             variant="solo-filled"></v-text-field>
         </v-app-bar>
 
-        <v-main class="justify-center align-start h-100">
-            <v-container class="align-start h-100">
+        <v-container class="fill-height d-block">
+            <v-row 
+            ref="row"
+            style="max-height: 90% !important; height:90%;"
+            class="">
+                <v-col>
+                    <EntryList
+                        @updated="loadEntries()"
+                        :list="filterEntries()"
+                        :type="route.params.type"></EntryList>               
+                </v-col>
+            </v-row>
 
-                <v-row 
-                style="max-height: 90%;">
+            <v-row
+            class="d-flex align-center"
+            style="max-height: 10%; height:10%;">
+                <v-col class="d-flex justify-center">
+                    <v-fade-transition leave-absolute="">
+                        <v-chip
+                        :text="'count: ' + length"
+                        class="rounded"
+                        ></v-chip>
+                    </v-fade-transition>          
+                </v-col>
+            </v-row>
+        </v-container>
+
+
+            <!--
+            <v-container class="align-start">
+                <v-row
+                style="max-height: 80%;" class="">
                     <v-col>
                         <EntryList
                         @updated="loadEntries()"
@@ -25,9 +52,12 @@
                     </v-col>
                 </v-row>
 
+                <v-row class="bg-yellow">
+                    hola
+                </v-row>
+
                 <v-row
-                style="min-height: 10%;" 
-                class="d-flex justify-center align-center">
+                class="d-flex justify-center align-center bg-blue">
                     <v-fade-transition leave-absolute="">
                         <v-chip
                         :text="'count: ' + length"
@@ -35,11 +65,12 @@
                         ></v-chip>
                     </v-fade-transition>
                 </v-row>
-            </v-container>
-        </v-main>
+            </v-container>-->
 
-        <v-app-bar
-        class="pa-3"
+
+
+    <v-app-bar
+        class="d-block pa-3"
         :density="mobile ? 'compact':'default'"
         elevation="5"
         location="bottom">
@@ -64,11 +95,13 @@
                 </v-row>
         </v-app-bar>
 
+
+
         <LoadingModal v-model="loading"></LoadingModal>
 
 
         <Modal ref="modal"></Modal>
-    </v-layout>
+
 </template>
 
 <script setup>
@@ -83,6 +116,7 @@
     import {watch} from "vue"
     import {useDisplay} from "vuetify"
 
+    var row = ref();
     var modal = ref();
     var length = ref(0)
     const {mobile} = useDisplay()

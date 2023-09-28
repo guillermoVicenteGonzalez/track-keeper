@@ -1,11 +1,13 @@
 <template>
     <v-card
+    :max-height="height - 260"
     elevation="5"
     v-if="props.list"
-    class="overflow-auto border-b mt-2 fill-height"
+    class="overflow-auto border-b mt-2 fill-height "
     min-width="320px"
     >
         <v-table
+        class="overflow-auto"
         transition="fade-transition">
             <thead>
                 <tr 
@@ -121,7 +123,7 @@
     var triggerImage = ref();
     var element = ref();
     var triggerDialog = ref();
-    const {mobile} = useDisplay();
+    const {mobile, height} = useDisplay();
     const store = useStore();
     let {id} = store.getters.getUser;
     var url= ref(apiConf.host + apiConf.port + apiConf.media.getCover + id + "/")
