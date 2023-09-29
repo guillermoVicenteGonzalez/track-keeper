@@ -14,6 +14,7 @@ exports.getEntryCount = async function(req,res){
     let userId = req.params.user_id;
     let auth = req.headers.authorization;
     let year = req.body.year;
+    var onlyFinished = req.body.only_finished;
     let month = req.body.month;
     var date1 = undefined, date2 = undefined;
 
@@ -46,7 +47,7 @@ exports.getEntryCount = async function(req,res){
     let types = Media.getAttributes().type.values;
     let count ={};
     for(let i in types){
-        let t = await StatsService.getEntryRowCount(userId,types[i],date1,date2);
+        let t = await StatsService.getEntryRowCount(userId,types[i],date1,date2, onlyFinished);
         if(t == undefined){
             let msg = "An error ocurred trying to count the number of: " +types[i] +"s";
             winston.log("info","getEntryCount: " + msg);

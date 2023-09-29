@@ -169,6 +169,25 @@
             </v-col>
         </v-row>
 
+        <v-row>
+            <v-col class="d-flex justify-center align-center">
+
+                <v-switch
+                true-value="true"
+                false-value="false"
+                color="primary"
+                style="max-width:200px;"
+                class="justify-center"
+                v-model="finishedFilter">
+                    <template v-slot:label>
+                        <p v-if="finishedFilter">Only Finished</p>
+                        <p v-else>Finished & repeated</p>
+                    </template>
+                </v-switch>
+
+            </v-col>
+        </v-row>
+
         <Modal
         ref="modal"></Modal>
 
@@ -188,6 +207,7 @@
     import Modal from '../Modal.vue';
     import LoadingModal from '../LoadingModal.vue';
 
+    var finishedFilter = ref();
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     var years = ref([]);
     var year =ref()
@@ -219,7 +239,8 @@
 
         let res = await axios.post(apiConf.host + apiConf.port + apiConf.stats.getCount + id,{
             year:year.value,
-            month:auxMonth
+            month:auxMonth,
+            only_finished:finishedFilter.value
         },{
             headers:{
                 'Authorization':'Bearer ' + token
@@ -285,7 +306,7 @@
 
     getYears()
 
-    watch([year,month],()=>{
+    watch([year,month,finishedFilter],()=>{
             getEntryCount()
         
     })

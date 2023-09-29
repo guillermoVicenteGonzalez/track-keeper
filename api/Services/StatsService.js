@@ -5,13 +5,20 @@ const {Op, where} = require("sequelize")
 const winston = require("../logger/logger");
 const sequelize = require("../Database/database");
 
-exports.getEntryRowCount = async function(userId, type, date1, date2){
+exports.getEntryRowCount = async function(userId, type, date1, date2, onlyFinished){
     var whereObj = {
         user_id:userId,
         state:'finished',
     }
+
     if(date1!= undefined && date2 != undefined){
         whereObj.finish_date = {[Op.between]:[date1,date2]}
+    }
+
+    if(onlyFinished){
+        whereObj.state = "finished"
+    }else{
+        whereObj.state = {[Op.or]:['finished','repeated']}
     }
     
     let c = await Entry.count({
@@ -102,11 +109,14 @@ exports.getYearlyEvolution = async function(userId, type){
     }
 
     for(let i = minYear; i<=maxYear; i++){
-        let date1 = new Date(i,0,1,0,0);
+        let date1 = new Date(i,0,1,1,0);
         let date2 = new Date(i+1,0,1,0,0);
         
         let count = await Entry.count({
-            where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
+            where:{
+                finish_date:{[Op.between]:[date1,date2]}, 
+                user_id:userId,
+            },
             include:{
                 model:Media,
                 as:'Media',
