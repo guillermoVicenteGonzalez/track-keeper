@@ -272,7 +272,7 @@
     function getYears(){
         var today = new Date();
         today = today.getFullYear();
-        for(let i = 2000; i<=today; i++){
+        for(let i = today; i >= 2000; i--){
             years.value.push(i);
         }
 

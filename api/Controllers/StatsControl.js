@@ -35,11 +35,11 @@ exports.getEntryCount = async function(req,res){
 
     //now, if there are both year an month, we compose the dates
     if(year != undefined && month != undefined){
-        date1 = new Date(year, month,1,0,0);
-        date2 = new Date(year, month + 1,1,0,0)
+        date1 = new Date(year, month,1,1,0);
+        date2 = new Date(year, month + 1,1,1,0)
     }else if(year != undefined){
-        date1 = new Date(year,1,1,0,0);
-        date2 = new Date(year +1,1,1,0,0);
+        date1 = new Date(year,0,1,1,0);
+        date2 = new Date(year +1,0,1,1,0);
     }
 
     //then we get all the posible types
@@ -85,8 +85,8 @@ exports.getFavouriteGenres = async function(req,res){
     }
 
     if(date != undefined && !(date instanceof Date)){
-        finishD = new Date(date + 1,1,1,0,0)
-        date = new Date(date,1,1,0,0);
+        finishD = new Date(date + 1,0,1,1,0)
+        date = new Date(date,0,1,1,0);
     }
 
 
