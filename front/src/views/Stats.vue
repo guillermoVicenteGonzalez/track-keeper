@@ -1,6 +1,7 @@
 <template>
     <v-navigation-drawer
     v-if="!mobile"
+
     permanent
     rail
     elevation="5"

@@ -146,7 +146,7 @@ exports.getMonthlyEvolution = async function(userId, year, type, onlyFinished){
 
     
     if(onlyFinished == true){
-        console.log("Finished", stateFilter)
+        stateFilter = "finished"
     }else{
         stateFilter = {[Op.or]:['finished','repeated']}
     }
