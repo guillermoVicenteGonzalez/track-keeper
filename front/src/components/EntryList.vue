@@ -133,6 +133,7 @@
 
     function clickOnCard(item){
         element.value = item;
+        console.log(element.value.entry_id);
         triggerDialog.value = true
     }
 

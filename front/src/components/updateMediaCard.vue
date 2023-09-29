@@ -28,7 +28,7 @@
                         class="bg-grey-darken-2 rounded"
                         style="width: 100%; height: 100%;"
                         cover
-                        :src="previewUrl">
+                        :src="previewUrl != undefined ?  previewUrl:url + props.media_id">
                             <template v-slot:error>
                                 <v-icon 
                                 style="
@@ -231,9 +231,8 @@
     const emit = defineEmits(['hide','updated'])
     var url = ref();
     let {id} = store.getters.getUser; 
-    url.value = apiConf.host + apiConf.port + apiConf.media.getCover + id + "/" + props.media_id;
-    var previewUrl = ref();
-    previewUrl.value = url.value;
+    url.value = apiConf.host + apiConf.port + apiConf.media.getCover + id + "/";
+    var previewUrl = ref(undefined);
     var types = ref([
         'book',
         'Videogame',
@@ -416,7 +415,7 @@
             var src = URL.createObjectURL(file);
             previewUrl.value = src
         }else{
-            previewUrl.value = url.value 
+            previewUrl.value = undefined;
         }
     }
 
@@ -457,6 +456,7 @@
         nDescription.value = props.description;
         nFinishD.value = props.finish_date;
         nStartD.value = props.start_date;
+        previewUrl.value = undefined
     }
 
     function cancelBtn(){
@@ -471,6 +471,7 @@
     onMounted(()=>{
         setValues();
     })
+
 
 </script>
 
