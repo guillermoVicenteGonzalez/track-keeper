@@ -54,7 +54,23 @@
                 v-model="type"></v-select>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col class="d-flex justify-center align-center">
 
+                <v-switch
+
+                color="primary"
+                style="max-width:200px;"
+                class="justify-center"
+                v-model="finishedFilter">
+                    <template v-slot:label>
+                        <p v-if="finishedFilter">Only Finished</p>
+                        <p v-else>Finished & repeated</p>
+                    </template>
+                </v-switch>
+
+            </v-col>
+        </v-row>
 
 
         <Modal
@@ -85,7 +101,7 @@
         Legend
     )
 
-    
+    var finishedFilter = ref();
     const {mobile} = useDisplay()
     var types = ['Videogame','Film','Book','Comic','TVShow','Anime','Other']
     var years = ref([]);
@@ -121,7 +137,8 @@
 
         let res = await axios.post(apiConf.host + apiConf.port + apiConf.stats.evolution + id,{
             year:year.value,
-            type:type.value
+            type:type.value,
+            only_finished:finishedFilter.value
         },{
             headers:{
                 'Authorization':'Bearer ' + token
@@ -165,7 +182,7 @@
     getYears();
     getEvolution();
 
-    watch([year,type],()=>{
+    watch([year,type,finishedFilter],()=>{
         getEvolution();
     })
 </script>

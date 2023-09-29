@@ -173,8 +173,7 @@
             <v-col class="d-flex justify-center align-center">
 
                 <v-switch
-                true-value="true"
-                false-value="false"
+
                 color="primary"
                 style="max-width:200px;"
                 class="justify-center"

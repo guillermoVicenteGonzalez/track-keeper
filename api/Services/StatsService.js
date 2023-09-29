@@ -73,7 +73,7 @@ exports.getGenres = async function(userId,type,startDate, finishDate){
     return nGenres;
 }
 
-exports.getYearlyEvolution = async function(userId, type){
+exports.getYearlyEvolution = async function(userId, type, onlyFinished){
     let minDate;
     let maxDate;
     var values = []
@@ -84,6 +84,7 @@ exports.getYearlyEvolution = async function(userId, type){
     maxDate = await Entry.max('finish_date')
     minDate = new Date(minDate);
     maxDate = new Date(maxDate)
+    var stateFilter
 
 
     let minYear = minDate.getFullYear();
@@ -91,21 +92,18 @@ exports.getYearlyEvolution = async function(userId, type){
 
 
     if(type != undefined){
-        /*includeObj = {
-            include:{
-                model:Media,
-                as:'Media',
-                where:{type:type}
-            },
-//            attributes:{exclude:['Media']}
-        }*/
-
         includeObj={
             model:Media,
             as:'Media',
             where:{type:type}
         }
         whereObj={type:type}
+    }
+
+    if(onlyFinished){
+        stateFilter = "finished"
+    }else{
+        stateFilter = {[Op.or]:['finished','repeated']}
     }
 
     for(let i = minYear; i<=maxYear; i++){
@@ -116,12 +114,17 @@ exports.getYearlyEvolution = async function(userId, type){
             where:{
                 finish_date:{[Op.between]:[date1,date2]}, 
                 user_id:userId,
+                state:stateFilter
             },
             include:{
                 model:Media,
                 as:'Media',
                 where:whereObj
             }
+        })
+        .catch((err)=>{
+            winston.log("error","getYearlyEvolution: " + err);
+            return undefined;
         })
 
         values.push([i,count]);
@@ -130,10 +133,10 @@ exports.getYearlyEvolution = async function(userId, type){
     return values;
 }
 
-exports.getMonthlyEvolution = async function(userId, year, type){
-    console.log(type);
+exports.getMonthlyEvolution = async function(userId, year, type, onlyFinished){
     var values = []
     var whereObj = {}
+    var stateFilter;
     var months = ['January','February','March','April',
     'May','June','July','August','September','October','November','December']
 
@@ -141,17 +144,33 @@ exports.getMonthlyEvolution = async function(userId, year, type){
         whereObj = {type:type}
     }
 
+    
+    if(onlyFinished == true){
+        console.log("Finished", stateFilter)
+    }else{
+        stateFilter = {[Op.or]:['finished','repeated']}
+    }
+
+
     for(let i=0;i<=12;i++){
         let date1 = new Date(year,i,1,1,0);
         let date2 = new Date(year,i+1,1,1,0);
 
         let count = await Entry.count({
-            where:{finish_date:{[Op.between]:[date1,date2]}, user_id:userId},
+            where:{
+                finish_date:{[Op.between]:[date1,date2]}, 
+                user_id:userId,
+                state:stateFilter
+            },
             include:{
                 model:Media,
                 as:'Media',
                 where:whereObj
             }
+        })
+        .catch((err)=>{
+            winston.log("error","getMonthlyEvolution: " + err);
+            return undefined;
         })
 
         values.push([months[i],count]);

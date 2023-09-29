@@ -138,6 +138,8 @@ exports.getEvolution = async function(req,res){
     let auth = req.headers.authorization;
     let year = req.body.year;
     let type = req.body.type;
+    let onlyFinished = req.body.only_finished;
+
 
     if(!userId || !auth){
         let msg = "Missing parameters";
@@ -156,9 +158,9 @@ exports.getEvolution = async function(req,res){
     }
 
     if(year != undefined){
-        var value = await StatsService.getMonthlyEvolution(userId,year,type)
+        var value = await StatsService.getMonthlyEvolution(userId,year,type,onlyFinished)
     }else{
-        var value = await StatsService.getYearlyEvolution(userId,type)
+        var value = await StatsService.getYearlyEvolution(userId,type,onlyFinished)
     }
 
     if(!value){
