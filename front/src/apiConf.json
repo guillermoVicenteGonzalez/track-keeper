@@ -1,6 +1,6 @@
 {
-    "host":"http://192.168.0.44",
-    "port":":2776",
+    "host":"https://192.168.0.44",
+    "port":":2777",
     "users":{
         "signup":"/api/users",
         "login":"/api/users/login",
