@@ -9,6 +9,7 @@ const   express         = require("express"),
         router          = require("./Routes/index"),
         path            = require("path"),
         associations    = require("./Models/Associations")
+        fs              = require("fs");
         winston         = require("./logger/logger")
                           require("dotenv").config({path:"../.env"})
 
