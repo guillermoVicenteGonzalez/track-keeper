@@ -1,4 +1,5 @@
 import {createStore} from "vuex"
+import VuexPersistence from "vuex-persist"
 
 const store = createStore({
     state:{
@@ -47,8 +48,8 @@ const store = createStore({
             state.unverified.name = undefined;
             state.unverified.token = undefined;
         },
-    }
-
+    },
+    plugins:[new VuexPersistence().plugin]
 });
 
 export default store
