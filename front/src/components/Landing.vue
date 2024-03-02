@@ -101,11 +101,13 @@
       </v-row>
 
       <v-row 
-      class="d-flex overflow-auto justify-space-around align-center py-15 px-3">  
+      class="overflow-auto justify-space-around align-center py-15 px-3">  
       <v-col
+        style="display: block;"
         lg="3"
         cols="12">
           <v-card
+          min-height="220px"
           class="pa-5"
           elevation="5">
             <v-icon
@@ -127,6 +129,7 @@
         lg="3"
         cols="12">
           <v-card
+          min-height="220px"
           class="pa-5"
           elevation="5">
             <v-icon
@@ -149,7 +152,7 @@
           <v-card
           class="pa-5"
           elevation="5"
-          min-height="230px"
+          min-height="220px"
           height="230px"
           max-height="300px">
             <v-icon
