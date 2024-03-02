@@ -4,6 +4,8 @@ const winston       = require("../logger/logger")
 const fs            = require("fs")
 const sequelize = require("../Database/database")
 
+const pageLimit = 20; //number of items per page
+
 
 exports.checkMediaType = function(type){
     let types = Media.getAttributes().type.values
@@ -86,7 +88,7 @@ exports.getMediaRowById = async function(mediaId){
 }
 
 exports.getMediaByName = async function(name){
-    let media = Media.findAll({where:{name:name}})
+    let media = await Media.findAll({where:{name:name}})
     .catch((err)=>{
         winston.log("error","getMediaByName: " + err)
         return undefined
@@ -96,7 +98,7 @@ exports.getMediaByName = async function(name){
 }
 
 exports.getMediaByGenre = async function(genre){
-    let media = Media.findAll({where:{genre:genre}})
+    let media = await Media.findAll({where:{genre:genre}})
     .catch((err)=>{
         winston.log("error","getMediaByGenre: " + err)
         return undefined
@@ -106,7 +108,7 @@ exports.getMediaByGenre = async function(genre){
 }
 
 exports.getMediaByType = async function(type){
-    let media = Media.findAll({
+    let media = await Media.findAll({
         where:{type:type},
         order:sequelize.col('name')
     })
@@ -119,7 +121,7 @@ exports.getMediaByType = async function(type){
 }
 
 exports.getAllMediaRows = async function(){
-    let media = Media.findAll({
+    let media = await Media.findAll({
         order:sequelize.col('name')
     })
     .catch((err)=>{
@@ -128,6 +130,15 @@ exports.getAllMediaRows = async function(){
     })
 
     return media
+}
+
+exports.getMediaPage = async function(pageN){
+    let {count,page} = await Media.findAndCountAll({
+        offset:pageN,
+        limit:20,
+    });
+
+    return {count:count,page:page};
 }
 
 exports.deleteAllMediaRows = async function(){
