@@ -18,7 +18,8 @@
         "uploadCover":"/api/media/cover/",
         "getCover":"/api/media/cover/",
         "update":"/api/media/",
-        "delete":"/api/media/"
+        "delete":"/api/media/",
+        "search":"/api/media/search/"
     },
     "entry":{
         "create":"/api/entry/",

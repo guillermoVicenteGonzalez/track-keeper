@@ -127,6 +127,45 @@
         loadMedia(currentPage.value -1);
     });
 
+    watch(search, ()=>{
+        if([undefined,"", " "].includes(search.value)){
+            loadMedia(currentPage.value -1);
+        }else{
+            searchMedia(search.value)
+        }
+    })
+
+
+    async function searchMedia(query){
+        let {id,token} = store.getters.getUser;
+        loading.value = true;
+        let response = await axios.get(apiConf.host + apiConf.port + apiConf.media.search + id + "/" + query,{
+            headers:{
+                'Authorization':'Bearer ' + token,
+            }
+        })
+        .catch((err)=>{
+            if(err.response){
+                modal.value.createModal("Error","media error",err.response.data.msg,true);
+            }else{
+                modal.value.createModal("Error","media error","An unknown error ocurred",true);
+            }
+            emit('reloadUser')
+            console.log(err);
+            loading.value = false;
+            return undefined;
+        });
+
+        if(response){
+            loading.value = false;
+            let {count, page} = response.data;
+            // media.value = list.data.value;
+            media.value = page;
+            pages.value = count
+            console.log(media.value)
+        }
+    }
+
     async function loadMedia(page=0){
         let {id,token} = store.getters.getUser;
         loading.value = true;
@@ -148,8 +187,8 @@
             }
             emit('reloadUser')
             console.log(err);
-            return undefined;
             loading.value = false;
+            return undefined;
         });
 
         if(response){
@@ -178,21 +217,21 @@
         }
     }
 
-    function searchMedia(media){
-        if(media instanceof Array){
-            return media.filter(item =>{
-                if(search.value != " " && search.value != undefined){
-                    let regex = new RegExp(search.value);
+    // function searchMedia(media){
+    //     if(media instanceof Array){
+    //         return media.filter(item =>{
+    //             if(search.value != " " && search.value != undefined){
+    //                 let regex = new RegExp(search.value);
 
-                    if(regex.test(item.name)){
-                        return item
-                    }
-                }else{
-                    return item
-                }
-            })
-        }
-    }
+    //                 if(regex.test(item.name)){
+    //                     return item
+    //                 }
+    //             }else{
+    //                 return item
+    //             }
+    //         })
+    //     }
+    // }
 
     function filterMedia(){
         let filtered = filterByType(media.value);

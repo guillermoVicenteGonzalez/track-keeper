@@ -103,11 +103,10 @@ exports.getMediaPaginatedByName = async function(name){
             name:name
         },
         order:sequelize.col('name'),
-        offset:pageN * pageLimit,
         limit:pageLimit,
     })
     .catch(err =>{
-        winston.log("error","getMediaPaginatedByName");
+        winston.log("error","getMediaPaginatedByName: " + err);
         return undefined;
     });
 
