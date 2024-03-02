@@ -76,7 +76,6 @@ exports.getPaginatedMedia = async function(req,res){
     }
 
     let {count, page} = await MediaService.getMediaPage(pageN);
-    console.log(page);
     res.status(200).json({count:count,page:page});
     return undefined
 }

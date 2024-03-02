@@ -72,6 +72,10 @@
 
     </v-container>
 
+    <v-pagination
+    v-model="currentPage"
+    total-visible="10"
+    :length="pages"></v-pagination>
 
     <CreateMedia 
     :types="filterOptions"
@@ -80,18 +84,24 @@
     v-model="triggerCreate"></CreateMedia>
 
     <Modal ref="modal"></Modal>
+
+    <LoadingModal v-model="loading"></LoadingModal>
 </template>
 
 <script setup>
     import apiConf from "../apiConf.json"
-    import {ref} from "vue"
+    import {ref, watch} from "vue"
     import {useStore} from "vuex"
     import axios from "axios"
     import Modal from "@/components/Modal.vue";
     import MediaCard from "@/components/MediaCard.vue";
     import CreateMedia from "@/components/CreateMedia.vue";
     import {useDisplay} from "vuetify"
+    import LoadingModal from "@/components/LoadingModal.vue";
 
+    let currentPage = ref();
+    let pages = ref();
+    let loading = ref();
     const {mobile} = useDisplay();
     var triggerCreate = ref()
     const store = useStore();
@@ -109,9 +119,18 @@
     var search = ref();
     const emit = defineEmits(['reloadUser'])
 
-    async function loadMedia(){
+    function test(page){
+        alert(page);
+    }
+
+    watch(currentPage,()=>{
+        loadMedia(currentPage.value)
+    });
+
+    async function loadMedia(page=0){
         let {id,token} = store.getters.getUser;
-        let list = await axios.get(apiConf.host + apiConf.port + apiConf.media.getPaginated + id + "/" + 1,{
+        loading.value = true;
+        let response = await axios.get(apiConf.host + apiConf.port + apiConf.media.getPaginated + id + "/" + page,{
             headers:{
                 'Authorization':'Bearer ' + token,
             }
@@ -130,11 +149,17 @@
             emit('reloadUser')
             console.log(err);
             return undefined;
+            loading.value = false;
         });
 
-        if(list){
-            console.log(list);
+        if(response){
+            loading.value = false;
+            console.log(response);
+            let {count, page} = response.data;
             // media.value = list.data.value;
+            media.value = page;
+            pages.value = count
+            console.log(media.value)
         }
     }
 

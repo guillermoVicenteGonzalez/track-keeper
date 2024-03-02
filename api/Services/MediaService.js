@@ -134,12 +134,12 @@ exports.getAllMediaRows = async function(){
 
 exports.getMediaPage = async function(pageN){
     let {count,rows} = await Media.findAndCountAll({
-        offset:pageN,
+        order:sequelize.col('name'),
+        offset:pageN * pageLimit,
         limit:pageLimit,
     });
 
-    console.log(count, rows);
-    return {count:count,page:rows};
+    return {count:count/pageLimit,page:rows};
 }
 
 exports.deleteAllMediaRows = async function(){
