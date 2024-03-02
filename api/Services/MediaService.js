@@ -102,7 +102,7 @@ exports.getMediaPaginatedByName = async function(name){
     let {count, rows} = await Media.findAndCountAll({
         where:{
             name:{
-                [Op.like]:'%' + name + "%";
+                [Op.like]:'%' + name + "%"
             }
         },
         order:sequelize.col('name'),
