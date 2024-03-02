@@ -133,13 +133,13 @@ exports.getAllMediaRows = async function(){
 }
 
 exports.getMediaPage = async function(pageN){
-    let {count,page} = await Media.findAndCountAll({
+    let {count,rows} = await Media.findAndCountAll({
         offset:pageN,
         limit:pageLimit,
     });
 
     console.log(count, page);
-    return {count:count,page:page};
+    return {count:count,page:rows};
 }
 
 exports.deleteAllMediaRows = async function(){
