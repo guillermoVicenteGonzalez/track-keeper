@@ -111,11 +111,16 @@
 
     async function loadMedia(){
         let {id,token} = store.getters.getUser;
-        let list = await axios.get(apiConf.host + apiConf.port + apiConf.media.getAll + id,{
+        let list = await axios.get(apiConf.host + apiConf.port + apiConf.media.getPaginated + id + "/" + 1,{
             headers:{
                 'Authorization':'Bearer ' + token,
             }
         })
+        // let list = await axios.get(apiConf.host + apiConf.port + apiConf.media.getAll + id,{
+        //     headers:{
+        //         'Authorization':'Bearer ' + token,
+        //     }
+        // })
         .catch((err)=>{
             if(err.response){
                 modal.value.createModal("Error","media error",err.response.data.msg,true);
@@ -128,7 +133,8 @@
         });
 
         if(list){
-            media.value = list.data.value;
+            console.log(list);
+            // media.value = list.data.value;
         }
     }
 

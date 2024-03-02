@@ -138,6 +138,7 @@ exports.getMediaPage = async function(pageN){
         limit:pageLimit,
     });
 
+    console.log(count, page);
     return {count:count,page:page};
 }
 
