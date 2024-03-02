@@ -132,11 +132,12 @@
             loadMedia(currentPage.value -1);
         }else{
             searchMedia(search.value)
+            // loadMedia(currentPage.value -1)
         }
     })
 
 
-    async function searchMedia(query){
+    async function searchMedia(query=""){
         let {id,token} = store.getters.getUser;
         loading.value = true;
         let response = await axios.get(apiConf.host + apiConf.port + apiConf.media.search + id + "/" + query,{
@@ -157,6 +158,7 @@
         });
 
         if(response){
+            console.log(response)
             loading.value = false;
             let {count, page} = response.data;
             // media.value = list.data.value;
@@ -235,7 +237,8 @@
 
     function filterMedia(){
         let filtered = filterByType(media.value);
-        return searchMedia(filtered)
+        // return searchMedia(filtered)
+        return filtered;
     }
 
     function filterIcon(type){

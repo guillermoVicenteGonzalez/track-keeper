@@ -3,6 +3,7 @@ const Entry         = require("../Models/MediaEntry")
 const winston       = require("../logger/logger")
 const fs            = require("fs")
 const sequelize = require("../Database/database")
+const { Op } = require("sequelize")
 
 const pageLimit = 30; //number of items per page
 
@@ -100,7 +101,9 @@ exports.getMediaByName = async function(name){
 exports.getMediaPaginatedByName = async function(name){
     let {count, rows} = await Media.findAndCountAll({
         where:{
-            name:name
+            name:{
+                [Op.like]:'%' + name + "%";
+            }
         },
         order:sequelize.col('name'),
         limit:pageLimit,
