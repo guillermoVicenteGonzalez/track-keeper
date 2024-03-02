@@ -4,7 +4,7 @@ const winston       = require("../logger/logger")
 const fs            = require("fs")
 const sequelize = require("../Database/database")
 
-const pageLimit = 20; //number of items per page
+const pageLimit = 30; //number of items per page
 
 
 exports.checkMediaType = function(type){
@@ -135,7 +135,7 @@ exports.getAllMediaRows = async function(){
 exports.getMediaPage = async function(pageN){
     let {count,page} = await Media.findAndCountAll({
         offset:pageN,
-        limit:20,
+        limit:pageLimit,
     });
 
     return {count:count,page:page};

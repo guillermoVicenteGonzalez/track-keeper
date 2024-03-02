@@ -44,6 +44,9 @@ router.route("/media/:user_id")
     .post(MediaCtrl.createMedia)
     .delete(MediaCtrl.deleteAllMedia)
 
+router.route("/media/paged/:user_id/:page_number")
+    .get(MediaCtrl.getPaginatedMedia)
+
 router.route("/media/:user_id/:media_id")
     .get(MediaCtrl.getMediaById)
     .delete(MediaCtrl.deleteMedia)
