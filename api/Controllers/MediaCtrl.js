@@ -80,6 +80,38 @@ exports.getPaginatedMedia = async function(req,res){
     return undefined
 }
 
+exports.searchMedia = async function(req,res){
+    let userId = req.params.user_id;
+    let auth = req.headers.authorization;
+    let query = req.params.query;
+
+    if(!userId || !auth){
+        let msg = "Missing parameters";
+        winston.log("info","searchMedia: " + msg);
+        res.status(400).json({msg:msg});
+        return undefined;
+    }
+
+    let token = auth.split(' ');
+    token = token[1];
+    let authRes = await UserService.authenticateUser(userId, token,res);
+    if( !(authRes instanceof User)){
+        let msg = "Unable to search media"
+        winston.log("info","searchMedia: " + msg);
+    }
+
+    let {count, page} = await MediaService.getMediaPaginatedByName(query);
+    if(!page){
+        let msg = "An error ocurred, unable to get searched media";
+        winston.log("info","searchMedia: " + msg);
+        res.status(400).json(msg);
+        return false;
+    }
+
+    res.status(200).json({count:count, page:page});
+    return true;
+}
+
 
 exports.createMedia = async function(req,res){
     let userId = req.params.user_id

@@ -124,7 +124,7 @@
     }
 
     watch(currentPage,()=>{
-        loadMedia(currentPage.value)
+        loadMedia(currentPage.value -1);
     });
 
     async function loadMedia(page=0){

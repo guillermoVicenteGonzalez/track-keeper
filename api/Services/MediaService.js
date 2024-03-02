@@ -97,6 +97,23 @@ exports.getMediaByName = async function(name){
     return media
 }
 
+exports.getMediaPaginatedByName = async function(name){
+    let {count, rows} = await Media.findAndCountAll({
+        where:{
+            name:name
+        },
+        order:sequelize.col('name'),
+        offset:pageN * pageLimit,
+        limit:pageLimit,
+    })
+    .catch(err =>{
+        winston.log("error","getMediaPaginatedByName");
+        return undefined;
+    });
+
+    return {count:count/pageLimit, page:rows}
+}
+
 exports.getMediaByGenre = async function(genre){
     let media = await Media.findAll({where:{genre:genre}})
     .catch((err)=>{
