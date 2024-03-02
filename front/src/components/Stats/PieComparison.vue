@@ -10,10 +10,11 @@
         <v-row class="justify-between align-center">
             <v-col
             style="max-height: 600px;"
-            lg="6" 
+            lg="12" 
             cols="12"
-            class="d-flex align-center justify-center">
+            class="d-flex align-center justify-center mb-5">
                 <circle-chart
+                class="mb-5"
                 :loading="!flag"
                 v-if="flag"
                 :label="label"
@@ -22,106 +23,7 @@
                 :data="data"></circle-chart>
             </v-col>
 
-            <v-col 
-            cols="12"
-            lg="6 d-inline"
-            class="py-5">
-                <v-card 
-                elevation="2"
-                class="pa-5" v-if="!mobile">
-                    <v-card-title class="text-center">Count</v-card-title>
-                    <div 
-                    class="d-flex justify-around align-center px-4"
-                    v-for="(item, index, key) in checks" :key="item">
-                        <v-checkbox
-                        v-model="checks[index]"
-                        :color="colors[key]"
-                        :label="index">
-                            <template v-slot:label>
-                                <div
-                                class="d-flex "
-                                style="width: 100%;">
-                                <v-card-text class="text-start">{{ index }}</v-card-text>
-                                <v-card-text class="text-end">{{ data[key] }}</v-card-text>
-<!--
-                                <v-card-text class="text-end">{{ count[index] }}</v-card-text>
--->                          
-                                </div>
-                            </template>
-                        </v-checkbox>
-                    </div>
-                </v-card>
 
-                <v-card 
-                elevation="5"
-                v-else>
-                    <v-container class="justify-center">
-                        <v-row class="">
-                            <v-col>
-                                <v-card-title class="text-center">Count</v-card-title>
-                            </v-col>
-                        </v-row>
-
-                        <v-row>
-
-                            <v-col>
-                                <div
-                                v-for="(item, index, key) in checks" :key="item">
-                                    <v-checkbox
-                                    v-if="key%3==0"
-                                    v-model="checks[index]"
-                                    :color="colors[key]"
-                                    :label="index">
-                                        <template v-slot:label>
-                                            <p 
-                                            style="font-size: 15px;"
-                                            class="text-sm-subtitle-1">{{ index }}</p>
-                                        </template>
-                                    </v-checkbox>                                    
-                            </div>                                
-                            </v-col>
-
-                            
-                            <v-col>
-                                <div
-                                class="d-block"
-                                v-for="(item, index, key) in checks" :key="item">
-                                    <v-checkbox
-                                    class="text-sm-subtitle-1"
-                                    v-if="key%3==1"
-                                    v-model="checks[index]"
-                                    :color="colors[key]"
-                                    :label="index">
-                                    <template v-slot:label>
-                                            <p 
-                                            style="font-size: 15px;"
-                                            class="text-sm-subtitle-1">{{ index }}</p>
-                                        </template>
-                                    </v-checkbox>                                    
-                            </div>                                
-                            </v-col>
-
-                            <v-col>
-                                <div
-                                v-for="(item, index, key) in checks" :key="item">
-                                    <v-checkbox
-                                    v-if="key%3==2"
-                                    v-model="checks[index]"
-                                    :color="colors[key]"
-                                    :label="index">
-                                    <template v-slot:label>
-                                            <p 
-                                            style="font-size: 14px;"
-                                            class="text-sm-subtitle-1">{{ index }}</p>
-                                        </template>
-                                    </v-checkbox>                                    
-                            </div>                                
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-card>
-                
-            </v-col>
         </v-row>
 
         <v-expand-transition>
@@ -134,7 +36,7 @@
             </v-row>
         </v-expand-transition>
 
-        <v-row>
+        <v-row class="px-lg-15">
             <v-col>
                 <v-select
                 v-model="year"
