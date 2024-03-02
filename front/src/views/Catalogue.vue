@@ -90,7 +90,7 @@
 
 <script setup>
     import apiConf from "../apiConf.json"
-    import {ref, watch} from "vue"
+    import {onMounted, ref, watch} from "vue"
     import {useStore} from "vuex"
     import axios from "axios"
     import Modal from "@/components/Modal.vue";
@@ -98,9 +98,10 @@
     import CreateMedia from "@/components/CreateMedia.vue";
     import {useDisplay} from "vuetify"
     import LoadingModal from "@/components/LoadingModal.vue";
+    import {debounce} from "@/utils/utils"
 
     let currentPage = ref();
-    let pages = ref();
+    let pages = ref(1);
     let loading = ref();
     const {mobile} = useDisplay();
     var triggerCreate = ref()
@@ -118,6 +119,7 @@
     var typeFilter = ref();
     var search = ref();
     const emit = defineEmits(['reloadUser'])
+    const debouncedSearch = debounce(()=> searchMedia(search.value), 500);
 
     function test(page){
         alert(page);
@@ -129,17 +131,22 @@
 
     watch(search, ()=>{
         if([undefined,"", " "].includes(search.value)){
-            loadMedia(currentPage.value -1);
+            loadMedia(0);
         }else{
-            searchMedia(search.value)
-            // loadMedia(currentPage.value -1)
+            debouncedSearch();
         }
-    })
+    });
 
 
     async function searchMedia(query=""){
+        if(query == undefined || query == "" || query == " "){
+            return false;
+        }
         let {id,token} = store.getters.getUser;
-        loading.value = true;
+        if(loading.value == false){
+            loading.value = true;
+        }
+
         let response = await axios.get(apiConf.host + apiConf.port + apiConf.media.search + id + "/" + query,{
             headers:{
                 'Authorization':'Bearer ' + token,
@@ -264,4 +271,5 @@
     }
 
     loadMedia();
+
 </script>
