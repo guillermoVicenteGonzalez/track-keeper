@@ -52,7 +52,9 @@ associations.synchronize();
 
 let port = process.env.API_PORT;
 
-let httpServer = http.createServer(app).listen(port);
+let httpServer = http
+  .createServer(app)
+  .listen(port, () => console.log(`Server listening in port ${{ port }}`));
 
 /*
 console.log(port)
