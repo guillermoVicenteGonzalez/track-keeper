@@ -1,5 +1,5 @@
 {
-  "host": "https://other.ratemyenglish.live",
+  "host": "https://track-keeper.gvicenteg.com",
   "port": "",
   "users": {
     "signup": "/api/users",
