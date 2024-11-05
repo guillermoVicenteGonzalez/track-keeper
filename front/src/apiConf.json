@@ -1,6 +1,6 @@
 {
   "host": "https://other.ratemyenglish.live",
-  "port": ":2776",
+  "port": "",
   "users": {
     "signup": "/api/users",
     "login": "/api/users/login",
