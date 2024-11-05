@@ -47,6 +47,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(cors());
 app.use("/api", router);
+app.enable("trust proxy");
 
 associations.synchronize();
 
